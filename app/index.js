@@ -3,7 +3,7 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
-var banner = require('banner');
+var banner = require('./banner.js');
 
 var EggsGennyGenerator = yeoman.generators.Base.extend({
   promptUser: function() {
