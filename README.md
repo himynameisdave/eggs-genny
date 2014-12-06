@@ -1,5 +1,5 @@
 # eggs-genny
-> An EGGSellent [Yeoman](http://yeoman.io/) GENNY-erator by [Dave Lunny's](http://himynameisdave.github.io/)
+> An EGGSellent [Yeoman](http://yeoman.io/) GENNY-erator by [Dave Lunny](http://himynameisdave.github.io/)
 
 Creates a template project after asking a few dependency-related questions.
 
@@ -32,7 +32,7 @@ Answer some questions about the following dependencies:
 - [jQuery](http://jquery.com/)
 - [Angular](https://angularjs.org/)
 - [GSAP](http://greensock.com/gsap)
-- [Bootstrap?](http://getbootstrap.com/) (only the CSS, [fuck their goofy JS components](http://getbootstrap.com/javascript/))
+- [Bootstrap](http://getbootstrap.com/) (only the CSS, [fuck their goofy JS components](http://getbootstrap.com/javascript/))
 
 ####Step 5:
 Develop like Dave, or as I call it, Davelop.

@@ -19,4 +19,4 @@ module.exports = chalk.green(
 "\n  |  |___|  |   |  |___  |  |  |  | |  |  |  | |   |    " +
 "\n  |_________|   |______| |__|  |__| |__|  |__| |___|    " +
 "\n                                                        ") +
-chalk.blue( "\n\t\t\tCreated by Dave Lunny in the beautiful year 2014");
+chalk.blue( "\n\tCreated by Dave Lunny in the beautiful year 2014");

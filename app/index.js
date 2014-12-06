@@ -17,7 +17,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         {
             name:    "name",
             message: "Now what did you say you were callin' this thing?",
-            default: true
+            default: "egg"
         },{
             name:    "jquery",
             type:    "confirm",
