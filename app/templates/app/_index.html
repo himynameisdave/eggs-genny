@@ -1,19 +1,22 @@
 <!DOCTYPE HTML>
-<html>
+<% if (deps.angular) { %><html ng-app="app"><% }else { %><html><% } %>
 <head>
 
-	<title></title>
+	<title><%=appName%></title>
 	<meta charset="UTF-8">
 
-	<meta name="description" content="">
+	<meta name="description" content="<%=appDesc%>">
 	<meta name="keywords" content="">
 	<meta name="author" content="">
 
 
 	<!--Mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--Mobile - No Zooming-->
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+
+
+	<!--Angular-->
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
 
 
 	<!--jQuery & Bootstrap-->
@@ -21,17 +24,30 @@
 	<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 
-	<!--Main Script-->
-	<script type="text/javascript" src="js/script.js"></script>
+	<!--GSAP-->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"/></script>
+	<!--Optional GSAP stuff-->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script><!--This guy is where most of the good stuff is-->
 
 
-	<!--Styles-->
+	<!--APP.JS-->
+	<script type="text/javascript" src="js/app.js"></script>
+
+	<!--Font Awesome/Bootstrap CSS-->
 	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+
+	<!--Styles-->
 	<link rel="stylesheet" type="text/css" href="css/style.css"	/>
 
 </head>
+<% if(deps.angular){ %>
+<body ng-controller="Controller">
+<% }else { %>
 <body>
+ <% } %>
 
 
 </body>
