@@ -14,30 +14,32 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+
 	<!--Angular-->
-	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+	<% if (deps.angular) { %>
+		<script type="text/javascript" src="lib/angular/angular.min.js"></script>
+		<script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<% } %>
 
+	<!--jQuery-->
+	<% if (deps.jquery) { %>
+		<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+	<% } %>
 
-	<!--jQuery & Bootstrap-->
-	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-
-	<!--GSAP-->
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"/></script>
-	<!--Optional GSAP stuff-->
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/CSSPlugin.min.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script><!--This guy is where most of the good stuff is-->
-
+	<% if (deps.gsap) { %>
+		<script type="text/javascript" src="lib/gsap/src/minified/TweenMax.min.js"></script>
+		<script type="text/javascript" src="lib/gsap/src/minified/TimelineMax.min.js"></script>
+		<script type="text/javascript" src="lib/gsap/src/minified/plugins/CSSPlugin.min.js"></script>
+		<script type="text/javascript" src="lib/gsap/src/minified/easing/EasePack.min.js"></script>
+	<% } %>
 
 	<!--APP.JS-->
 	<script type="text/javascript" src="js/app.js"></script>
 
-	<!--Font Awesome/Bootstrap CSS-->
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+	<!--Bootstrap CSS-->
+	<% if (deps.bootstrap) { %>
+		<link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<% } %>
 
 	<!--Styles-->
 	<link rel="stylesheet" type="text/css" href="css/style.css"	/>

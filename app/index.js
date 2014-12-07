@@ -43,7 +43,14 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             type:    "confirm",
             message: "Y'all need some Bootstrap CSS?",
             default: true
-        }];
+        }
+        // ,{
+        //     name:    "fontawesome",
+        //     type:    "confirm",
+        //     message: "Y'all need some FontAwesome Icons?",
+        //     default: false
+        // }
+        ];
 
         this.prompt(prompts, function (props) {
 
@@ -58,28 +65,13 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         // for easier reffing
         var UI = this.userInputs,
             testString = 'Building you a sweet app with the following deps:\n';
-
-        //  check for jQuery:
-        if( UI.jquery ){
-            //do jquery stuff
-            testString += '\t- jQuery\n'
-        }
-
-        if( UI.angular ){
-            //do angular stuff
-            testString += '\t- Angular\n'
-        }
-
-        if( UI.gsap ){
-            //do gsap stuff
-            testString += '\t- GSAP\n'
-        }
-
-        if( UI.bootstrap ){
-            //do bootstrap stuff
-            testString += '\t- Bootstrap\n'
-        }
-
+        //  Make a coolass string to tell the user what they agreed to install
+        if( UI.jquery ){ testString += '\t- jQuery\n' }
+        if( UI.angular ){ testString += '\t- Angular\n' }
+        if( UI.gsap ){ testString += '\t- GSAP\n' }
+        if( UI.bootstrap ){ testString += '\t- Bootstrap\n' }
+        // if( UI.fontawesome ){ testString += '\t- FontAwesome Icons\n' }
+        //  in case they're going bareback
         if( !UI.jquery && !UI.angular && !UI.gsap && !UI.bootstrap ){
             testString += '\t<no dependencies>\n'
             console.log(testString + chalk.red('Looks like someone\'s going bareback!\n') );
@@ -94,6 +86,9 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  temp/ directory, where files can be stored temporarily
         this.mkdir("app/tmp");
         this.mkdir("app/lib");
+        if( UI.angular ){
+            this.mkdir("app/partials");
+        }
 
         console.log(chalk.green("--  Creating build/ directories\n"));
         //  build/ dir, for builds
@@ -108,19 +103,23 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 appDesc: this.desc,
                 deps: this.userInputs
             };
+        //  .bowerrc
+        this.copy( '_.bowerrc', '.bowerrc' );
+        this.copy( '_bower.json', 'bower.json' )
 
         //  package.json && gulpfile.js
         if( this.userInputs.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
             this.copy( '_gulpfile.ang.js', 'gulpfile.js' );
+            this.copy( 'js/_app.ang.js', 'js/app.js' );
         }else{
             this.template('_package.json', "package.json", ctxt);
             this.copy( '_gulpfile.js', 'gulpfile.js' );
+            this.copy( 'js/_app.js', 'js/app.js' );
         }
 
         //  main html file
         this.template('app/_index.html', "app/index.html", ctxt);
-
 
 
 
