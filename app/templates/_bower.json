@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "description": "<%= appDesc %>",
   "dependencies": {
-    "lesslie": "~1.0.0"
+    "lesslie": "~1.0.2"
   }
 }

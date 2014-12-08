@@ -98,24 +98,29 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     },
     copyFiles: function(){
 
+        //  Some context for things that need templating
         var ctxt = {
                 appName: this.appName,
                 appDesc: this.desc,
                 deps: this.userInputs
             };
-        //  .bowerrc
+
+        //  bowerstuffs
         this.copy( '_.bowerrc', '.bowerrc' );
-        this.copy( '_bower.json', 'bower.json' )
+        this.copy( '_bower.json', 'bower.json' );
+
+        //  copy over style.less
+        this.copy( 'app/css/_style.less', 'app/css/style.less' );
 
         //  package.json && gulpfile.js
         if( this.userInputs.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
             this.copy( '_gulpfile.ang.js', 'gulpfile.js' );
-            this.copy( 'js/_app.ang.js', 'js/app.js' );
+            this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
             this.template('_package.json', "package.json", ctxt);
-            this.copy( '_gulpfile.js', 'gulpfile.js' );
-            this.copy( 'js/_app.js', 'js/app.js' );
+            this.copy( 'app/_gulpfile.js', 'gulpfile.js' );
+            this.copy( 'app/js/_app.js', 'app/js/app.js' );
         }
 
         //  main html file
