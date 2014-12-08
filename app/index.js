@@ -119,7 +119,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
             this.template('_package.json', "package.json", ctxt);
-            this.copy( 'app/_gulpfile.js', 'gulpfile.js' );
+            this.copy( '_gulpfile.js', 'gulpfile.js' );
             this.copy( 'app/js/_app.js', 'app/js/app.js' );
         }
 
@@ -127,7 +127,44 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.template('app/_index.html', "app/index.html", ctxt);
 
 
+    },
+    bower: function(){
+        var dependencies = [ 'lesslie' ]
+        var done = this.async();
+        console.log(chalk.cyan(
+                        "\n=======================\n" +
+                          "==     BOWER TIME    ==\n" +
+                          "=======================\n"
+                    ));
 
+        if( this.userInputs.jquery ){ dependencies.push('jquery'); }
+        if( this.userInputs.angular ){ dependencies.push('angular'); }
+        if( this.userInputs.gsap ){ dependencies.push('gsap'); }
+        if( this.userInputs.bootstrap ){ dependencies.push('bootstrap'); }
+
+        this.bowerInstall(
+                dependencies,
+                { 'saveDev': true },
+                function(){
+                    console.log("\nBowers Setup! !!!\n");
+                    done();
+                }
+            );
+
+    },
+    npm: function(){
+        var done = this.async();
+
+        console.log(chalk.red(
+                        "\n=======================\n" +
+                          "==      NPM TIME     ==\n" +
+                          "=======================\n"
+                    ));
+
+        this.npmInstall( '', function(){
+            console.log("\nNPM's installed! !!!\n");
+            done();
+        });
     },
     end: function(){
         console.log(chalk.blue("\n================================\n   Your eggs are ready, sir!   \n================================\n"));
