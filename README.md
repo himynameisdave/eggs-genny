@@ -22,7 +22,7 @@ npm install -g git://github.com/himynameisdave/eggs-genny.git
 ```
 
 ####Step 3:
-`cd` to your rag-tag little project and run:
+`cd` into your little rag-tag project and run:
 ```bash
 yo eggs-genny
 ```
@@ -34,7 +34,12 @@ Answer some questions about the following dependencies:
 - [GSAP](http://greensock.com/gsap)
 - [Bootstrap](http://getbootstrap.com/) (only the CSS, [fuck their goofy JS components](http://getbootstrap.com/javascript/))
 
-####Step 5:
+####Step 5 (for some users):
+eggs-genny attempts to do an `npm install` of the necessary dependencies. Depending on how permissions are configured on your system, you may also need to run it with `sudo` after doing step 3:
+```bash
+sudo npm install
+```
+
+####Step 6:
 Develop like Dave, or as I call it, Davelop.
 Pretty bitchin', isn't it?
-

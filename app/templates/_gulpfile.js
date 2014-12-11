@@ -1,189 +1,121 @@
-// //    A gulpfile by Dave Lunny
-// var gulp  = require('gulp'),
-//     plug  = require('gulp-load-plugins')({
-//               scope: ['devDependencies'],
-//               replaceString: 'gulp-',
-//             });
+/***********************************************
+||          WELCOME TO EGGS GENNNY's          ||
+||                gulpfile.js                 ||
+||                                            ||
+||                                            ||
+|| Methodology:                               ||
+||                                            ||
+|| Require Stuff: uses gulp-load-plugins to   ||
+|| go and get plugins from the package.json   ||
+||                                            ||
+|| Default: very simple watch>compile>reload  ||
+||                                            ||
+|| Build:dev: is gunna compile the LESS, then ||
+|| autoprefix, csscomb, concat+minify css, &  ||
+||                                            ||
+************************************************/
 
 
-// ////////////////////////////////////////////////////////
-// //  //                                            //  //
-// //  //                  PRODUCTION                //  //
-// //  //                                            //  //
-// ////////////////////////////////////////////////////////
-
-// gulp.task('build', [ 'build-js', 'build-css', 'build-assets' ]);
-
-// //  JS production task
-// gulp.task('build-js', function(){
-
-//   console.log('Step 1: ng-annotate & uglify');
-//     gulp.src('app/js/app.js')
-//     .pipe(plug.ngAnnotate())
-//         .on('error', function(e){
-//           console.log('ng-annotate error');
-//           console.log(e);
-//         })
-//     .pipe(gulp.dest('app/lib/js/'))
-//     .pipe(gulp.src( [
-//           'app/lib/js/angular.js',
-//           'app/lib/js/jquery.js',
-//           'app/lib/js/ui-router.js',
-//           'app/lib/js/ng-touch.js',
-//           'app/lib/js/app.js'
-//         ] ))
-//     .pipe(plug.uglify())
-//     .on('error', function(e){
-//           console.log('uglify js files error');
-//           console.log(e);
-//         })
-//     .pipe(gulp.dest('app/lib/js/'));
-
-//   console.log('Step 2: concat js files');
-//     // gulp.src([ 'app/lib/js/*.js' ])
-//     gulp.src([
-//           'app/lib/js/angular.js',
-//           'app/lib/js/jquery.js',
-//           'app/lib/js/ui-router.js',
-//           'app/lib/js/ng-touch.js',
-//           'app/lib/js/app.js'
-//         ])
-//         .pipe(plug.concat('core.js'))
-//         .pipe(gulp.dest('public/js/'));
-
-//   console.log('Step 3: copy over routes');
-//     gulp.src('app/js/routes.json')
-//       .pipe(gulp.dest('public/js'));
-
-// });
-
-// gulp.task('build-css', function(){
-
-//   console.log('Step 4: Compile LESS, autoprefix, combine media queries, & comb CSS');
-//   gulp.src('app/css/style.less')
-//     .pipe(plug.less({ style: 'compressed' }))
-//     .on('error', function(e){
-//       console.log('ERROR ON LINE ' + e.line);
-//       console.log(e.message);
-//     })
-//     .pipe(plug.autoprefixer({
-//         browsers: ['last 3 versions'],
-//         cascade: true
-//     }))
-//     .pipe(plug.combineMediaQueries())
-//     .pipe(plug.csscomb())
-//     .pipe(gulp.dest('app/lib/css/'));
-
-//   console.log('Step 5: Minify, Uncss & Concat CSS');
-//   gulp.src( 'app/lib/css/*.css' )
-//     .pipe(plug.concatCss('core.css'))
-//     .pipe(plug.uncss({
-//       //  globbing dont work none
-//       html: [   'app/index.html',
-//                 'app/partials/desktop.html',
-//                 'app/partials/mobile.html',
-//                 'app/partials/header.html',
-//                 'app/partials/main.html',
-//                 'app/partials/sched-view.html',
-//             ]
-//     }))
-//     .pipe(plug.minifyCss())
-//     .pipe(gulp.dest('public/css/'));
-
-// });
+/***********************************************
+**               Require Stuff                **
+************************************************/
+var gulp  = require('gulp'),
+    chalk = require('chalk'),
+    plug  = require('gulp-load-plugins')({
+              scope: ['devDependencies'],
+              replaceString: 'gulp-',
+            }),
+//  Here's where you can specify which browsers Autoprefixer tests against
+//  The default you see here goes back really far, in reality something like 'last 2 versions' gets you > 90% coverage
+    supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', '', 'Firefox ESR', 'Android 2.1' ];
 
 
-// gulp.task( 'build-assets', function(){
 
-//   console.log('Step 6: Copy partials');
-//     gulp.src( 'app/partials/*' )
-//         .pipe(plug.angularHtmlify())
-//         .pipe( gulp.dest('public/partials/') );
-
-//   console.log('Step 7: Copy images');
-//     gulp.src( 'app/img/*' )
-//         .pipe( gulp.dest('public/img/') );
-
-//   console.log('Step 8: Copy fonts');
-//     gulp.src( 'app/fonts/*' )
-//         .pipe( gulp.dest('public/fonts/') );
-
-//   console.log('Step 8: Copy fonts');
-//     gulp.src( 'app/fonts/*' )
-//         .pipe( gulp.dest('public/fonts/') );
-
-//   console.log('Step 9: Angular HTML-ify & copy over altered HTML file');
-//     gulp.src( 'app/index.html' )
-//         .pipe(plug.angularHtmlify())
-//         .pipe(plug.htmlReplace({
-//               js: {
-//                 src: 'js/core.js',
-//                 tpl: '<script type="text/javascript" src="%s"></script>'
-//               },
-//               css: {
-//                 src: 'css/core.css',
-//                 tpl: '<link rel="stylesheet" type="text/css" href="%s" />'
-//               }
-//         }))
-//         .pipe(gulp.dest( 'public/' ));
-
-// });
+/***********************************************
+**          Default Task (dev/watch)          **
+************************************************/
+gulp.task( 'default', [ 'dev' ]);
 
 
-// //////////////////
-// //    DEPLOY    //
-// //////////////////
-// gulp.task('deploy', [ 'build', 'gh-pages' ]);
 
-// gulp.task('gh-pages', function(){
+/***********************************************
+**          Development/Watch Task            **
+************************************************/
+gulp.task( 'dev', function(){
+
+  plug.livereload.listen()
+  gulp.watch('app/css/style.less', [ 'build:dev' ] )
+  .on('change', plug.livereload.changed);
+
+});
+
+
+
+/***********************************************
+**                 build:dev                  **
+************************************************/
+gulp.task( 'build:dev', function(){
+
+  gulp.src('app/css/style.less')
+    .pipe( plug.less() )
+    .pipe( plug.autoprefixer({
+              browsers: supportedBrowsers,
+              cascade: false
+            }))
+    .pipe( plug.csscomb() )
+    .pipe( gulp.dest('app/css/') );
+
+});
+
+
+
+/***********************************************
+**                build:dist                  **
+************************************************/
+gulp.task( 'build:dist', function(){
+
+  //  compile LESS
+  gulp.src('app/css/style.less')
+    .pipe( plug.less() )
+    .pipe( gulp.dest('tmp/css/') );
+
+
+  <% if (deps.bootstrap) { %>
+  gulp.src('app/css/style.less')
+    .pipe( gulp.dest('tmp/css/') );
+  <% } %>
 
 
 
 
-
-
-// });
+})
 
 
 
-// //////////////////////////////////////////////////////////
-// //  //                                              //  //
-// //  //                  DEVELOPMENT                 //  //
-// //  //                                              //  //
-// //////////////////////////////////////////////////////////
+/***********************************************
+**          Utility/Logging Functions         **
+**   Nothing (gulp) to see here, move along   **
+************************************************/
+function loggit(l){
+  var log = "*****************************************\n"+
+            " - "+l+"\n"+
+            "*****************************************\n"
+  console.log( chalk.cyan(log) );
+}
 
-// gulp.task('reload', function(){
-//   plug.livereload.listen()
-//   gulp.watch(['app/css/*.css','app/js/app.js','app/index.html', 'app/partials/*.html'], function(){
-//     console.log('RELOADING PAGE');
-//   })
-//   .on('change', plug.livereload.changed);
-// });
+function errorLog(er){
+  var log = "*****************************************\n"+
+            "**          CATASTROPHIC ERROR!        **\n"+
+            "**                                     **\n"+
+            "**       User attempted to use the     **\n"+
+            "**     program in the manner it was    **\n"+
+            "**          intended to be used!       **\n"+
+            "**                                     **\n"+
+            "              ERROR MESSAGE:             \n"+
+            " - "+er+"\n"+
+            "*****************************************\n";
 
-// gulp.task('less', function(){
-//   gulp.src('app/css/style.less')
-//     //LESS compilation
-//     .pipe(plug.less({
-//         style: 'compressed'
-//       }))
-//     //LESS error catch
-//     .on('error', function(e){
-//       console.log('ERROR ON LINE ' + e.line);
-//       console.log(e.message);
-//     })
-//     .pipe(gulp.dest('app/css/'));
-// });
-
-// gulp.task('styles', function(){
-//   gulp.watch('app/css/style.less', ['less']);
-// }); 
-
-  
+  console.log( chalk.red( log )  );
+}
 
 
-// ///////////////////////////////////////////////////////
-// //  //          DEFAULT         //  //
-// //  //                      //  //
-//   gulp.task('default', ['reload', 'styles']); //  //
-// //  //                      //  //
-// /////////////////////////////////////////////////////// 

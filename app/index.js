@@ -111,17 +111,16 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  package.json && gulpfile.js
         if( this.userInputs.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
-            this.copy( '_gulpfile.ang.js', 'gulpfile.js' );
+            this.template( '_gulpfile.ang.js', 'gulpfile.js', ctxt );
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
             this.template('_package.json', "package.json", ctxt);
-            this.copy( '_gulpfile.js', 'gulpfile.js' );
+            this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
             this.copy( 'app/js/_app.js', 'app/js/app.js' );
         }
 
         //  main html file
         this.template('app/_index.html', "app/index.html", ctxt);
-
 
     },
     bower: function(){
@@ -131,11 +130,13 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         // var done = this.async();
 
         //  Announce what we're doing
-        console.log(chalk.cyan(
-                        "\n=======================\n" +
-                          "==     BOWER TIME    ==\n" +
-                          "=======================\n"
-                    ));
+        //  Kinda irrelevant cause async
+
+        // console.log(chalk.cyan(
+        //                 "\n=======================\n" +
+        //                   "==     BOWER TIME    ==\n" +
+        //                   "=======================\n"
+        //             ));
 
         //  Add needed deps to the list
         if( this.userInputs.jquery ){ dependencies.push('jquery'); }
@@ -149,26 +150,27 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 { 'saveDev': true },
                 function(){
                     console.log("\nBowers Setup! !!!\n");
-                    done();
+                    // done();
                 }
             );
 
     },
     npm: function(){
-        var done = this.async();
+        // var done = this.async();
 
-        console.log(chalk.red(
-                        "\n=======================\n" +
-                          "==      NPM TIME     ==\n" +
-                          "=======================\n"
-                    ));
+        // console.log(chalk.red(
+        //                 "\n=======================\n" +
+        //                   "==      NPM TIME     ==\n" +
+        //                   "=======================\n"
+        //             ));
 
         this.npmInstall( '', function(){
             console.log("\nNPM's installed! !!!\n");
-            done();
+            // done();
         });
     },
     end: function(){
+
         console.log(chalk.blue("\n================================\n   Your eggs are ready, sir!   \n================================\n"));
     }
 
