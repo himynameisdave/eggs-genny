@@ -15,41 +15,35 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  PROMPT USER TO FIGURE OUT WHAT DEPENDENCIES TO JAM IN THERE
         var prompts = [
-        {
-            name:    "name",
-            message: "Now what did you say you were callin' this thing?",
-            default: "egg"
-        },{
-            name:    "desc",
-            message: "Care to describe this application of yours?",
-            default: "Totally awesome rad app!"
-        },{
-            name:    "jquery",
-            type:    "confirm",
-            message: "Y'all need some jQuery?",
-            default: true
-        },{
-            name:    "angular",
-            type:    "confirm",
-            message: "Y'all need some Angular?",
-            default: true
-        },{
-            name:    "gsap",
-            type:    "confirm",
-            message: "Y'all need some GSAP?",
-            default: true
-        },{
-            name:    "bootstrap",
-            type:    "confirm",
-            message: "Y'all need some Bootstrap CSS?",
-            default: true
-        }
-        // ,{
-        //     name:    "fontawesome",
-        //     type:    "confirm",
-        //     message: "Y'all need some FontAwesome Icons?",
-        //     default: false
-        // }
+            {
+                name:    "name",
+                message: "Now what did you say you were callin' this thing?",
+                default: "egg"
+            },{
+                name:    "desc",
+                message: "Care to describe this application of yours?",
+                default: "Totally awesome rad app!"
+            },{
+                name:    "jquery",
+                type:    "confirm",
+                message: "Y'all need some jQuery?",
+                default: true
+            },{
+                name:    "angular",
+                type:    "confirm",
+                message: "Y'all need some Angular?",
+                default: true
+            },{
+                name:    "gsap",
+                type:    "confirm",
+                message: "Y'all need some GSAP?",
+                default: true
+            },{
+                name:    "bootstrap",
+                type:    "confirm",
+                message: "Y'all need some Bootstrap CSS?",
+                default: true
+            }
         ];
 
         this.prompt(prompts, function (props) {
@@ -107,7 +101,9 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  bowerstuffs
         this.copy( '_.bowerrc', '.bowerrc' );
-        this.copy( '_bower.json', 'bower.json' );
+
+        //  template out the bower.json
+        this.template( '_bower.json', 'bower.json', ctxt );
 
         //  copy over style.less
         this.copy( 'app/css/_style.less', 'app/css/style.less' );
@@ -129,19 +125,25 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     bower: function(){
+        //  Becuase Lesslie is always a dependancy
         var dependencies = [ 'lesslie' ]
-        var done = this.async();
+
+        // var done = this.async();
+
+        //  Announce what we're doing
         console.log(chalk.cyan(
                         "\n=======================\n" +
                           "==     BOWER TIME    ==\n" +
                           "=======================\n"
                     ));
 
+        //  Add needed deps to the list
         if( this.userInputs.jquery ){ dependencies.push('jquery'); }
         if( this.userInputs.angular ){ dependencies.push('angular'); }
         if( this.userInputs.gsap ){ dependencies.push('gsap'); }
         if( this.userInputs.bootstrap ){ dependencies.push('bootstrap'); }
 
+        //  Actually do our bower install
         this.bowerInstall(
                 dependencies,
                 { 'saveDev': true },
