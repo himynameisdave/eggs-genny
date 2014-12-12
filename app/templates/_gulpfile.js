@@ -27,7 +27,7 @@ var gulp  = require('gulp'),
             }),
 //  Here's where you can specify which browsers Autoprefixer tests against
 //  The default you see here goes back really far, in reality something like 'last 2 versions' gets you > 90% coverage
-    supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', '', 'Firefox ESR', 'Android 2.1' ];
+    supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', 'ff 3', 'Firefox ESR', 'Android 2.1' ];
 
 
 
@@ -56,8 +56,9 @@ gulp.task( 'dev', function(){
 ************************************************/
 gulp.task( 'build:dev', function(){
 
-  gulp.src('app/css/style.less')
+  gulp.src('app/css/*.less')
     .pipe( plug.less() )
+    .on('error', errorLog)
     .pipe( plug.autoprefixer({
               browsers: supportedBrowsers,
               cascade: false
@@ -75,17 +76,27 @@ gulp.task( 'build:dev', function(){
 gulp.task( 'build:dist', function(){
 
   //  compile LESS
-  gulp.src('app/css/style.less')
+  gulp.src('app/css/*.less')
     .pipe( plug.less() )
-    .pipe( gulp.dest('tmp/css/') );
+    .on('error', errorLog)
+    .pipe( gulp.dest('app/tmp/css/') );
 
-
+  //  copy over styles
   <% if (deps.bootstrap) { %>
-  gulp.src('app/css/style.less')
-    .pipe( gulp.dest('tmp/css/') );
+  gulp.src( 'app/lib/bootstrap/dist/css/bootstrap.css'  )
+    .pipe( gulp.dest('app/tmp/css/') );
   <% } %>
 
-
+  //  mincatclean the css
+  gulp.src( 'app/tmp/css/*.css' )
+    .pipe( plug.concat('styles.css') )
+    .pipe( plug.autoprefixer({
+              browsers: supportedBrowsers,
+              cascade: false
+            }))
+    .pipe( plug.csscomb() )
+    .pipe( plug.minifyCss() )
+    .pipe( gulp.dest( 'build/css/' ) );
 
 
 })

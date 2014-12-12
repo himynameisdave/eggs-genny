@@ -35,7 +35,7 @@ Answer some questions about the following dependencies:
 - [Bootstrap](http://getbootstrap.com/) (only the CSS, [fuck their goofy JS components](http://getbootstrap.com/javascript/))
 
 ####Step 5 (for some users):
-eggs-genny attempts to do an `npm install` of the necessary dependencies. Depending on how permissions are configured on your system, you may also need to run it with `sudo` after doing step 3:
+eggs-genny attempts to do an `npm install` of the necessary dependencies. Depending on how permissions are configured on your system, you may also need to run it with `sudo` after doing step 4:
 ```bash
 sudo npm install
 ```
