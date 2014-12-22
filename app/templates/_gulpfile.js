@@ -89,13 +89,13 @@ gulp.task( 'build:dist', function(){
 
   //  mincatclean the css
   gulp.src( 'app/tmp/css/*.css' )
-    .pipe( plug.concat('styles.css') )
+    .pipe( plug.concatCss('styles.css') )
     .pipe( plug.autoprefixer({
               browsers: supportedBrowsers,
               cascade: false
             }))
     .pipe( plug.csscomb() )
-    .pipe( plug.minifyCss() )
+    .pipe( plug.uglify() )
     .pipe( gulp.dest( 'build/css/' ) );
 
 
