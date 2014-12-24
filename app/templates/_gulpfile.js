@@ -19,9 +19,9 @@
 /***********************************************
 **               Require Stuff                **
 ************************************************/
-var gulp  = require('gulp'),
-    chalk = require('chalk'),
-    plug  = require('gulp-load-plugins')({
+var gulp   = require('gulp'),
+    chalk  = require('chalk'),
+    plug   = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',
             }),
@@ -51,55 +51,41 @@ gulp.task( 'dev', function(){
 
 
 
+
+
+
+
 /***********************************************
-**                 build:dev                  **
+**                   build                    **
 ************************************************/
-gulp.task( 'build:dev', function(){
+gulp.task( 'build', function(){
 
   gulp.src('app/css/*.less')
     .pipe( plug.less() )
     .on('error', errorLog)
-    .pipe( plug.autoprefixer({
-              browsers: supportedBrowsers,
-              cascade: false
-            }))
-    .pipe( plug.csscomb() )
     .pipe( gulp.dest('app/css/') );
 
-});
-
-
-
-/***********************************************
-**                build:dist                  **
-************************************************/
-gulp.task( 'build:dist', function(){
-
-  //  compile LESS
-  gulp.src('app/css/*.less')
-    .pipe( plug.less() )
-    .on('error', errorLog)
-    .pipe( gulp.dest('app/tmp/css/') );
-
-  //  copy over styles
-  <% if (deps.bootstrap) { %>
-  gulp.src( 'app/lib/bootstrap/dist/css/bootstrap.css'  )
-    .pipe( gulp.dest('app/tmp/css/') );
-  <% } %>
-
-  //  mincatclean the css
-  gulp.src( 'app/tmp/css/*.css' )
-    .pipe( plug.concatCss('styles.css') )
+  <% if (deps.bootstrap) { %>gulp.src( ['app/css/*.css', 'app/lib/bootstrap/dist/css/bootstrap.css'] )
+  <% } else{ %>gulp.src( 'app/css/*.css' )<% } %>
+    .pipe( plug.concat('styles.css') )
+    .pipe( gulp.dest( 'tmp/css' ) )
     .pipe( plug.autoprefixer({
               browsers: supportedBrowsers,
               cascade: false
             }))
     .pipe( plug.csscomb() )
-    .pipe( plug.uglify() )
+    .pipe( plug.minifyCss() )
     .pipe( gulp.dest( 'build/css/' ) );
+
+  
 
 
 })
+
+
+
+
+
 
 
 

@@ -77,8 +77,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app");
         this.mkdir("app/css");
         this.mkdir("app/js");
-        //  temp/ directory, where files can be stored temporarily
-        this.mkdir("app/tmp");
         this.mkdir("app/lib");
         if( UI.angular ){
             this.mkdir("app/partials");
