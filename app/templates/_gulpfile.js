@@ -36,18 +36,31 @@ var gulp   = require('gulp'),
 /***********************************************
 **          Default Task (dev/watch)          **
 ************************************************/
-gulp.task( 'default', [ 'dev' ]);
+gulp.task( 'default', ['reload-me', 'dev-me']);
 
 
 
 /***********************************************
 **          Development/Watch Task            **
 ************************************************/
-gulp.task( 'dev', function(){
-
+gulp.task( 'reload-me', function(){
   plug.livereload.listen()
-  gulp.watch('app/css/style.less', [ 'dev-styles', 'dev-js' ] )
+  gulp.watch( ['app/css/*.css', 'app/js/*', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*'<% } %> ], function(){
+    loggit('Reloading your page, sir!')
+  })
   .on('change', plug.livereload.changed);
+});
+
+gulp.task( 'dev-me', function(){
+  gulp.watch( 'app/css/*.less', ['compile-me','lint-me'] );
+});
+
+
+gulp.task( 'lint-me', ['compile-me'], function(){
+
+  gulp.src( 'app/js/*' )
+    .pipe(plug.jshint())
+    .pipe(jshint.reporter('stylish'));
 
 });
 
