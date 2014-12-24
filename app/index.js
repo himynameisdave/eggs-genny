@@ -110,7 +110,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  package.json && gulpfile.js
         if( this.userInputs.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
-            this.template( '_gulpfile.ang.js', 'gulpfile.js', ctxt );
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
             this.template('_package.json', "package.json", ctxt);

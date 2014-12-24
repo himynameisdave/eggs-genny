@@ -86,13 +86,19 @@ gulp.task( 'css-me', ['compile-me'], function(){
 //  JSTASKS - no depedency
 gulp.task( 'js-me',  function(){
 
-  return gulp.src([<% if (deps.jquery) { %>
+  return  <% if(deps.angular){ %>gulp.src( 'app/js/app.js' )
+          .pipe( plug.ngAnnotate() )
+          .on('error', errorLog)
+          .pipe(gulp.dest('app/js/')).pipe(<% } %>
+          gulp.src([<% if (deps.jquery) { %>
                   'app/lib/jquery/dist/jquery.js',<% } if(deps.gsap){ %>
                   'app/lib/gsap/src/uncompressed/TweenMax.min.js',
                   'app/lib/gsap/src/uncompressed/TimelineMax.js',
                   'app/lib/gsap/src/uncompressed/plugins/CSSPlugin.js',
-                  'app/lib/gsap/src/uncompressed/easing/EasePack.js',<% } if(deps.angular){ %>//add when you do angular shit
-                  <% } %>'app/js/*.js' ])
+                  'app/lib/gsap/src/uncompressed/easing/EasePack.js',<% } if(deps.angular){ %>
+                  'app/lib/angular/angular.min.js',
+                  'app/lib/angular-ui-router/release/angular-ui-router.min.js',
+                  <% } %>'app/js/*.js' ])<% if(deps.angular){ %>)<% } %>
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
           .pipe( plug.uglify() )
@@ -104,6 +110,7 @@ gulp.task( 'assets-me', function(){
 
 <%  if(deps.angular){ %>//  PARTIALS
   gulp.src( 'app/partials/*' )
+    .pipe(plug.angularHtmlify())
     .pipe( gulp.dest('build/partials/') );
   <% } %>//  IMAGES
   gulp.src( 'app/img/*' )
@@ -113,15 +120,16 @@ gulp.task( 'assets-me', function(){
 
 //HTMLMOVE/REPLACE
 gulp.task( 'html-me', function(){
-  return gulp.src( 'app/index.html' )
-            .pipe(plug.htmlReplace({
+  return gulp.src( 'app/index.html' )<%  if(deps.angular){ %>
+              .pipe(plug.angularHtmlify())
+              <% } %>.pipe(plug.htmlReplace({
                 css: {
                   src: 'css/styles.css',
-                  tpl: '<link rel="stylesheet" type="text/css" href="%s" />'
+                  tpl: '  <link rel="stylesheet" type="text/css" href="%s" />'
                 },
                 js: {
                   src: 'js/scripts.js',
-                  tpl: '<script type="text/javascript" src="%s"></script>'
+                  tpl: '  <script type="text/javascript" src="%s"></script>'
                 }
             }))
             .pipe(gulp.dest( 'build/' ));
