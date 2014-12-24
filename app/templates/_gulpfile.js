@@ -21,7 +21,8 @@
 ************************************************/
 var gulp   = require('gulp'),
     chalk  = require('chalk'),
-    del    = require('del');
+    del    = require('del'),
+    // runner = require('run-sequence'),
     plug   = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',
@@ -56,54 +57,81 @@ gulp.task( 'dev', function(){
 **                   build                    **
 ************************************************/
 
-gulp.task( 'build', [ 'build-do', 'build-clean' ]);
+gulp.task( 'build', [ 'compile-me', 'css-me', 'js-me', 'assets-me', 'html-me', 'clean-me' ]);
 
-gulp.task( 'build-do', function(){
+//  LESS compile
+gulp.task( 'compile-me', function(){
 
-  //  STYLES
-  gulp.src('app/css/*.less')
-    .pipe( plug.less() )
-    .on('error', errorLog)
-    .pipe( gulp.dest('app/css/') );
+  return gulp.src('app/css/*.less')
+          .pipe( plug.less() )
+          .on('error', errorLog)
+          .pipe( gulp.dest('app/css/') );
 
-  <% if (deps.bootstrap) { %>gulp.src( ['app/css/*.css', 'app/lib/bootstrap/dist/css/bootstrap.css'] )
-  <% } else{ %>gulp.src( 'app/css/*.css' )<% } %>
-    .pipe( plug.concat('styles.css') )
-    .pipe( gulp.dest( 'tmp/css' ) )
-    .pipe( plug.autoprefixer({
-              browsers: supportedBrowsers,
-              cascade: false
-            }))
-    .pipe( plug.csscomb() )
-    .pipe( plug.minifyCss() )
-    .pipe( gulp.dest( 'build/css/' ) );
+});
+//  CSSTASKS
+gulp.task( 'css-me', ['compile-me'], function(){
 
-  //  SCRIPTS
-  gulp.src([
-          <% if (deps.jquery) { %>
-             'app/lib/jquery/dist/jquery.js',
-          <% } if(deps.gsap){ %>
-            'app/lib/gsap/src/uncompressed/TweenMax.min.js',
-            'app/lib/gsap/src/uncompressed/TimelineMax.js',
-            'app/lib/gsap/src/uncompressed/plugins/CSSPlugin.js',
-            'app/lib/gsap/src/uncompressed/easing/EasePack.js',
-          <% } if(deps.angular){ %>
-                //add when you do angular shit
-          <% } %>
-            'app/js/*.js' ])
-  .pipe( plug.concat('scripts.js') )
-  .pipe( gulp.dest( 'tmp/js' ) )
-  .pipe( plug.uglify() )
-  .pipe( gulp.dest( 'build/js' ) );
+  return  <% if (deps.bootstrap) { %>gulp.src( ['app/css/*.css', 'app/lib/bootstrap/dist/css/bootstrap.css'] )
+          <% } else{ %>gulp.src( 'app/css/*.css' )<% } %>
+            .pipe( plug.concat('styles.css') )
+            .pipe( gulp.dest( 'tmp/css' ) )
+            .pipe( plug.autoprefixer({
+                      browsers: supportedBrowsers,
+                      cascade: false
+                    }))
+            .pipe( plug.csscomb() )
+            .pipe( plug.minifyCss() )
+            .pipe( gulp.dest( 'build/css/' ) );
+});
+//  JSTASKS - no depedency
+gulp.task( 'js-me',  function(){
 
+  return gulp.src([<% if (deps.jquery) { %>
+                  'app/lib/jquery/dist/jquery.js',<% } if(deps.gsap){ %>
+                  'app/lib/gsap/src/uncompressed/TweenMax.min.js',
+                  'app/lib/gsap/src/uncompressed/TimelineMax.js',
+                  'app/lib/gsap/src/uncompressed/plugins/CSSPlugin.js',
+                  'app/lib/gsap/src/uncompressed/easing/EasePack.js',<% } if(deps.angular){ %>//add when you do angular shit
+                  <% } %>'app/js/*.js' ])
+          .pipe( plug.concat('scripts.js') )
+          .pipe( gulp.dest( 'tmp/js' ) )
+          .pipe( plug.uglify() )
+          .pipe( gulp.dest( 'build/js' ) );
+});
+
+//MOVE ASSETS
+gulp.task( 'assets-me', function(){
+
+<%  if(deps.angular){ %>//  PARTIALS
+  gulp.src( 'app/partials/*' )
+    .pipe( gulp.dest('build/partials/') );
+  <% } %>//  IMAGES
+  gulp.src( 'app/img/*' )
+    .pipe( gulp.dest('build/img/') );
 
 })
 
-gulp.task( 'build-clean', function(){
+//HTMLMOVE/REPLACE
+gulp.task( 'html-me', function(){
+  return gulp.src( 'app/index.html' )
+            .pipe(plug.htmlReplace({
+                css: {
+                  src: 'css/styles.css',
+                  tpl: '<link rel="stylesheet" type="text/css" href="%s" />'
+                },
+                js: {
+                  src: 'js/scripts.js',
+                  tpl: '<script type="text/javascript" src="%s"></script>'
+                }
+            }))
+            .pipe(gulp.dest( 'build/' ));
+});
+
+
+gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
 
   var dels = 'Cleaned up the following: \n';
-
-  del( ['tmp', 'tmp/**'] , function (err, deletedFiles) {
+  del( ['tmp/**','tmp'] , function (err, deletedFiles) {
     deletedFiles.forEach( function( val, index ){
         dels +=  '  - '+val+'\n';
     })

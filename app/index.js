@@ -77,6 +77,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app");
         this.mkdir("app/css");
         this.mkdir("app/js");
+        this.mkdir("app/img");
         this.mkdir("app/lib");
         if( UI.angular ){
             this.mkdir("app/partials");
