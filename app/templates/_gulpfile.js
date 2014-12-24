@@ -21,6 +21,7 @@
 ************************************************/
 var gulp   = require('gulp'),
     chalk  = require('chalk'),
+    del    = require('del');
     plug   = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',
@@ -44,22 +45,22 @@ gulp.task( 'default', [ 'dev' ]);
 gulp.task( 'dev', function(){
 
   plug.livereload.listen()
-  gulp.watch('app/css/style.less', [ 'build:dev' ] )
+  gulp.watch('app/css/style.less', [ 'dev-styles', 'dev-js' ] )
   .on('change', plug.livereload.changed);
 
 });
 
 
 
-
-
-
-
 /***********************************************
 **                   build                    **
 ************************************************/
-gulp.task( 'build', function(){
 
+gulp.task( 'build', [ 'build-do', 'build-clean' ]);
+
+gulp.task( 'build-do', function(){
+
+  //  STYLES
   gulp.src('app/css/*.less')
     .pipe( plug.less() )
     .on('error', errorLog)
@@ -77,15 +78,39 @@ gulp.task( 'build', function(){
     .pipe( plug.minifyCss() )
     .pipe( gulp.dest( 'build/css/' ) );
 
-  
+  //  SCRIPTS
+  gulp.src([
+          <% if (deps.jquery) { %>
+             'app/lib/jquery/dist/jquery.js',
+          <% } if(deps.gsap){ %>
+            'app/lib/gsap/src/uncompressed/TweenMax.min.js',
+            'app/lib/gsap/src/uncompressed/TimelineMax.js',
+            'app/lib/gsap/src/uncompressed/plugins/CSSPlugin.js',
+            'app/lib/gsap/src/uncompressed/easing/EasePack.js',
+          <% } if(deps.angular){ %>
+                //add when you do angular shit
+          <% } %>
+            'app/js/*.js' ])
+  .pipe( plug.concat('scripts.js') )
+  .pipe( gulp.dest( 'tmp/js' ) )
+  .pipe( plug.uglify() )
+  .pipe( gulp.dest( 'build/js' ) );
 
 
 })
 
+gulp.task( 'build-clean', function(){
 
+  var dels = 'Cleaned up the following: \n';
 
+  del( ['tmp', 'tmp/**'] , function (err, deletedFiles) {
+    deletedFiles.forEach( function( val, index ){
+        dels +=  '  - '+val+'\n';
+    })
+    loggit(dels);
+  });
 
-
+});
 
 
 

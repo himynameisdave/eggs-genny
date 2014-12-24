@@ -113,10 +113,11 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
             this.template('_package.json', "package.json", ctxt);
-            this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
             this.copy( 'app/js/_app.js', 'app/js/app.js' );
         }
 
+        //  template out the gulp
+        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
         //  main html file
         this.template('app/_index.html', "app/index.html", ctxt);
 
