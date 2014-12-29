@@ -16,6 +16,16 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  PROMPT USER TO FIGURE OUT WHAT DEPENDENCIES TO JAM IN THERE
         var prompts = [
             {
+                name:    "gender",
+                type:    "list",
+                message: "First off, let's personalize things! Which do you prefer?",
+                choices: [
+                            "sir",
+                            "ma'am",
+                          ],
+                default: "sir"
+            },
+            {
                 name:    "name",
                 message: "Now what did you say you were callin' this thing?",
                 default: "egg"
@@ -51,6 +61,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             this.userInputs = props,
             this.appName = props.name;
             this.desc = props.desc;
+            this.gender = props.gender;
 
             done();
         }.bind(this));
@@ -68,7 +79,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  in case they're going bareback
         if( !UI.jquery && !UI.angular && !UI.gsap && !UI.bootstrap ){
             testString += '\t<no dependencies>\n'
-            console.log(testString + chalk.red('Looks like someone\'s going bareback!\n') );
+            console.log(testString + chalk.red('Looks like someone\'s going bareback! YEEE HAWWW!\n') );
         }
 
     //  Make some directories
@@ -95,6 +106,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         var ctxt = {
                 appName: this.appName,
                 appDesc: this.desc,
+                gender: this.gender,
                 deps: this.userInputs
             };
 
@@ -124,18 +136,8 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     },
     bower: function(){
         //  Becuase Lesslie is always a dependancy
-        var dependencies = [ 'lesslie' ]
-
-        // var done = this.async();
-
-        //  Announce what we're doing
-        //  Kinda irrelevant cause async
-
-        // console.log(chalk.cyan(
-        //                 "\n=======================\n" +
-        //                   "==     BOWER TIME    ==\n" +
-        //                   "=======================\n"
-        //             ));
+        var dependencies = [ 'lesslie' ],
+            gender = this.gender;
 
         //  Add needed deps to the list
         if( this.userInputs.jquery ){ dependencies.push('jquery'); }
@@ -148,29 +150,24 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 dependencies,
                 { 'saveDev': true },
                 function(){
-                    console.log("\nBowers Setup! !!!\n");
+                    console.log(chalk.blue("\n================================\n   Bower deps Installed, "+gender+"!   \n================================\n"));
                     // done();
                 }
             );
 
     },
     npm: function(){
-        // var done = this.async();
-
-        // console.log(chalk.red(
-        //                 "\n=======================\n" +
-        //                   "==      NPM TIME     ==\n" +
-        //                   "=======================\n"
-        //             ));
+        var gender = this.gender;
 
         this.npmInstall( '', function(){
-            console.log("\nNPM's installed! !!!\n");
+            console.log(chalk.yellow("\n================================\n   NPM Modules Installed, "+gender+"!   \n================================\n"));
             // done();
         });
     },
     end: function(){
+        var gender = this.gender;
 
-        console.log(chalk.blue("\n================================\n   Your eggs are ready, sir!   \n================================\n"));
+        console.log(chalk.cyan("\n================================\n   Your eggs are ready, "+gender+"!   \n================================\n"));
     }
 
 });
