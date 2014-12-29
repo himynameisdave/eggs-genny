@@ -2,16 +2,8 @@
 ||          WELCOME TO EGGS GENNNY's          ||
 ||                gulpfile.js                 ||
 ||                                            ||
-||                                            ||
-|| Methodology:                               ||
-||                                            ||
-|| Require Stuff: uses gulp-load-plugins to   ||
-|| go and get plugins from the package.json   ||
-||                                            ||
-|| Default: very simple watch>compile>reload  ||
-||                                            ||
-|| Build:dev: is gunna compile the LESS, then ||
-|| autoprefix, csscomb, concat+minify css, &  ||
+||     Alter to suit your needs, this is      ||
+||          just a starting place =)          ||
 ||                                            ||
 ************************************************/
 
@@ -22,7 +14,6 @@
 var gulp   = require('gulp'),
     chalk  = require('chalk'),
     del    = require('del'),
-    // runner = require('run-sequence'),
     plug   = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',
@@ -41,27 +32,18 @@ gulp.task( 'default', ['reload-me', 'dev-me']);
 
 
 /***********************************************
-**          Development/Watch Task            **
+**          Development/Watch Tasks           **
 ************************************************/
 gulp.task( 'reload-me', function(){
   plug.livereload.listen()
-  gulp.watch( ['app/css/*.css', 'app/js/*', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*'<% } %> ], function(){
+  gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
     loggit('Reloading your page, sir!')
   })
   .on('change', plug.livereload.changed);
 });
 
 gulp.task( 'dev-me', function(){
-  gulp.watch( 'app/css/*.less', ['compile-me','lint-me'] );
-});
-
-
-gulp.task( 'lint-me', ['compile-me'], function(){
-
-  gulp.src( 'app/js/*' )
-    .pipe(plug.jshint())
-    .pipe(jshint.reporter('stylish'));
-
+  gulp.watch( 'app/css/*.less', ['compile-me' );
 });
 
 
@@ -95,6 +77,7 @@ gulp.task( 'css-me', ['compile-me'], function(){
             .pipe( plug.csscomb() )
             .pipe( plug.minifyCss() )
             .pipe( gulp.dest( 'build/css/' ) );
+
 });
 //  JSTASKS - no depedency
 gulp.task( 'js-me',  function(){
@@ -116,6 +99,7 @@ gulp.task( 'js-me',  function(){
           .pipe( gulp.dest( 'tmp/js' ) )
           .pipe( plug.uglify() )
           .pipe( gulp.dest( 'build/js' ) );
+
 });
 
 //MOVE ASSETS
@@ -133,6 +117,7 @@ gulp.task( 'assets-me', function(){
 
 //HTMLMOVE/REPLACE
 gulp.task( 'html-me', function(){
+
   return gulp.src( 'app/index.html' )<%  if(deps.angular){ %>
               .pipe(plug.angularHtmlify())
               <% } %>.pipe(plug.htmlReplace({
