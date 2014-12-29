@@ -54,13 +54,17 @@ Pretty bitchin', isn't it?
 
 By default, eggs-genny uses [Gulp](http://gulpjs.com/) as a task-runner (porting it to Grunt soon!). Here's a rundown of the essential tasks it has:
 
+#####Supported browsers
+
+There is a [variable at the top of the Gulpfile](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L23) called `supportedBrowsers` which is how you can set which browsers [Autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) will add vendor prefixes to support. By default it goes back to like the stone age:
+```javascript
+  supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', 'ff 3', 'Firefox ESR', 'Android 2.1' ];
+```
+...which of course you can reset to whatever you like. Read more on Autoprefixer and the various browser strings [over here](http://css-tricks.com/autoprefixer/).
+
 #####Default
 ```
-gulp
-```
-OR
-```
-gulp default
+gulp OR gulp default
 ```
 
 By simply running `gulp`, you will get a watch on all the main dev files under the `app`. Any saved LESS files will compile to CSS. A livereload will be triggered on the change of any of these files (for CSS this is after it is compiled from LESS).
@@ -73,7 +77,7 @@ gulp build
 This is the 'build' or 'distribution' or 'production' or whatever you want to call it. This guy does a bunch of work to build you out a lean and clean app:
 
 - starts by [compiling](https://github.com/plus3network/gulp-less)  all the LESS files
-- then [concats](https://www.npmjs.com/package/gulp-concat) the CSS, [autoprefixes](https://www.npmjs.com/package/gulp-autoprefixer) it, before finally [combing](https://www.npmjs.com/package/gulp-csscomb) it for dumb mistakes and [minifying](https://www.npmjs.com/package/gulp-minify-css) it
+- then [concats](https://www.npmjs.com/package/gulp-concat) the CSS, [autoprefixes](https://www.npmjs.com/package/gulp-autoprefixer) it, before finally [combing](https://www.npmjs.com/package/gulp-csscomb) it for stupid mistakes and then [minifying](https://www.npmjs.com/package/gulp-minify-css) it
 - then moves onto the JS by (if your using Angular in your project) prepping your code for minification using [ng-annotate](https://www.npmjs.com/package/gulp-ng-annotate), concating all js files into one and then [uglifying](https://www.npmjs.com/package/gulp-uglify) them
 - copy over any assets or partials (and make them [validation-friendly](https://www.npmjs.com/package/gulp-angular-htmlify) if using Angular)
 - copy over main `index.html` file, while [replacing](https://www.npmjs.com/package/gulp-html-replace) the many links to external JS/CSS files with just the one for the JS file and one for the CSS files that were just created
@@ -83,4 +87,5 @@ This is the 'build' or 'distribution' or 'production' or whatever you want to ca
 Yeah, there's two 'utility' functions. One is a [hilarious error message](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L164) and the other just logs stuff in a more visible way. These will one day be npm modules too and will then just get required in so as to keep the `gulpfile.js` clean.
 
 You can fully remove all instances of these if you want, they are non-essential.
+
 ---
