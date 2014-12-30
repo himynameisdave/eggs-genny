@@ -28,4 +28,4 @@ chalk[color2](
 "\n  |  |___|  |   |  |___  |  |  |  | |  |  |  | |   |    " +
 "\n  |_________|   |______| |__|  |__| |__|  |__| |___|    " +
 "\n                                                        ") +
-chalk.gray( "\n  Created by Dave Lunny in the beautiful year 2014\n");
+chalk.gray( "\n  Created by Dave Lunny in the beautiful year 2015\n");
