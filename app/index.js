@@ -1,10 +1,11 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
-var chalk = require( "chalk" );
-var banner = require('./banner.js');
+var util   = require('util'),
+    path   = require('path'),
+    yeoman = require('yeoman-generator'),
+    yosay  = require('yosay'),
+    chalk  = require( "chalk" ),
+    del    = require('del'),
+    banner = require('./banner.js'),
 
 var EggsGennyGenerator = yeoman.generators.Base.extend({
     promptUser: function() {
@@ -19,10 +20,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "gender",
                 type:    "list",
                 message: "First off, let's personalize things! Which do you prefer?",
-                choices: [
-                            "sir",
-                            "ma'am",
-                          ],
+                choices: [ "sir", "ma'am", "cap'n", "" ],
                 default: "sir"
             },
             {
@@ -138,6 +136,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Becuase Lesslie is always a dependancy
         var dependencies = [ 'lesslie' ],
             gender = this.gender;
+            // done = this.async();
 
         //  Add needed deps to the list
         if( this.userInputs.jquery ){ dependencies.push('jquery'); }
@@ -151,7 +150,35 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 { 'saveDev': true },
                 function(){
                     console.log(chalk.blue("\n================================\n   Bower deps Installed, "+gender+"!   \n================================\n"));
+
+                    //  CLEANUP SOME app/lib/ stuff
+                    if( this.userInputs.jquery ){
+                        this.copy( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/jquery.js' );
+                        // del(['app/lib_tmp/jquery'], function (err, deletedFiles) { });
+                    }
+                    if( this.userInputs.angular ){
+                        this.copy( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
+                        this.copy( 'app/lib_tmp/angular-ui-router/release/angular-ui-router.js', 'app/lib/angular-ui-router.js' );
+                        // del(['app/lib_tmp/angular','app/lib_tmp/angular-ui-router'], function (err, deletedFiles) { });
+                    }
+                    if( this.userInputs.gsap ){
+                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
+                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/TimelineMax.js' );
+                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/CSSPlugin.js' );
+                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/EasePack.js' );
+                        // del(['app/lib_tmp/gsap'], function (err, deletedFiles) { });
+                    }
+                    if( this.userInputs.bootstrap ){
+                        this.copy( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/bootstrap.css' );
+                        // del(['app/lib_tmp/bootstrap'], function (err, deletedFiles) { });
+                    }
+
+                    del(['app/lib/'], function (err, deletedFiles) {
+                        console.log('Files deleted:', deletedFiles.join(', '));
+                    });
+
                     // done();
+                    }
                 }
             );
 

@@ -88,8 +88,8 @@ gulp.task( 'js-me',  function(){
                   'app/lib/gsap/src/uncompressed/TimelineMax.js',
                   'app/lib/gsap/src/uncompressed/plugins/CSSPlugin.js',
                   'app/lib/gsap/src/uncompressed/easing/EasePack.js',<% } if(deps.angular){ %>
-                  'app/lib/angular/angular.min.js',
-                  'app/lib/angular-ui-router/release/angular-ui-router.min.js',
+                  'app/lib/angular/angular.js',
+                  'app/lib/angular-ui-router/release/angular-ui-router.js',
                   <% } %>'app/js/*.js' ])<% if(deps.angular){ %>)<% } %>
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
