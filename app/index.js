@@ -141,7 +141,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Add needed deps to the list
         if( this.userInputs.jquery ){ dependencies.push('jquery'); }
-        if( this.userInputs.angular ){ dependencies.push('angular'); }
+        if( this.userInputs.angular ){ dependencies.push('angular'); dependencies.push('angular-ui-router'); }
         if( this.userInputs.gsap ){ dependencies.push('gsap'); }
         if( this.userInputs.bootstrap ){ dependencies.push('bootstrap'); }
 

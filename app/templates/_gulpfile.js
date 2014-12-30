@@ -27,23 +27,20 @@ var gulp   = require('gulp'),
 /***********************************************
 **          Default Task (dev/watch)          **
 ************************************************/
-gulp.task( 'default', ['reload-me', 'dev-me']);
+gulp.task( 'default', ['reload-me']);
 
 
 
 /***********************************************
-**          Development/Watch Tasks           **
+**          Development/Watch Task            **
 ************************************************/
 gulp.task( 'reload-me', function(){
   plug.livereload.listen()
+  gulp.watch( 'app/css/*.less', ['compile-me'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
     loggit("Reloading your page, <% if(gender === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>")
   })
   .on('change', plug.livereload.changed);
-});
-
-gulp.task( 'dev-me', function(){
-  gulp.watch( 'app/css/*.less', ['compile-me' );
 });
 
 
@@ -66,8 +63,7 @@ gulp.task( 'compile-me', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-me'], function(){
 
-  return  <% if (deps.bootstrap) { %>gulp.src( ['app/css/*.css', 'app/lib/bootstrap/dist/css/bootstrap.css'] )
-          <% } else{ %>gulp.src( 'app/css/*.css' )<% } %>
+  return  <% if (deps.bootstrap) { %>gulp.src( ['app/css/*.css', 'app/lib/bootstrap/dist/css/bootstrap.css'] )<% } else{ %>gulp.src( 'app/css/*.css' )<% } %>
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
