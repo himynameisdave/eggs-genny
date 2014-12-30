@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- build:css -->
-	<% if (deps.bootstrap) { %><link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+	<% if (deps.bootstrap) { %><link href="lib/bootstrap.css" rel="stylesheet" />
 	<% } %><link rel="stylesheet" type="text/css" href="css/style.css"	/>
 <!-- endbuild -->
 <!-- build:js -->
@@ -25,18 +25,19 @@
 	<% } if (deps.gsap) { %><!-- GSAP -->
 	<script type="text/javascript" src="lib/TweenMax.js"></script>
 	<script type="text/javascript" src="lib/TimelineMax.js"></script>
-	<script type="text/javascript" src="lib/gsap/src/uncompressed/plugins/CSSPlugin.js"></script>
-	<script type="text/javascript" src="lib/gsap/src/uncompressed/easing/EasePack.js"></script>
+	<script type="text/javascript" src="lib/CSSPlugin.js"></script>
+	<script type="text/javascript" src="lib/EasePack.js"></script>
 	<% } %><!--MAIN SRIPTS-->
 	<script type="text/javascript" src="js/app.js"></script>
 <!-- endbuild -->
 
-</head>
-<% if(deps.angular){ %>
-<body ng-controller="Controller">
-<% }else { %>
-<body>
-<% } %>
+</head><% if(deps.angular){ %>
+<body ng-controller="Controller"><% }else { %><body><% } %>
+
+
+
+	<!-- Unicorn Flight  -->
+
 
 
 </body>

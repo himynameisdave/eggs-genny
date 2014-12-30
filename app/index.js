@@ -5,7 +5,13 @@ var util   = require('util'),
     yosay  = require('yosay'),
     chalk  = require( "chalk" ),
     del    = require('del'),
+    fs     = require('fs'),
     banner = require('./banner.js'),
+    //  A simple copy function that uses streams
+    dCopy  = function( oldFile, newFile ){
+      // console.log( chalk.yellow( "Copying "+oldFile+" over to "+newFile ) );
+      fs.createReadStream( oldFile ).pipe( fs.createWriteStream( newFile ) );
+    }
 
 var EggsGennyGenerator = yeoman.generators.Base.extend({
     promptUser: function() {
@@ -20,7 +26,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "gender",
                 type:    "list",
                 message: "First off, let's personalize things! Which do you prefer?",
-                choices: [ "sir", "ma'am", "cap'n", "" ],
+                choices: [ "sir", "ma'am", "cap'n", "homie" ],
                 default: "sir"
             },
             {
@@ -135,66 +141,62 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     bower: function(){
         //  Becuase Lesslie is always a dependancy
         var dependencies = [ 'lesslie' ],
-            gender = this.gender;
+            gender       = this.gender,
+            userInputs   = this.userInputs;
             // done = this.async();
 
         //  Add needed deps to the list
-        if( this.userInputs.jquery ){ dependencies.push('jquery'); }
-        if( this.userInputs.angular ){ dependencies.push('angular'); dependencies.push('angular-ui-router'); }
-        if( this.userInputs.gsap ){ dependencies.push('gsap'); }
-        if( this.userInputs.bootstrap ){ dependencies.push('bootstrap'); }
+        if( userInputs.jquery ){ dependencies.push('jquery'); }
+        if( userInputs.angular ){ dependencies.push('angular'); dependencies.push('angular-ui-router'); }
+        if( userInputs.gsap ){ dependencies.push('gsap'); }
+        if( userInputs.bootstrap ){ dependencies.push('bootstrap'); }
 
         //  Actually do our bower install
         this.bowerInstall(
                 dependencies,
                 { 'saveDev': true },
                 function(){
-                    console.log(chalk.blue("\n================================\n   Bower deps Installed, "+gender+"!   \n================================\n"));
+                    console.log(chalk.magenta("\n================================\n   Bower deps Installed, "+gender+"!   \n================================\n"));
 
                     //  CLEANUP SOME app/lib/ stuff
-                    if( this.userInputs.jquery ){
-                        this.copy( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/jquery.js' );
-                        // del(['app/lib_tmp/jquery'], function (err, deletedFiles) { });
+                    dCopy( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/lesslie.less' );
+
+                    if( userInputs.jquery ){
+                        dCopy( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/jquery.js' );
                     }
-                    if( this.userInputs.angular ){
-                        this.copy( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
-                        this.copy( 'app/lib_tmp/angular-ui-router/release/angular-ui-router.js', 'app/lib/angular-ui-router.js' );
-                        // del(['app/lib_tmp/angular','app/lib_tmp/angular-ui-router'], function (err, deletedFiles) { });
+                    if( userInputs.angular ){
+                        dCopy( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
+                        dCopy( 'app/lib_tmp/angular-ui-router/release/angular-ui-router.js', 'app/lib/angular-ui-router.js' );
                     }
-                    if( this.userInputs.gsap ){
-                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
-                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/TimelineMax.js' );
-                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/CSSPlugin.js' );
-                        this.copy( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/EasePack.js' );
-                        // del(['app/lib_tmp/gsap'], function (err, deletedFiles) { });
+                    if( userInputs.gsap ){
+                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
+                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/TimelineMax.js' );
+                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/CSSPlugin.js' );
+                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/EasePack.js' );
                     }
-                    if( this.userInputs.bootstrap ){
-                        this.copy( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/bootstrap.css' );
-                        // del(['app/lib_tmp/bootstrap'], function (err, deletedFiles) { });
+                    if( userInputs.bootstrap ){
+                        dCopy( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/bootstrap.css' );
                     }
 
-                    del(['app/lib/'], function (err, deletedFiles) {
+                    del(['app/lib_tmp/'], function (err, deletedFiles) {
                         console.log('Files deleted:', deletedFiles.join(', '));
                     });
 
                     // done();
-                    }
                 }
             );
 
     },
     npm: function(){
         var gender = this.gender;
-
         this.npmInstall( '', function(){
-            console.log(chalk.yellow("\n================================\n   NPM Modules Installed, "+gender+"!   \n================================\n"));
+            console.log(chalk.magenta("\n================================\n   NPM Modules Installed, "+gender+"!   \n================================\n"));
             // done();
         });
     },
     end: function(){
         var gender = this.gender;
-
-        console.log(chalk.cyan("\n================================\n   Your eggs are ready, "+gender+"!   \n================================\n"));
+        console.log(chalk.green("\n================================\n   Your eggs are ready, "+gender+"!   \n================================\n"));
     }
 
 });

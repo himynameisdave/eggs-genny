@@ -75,6 +75,7 @@ gulp.task( 'css-me', ['compile-me'], function(){
             .pipe( gulp.dest( 'build/css/' ) );
 
 });
+
 //  JSTASKS - no depedency
 gulp.task( 'js-me',  function(){
 
@@ -82,21 +83,15 @@ gulp.task( 'js-me',  function(){
           .pipe( plug.ngAnnotate() )
           .on('error', errorLog)
           .pipe(gulp.dest('app/js/')).pipe(<% } %>
-          gulp.src([<% if (deps.jquery) { %>
-                  'app/lib/jquery/dist/jquery.js',<% } if(deps.gsap){ %>
-                  'app/lib/gsap/src/uncompressed/TweenMax.min.js',
-                  'app/lib/gsap/src/uncompressed/TimelineMax.js',
-                  'app/lib/gsap/src/uncompressed/plugins/CSSPlugin.js',
-                  'app/lib/gsap/src/uncompressed/easing/EasePack.js',<% } if(deps.angular){ %>
-                  'app/lib/angular/angular.js',
-                  'app/lib/angular-ui-router/release/angular-ui-router.js',
-                  <% } %>'app/js/*.js' ])<% if(deps.angular){ %>)<% } %>
+          gulp.src([ 'app/lib/*.js','app/js/*.js' ]))
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
-          .pipe( plug.uglify() )
+          .pipe( plug.uglify( {mangle: false} ) )
           .pipe( gulp.dest( 'build/js' ) );
 
 });
+
+
 
 //MOVE ASSETS
 gulp.task( 'assets-me', function(){
