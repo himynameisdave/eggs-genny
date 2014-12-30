@@ -49,7 +49,7 @@ gulp.task( 'reload-me', function(){
 **                   build                    **
 ************************************************/
 
-gulp.task( 'build', [ 'compile-me', 'css-me', 'js-me', 'assets-me', 'html-me', 'clean-me' ]);
+gulp.task( 'build', [ 'compile-me', 'css-me', 'annotate-me', 'js-me', 'assets-me', 'html-me', 'clean-me' ]);
 
 //  LESS compile
 gulp.task( 'compile-me', function(){
@@ -76,21 +76,26 @@ gulp.task( 'css-me', ['compile-me'], function(){
 
 });
 
-//  JSTASKS - no depedency
-gulp.task( 'js-me',  function(){
+//  JSTASKS
+gulp.task( 'annotate-me',  function(){
 
-  return  <% if(deps.angular){ %>gulp.src( 'app/js/app.js' )
+  return  gulp.src( 'app/js/app.js' )
           .pipe( plug.ngAnnotate() )
           .on('error', errorLog)
-          .pipe(gulp.dest('app/js/')).pipe(<% } %>
-          gulp.src([ 'app/lib/*.js','app/js/*.js' ]))
+          .pipe(gulp.dest('app/js/'));
+
+});
+gulp.task( 'js-me', ['annotate-me'], function(){
+
+  return  gulp.src( [
+                  'app/lib/*.js',
+                  'app/js/*.js' ] )
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
           .pipe( plug.uglify( {mangle: false} ) )
           .pipe( gulp.dest( 'build/js' ) );
 
 });
-
 
 
 //MOVE ASSETS

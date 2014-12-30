@@ -147,7 +147,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Add needed deps to the list
         if( userInputs.jquery ){ dependencies.push('jquery'); }
-        if( userInputs.angular ){ dependencies.push('angular'); dependencies.push('angular-ui-router'); }
+        if( userInputs.angular ){ dependencies.push('angular'); }
         if( userInputs.gsap ){ dependencies.push('gsap'); }
         if( userInputs.bootstrap ){ dependencies.push('bootstrap'); }
 
@@ -166,7 +166,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                     }
                     if( userInputs.angular ){
                         dCopy( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
-                        dCopy( 'app/lib_tmp/angular-ui-router/release/angular-ui-router.js', 'app/lib/angular-ui-router.js' );
                     }
                     if( userInputs.gsap ){
                         dCopy( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
