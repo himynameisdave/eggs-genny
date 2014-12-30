@@ -161,8 +161,9 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( '_.bowerrc', '.bowerrc' );
         this.template( '_bower.json', 'bower.json', ctxt );
 
-        //  Copy over the main less file
+        //  Copy over the main css files
         this.copy( 'app/css/_style.less', 'app/css/style.less' );
+        this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
         //  Angular has it's own particular package.json file & app.js file
         if( this.userInputs.angular ){
