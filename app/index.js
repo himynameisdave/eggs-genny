@@ -15,8 +15,8 @@ var util   = require('util'),
     //  Dead simple logging
     loggit = function(msg, color){
       if(typeof color === "undefined"){ var color = 'blue'; }
-      var printThis = "==================================\n"+msg+
-                      "\n=================================="
+      var printThis = "=================================================\n"+msg+
+                      "\n================================================="
       console.log( chalk[color]( printThis ) );
     }
 
@@ -81,25 +81,25 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         // for easier reffing
         var UI     = this.userInputs,
             greeting = this.greeting,
-            testString = 'Building you a sweet app with the following deps:\n';
+            testString = 'Building you a sweet app with the following deps:';
 
         //  Make a coolass string to tell the user what they agreed to install
-        if( UI.jquery ){ testString += '\t- jQuery\n' }
-        if( UI.angular ){ testString += '\t- Angular\n' }
-        if( UI.gsap ){ testString += '\t- GSAP\n' }
-        if( UI.bootstrap ){ testString += '\t- Bootstrap\n' }
+        if( UI.jquery ){ testString += '\n\t- jQuery' }
+        if( UI.angular ){ testString += '\n\t- Angular' }
+        if( UI.gsap ){ testString += '\n\t- GSAP' }
+        if( UI.bootstrap ){ testString += '\n\t- Bootstrap' }
 
         //  in case they're going bareback
         if( !UI.jquery && !UI.angular && !UI.gsap && !UI.bootstrap ){
-            testString += '\t<no dependencies>\n'
+            testString += '\n\t<no dependencies>'
             loggit( testString );
-            loggit( 'Looks like someone\'s going bareback! YEEE HAWWW!\n', 'red' );
+            loggit( 'Looks like someone\'s going bareback! YEEE HAWWW!', 'red' );
         }else{
           loggit( testString );
         }
 
     //  Make some directories
-      loggit( "\nBuilding Your Directories, "+greeting+"\n", 'green' )
+      loggit( "Building Your Directories, "+greeting, 'green' )
         //  app/ directories
         this.mkdir("app");
         this.mkdir("app/css");
@@ -199,11 +199,11 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     npm: function(){
         var greeting = this.greeting;
         this.npmInstall( '', function(){
-            loggit( "NPM modules installed, "+greeting+"!",'magenta' );
-            console.log("\n\n\n\n\n");
-            loggit( "Your eggs are ready, "+greeting+"!",'green' );
-            console.log("\n\n\n\n\n");
-            // done();
+          loggit( "NPM modules installed, "+greeting+"!",'magenta' );
+          console.log("\n\n\n\n\n");
+          loggit( "Your eggs are ready, "+greeting+"!\n   Happy Daveloping!",'green' );
+          console.log("\n");
+          // done();
         });
     }
 

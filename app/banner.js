@@ -1,8 +1,16 @@
 "use strict"
 
-var chalk = require( "chalk" );
+var chalk = require( "chalk" ),
+    cols  = [ 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'gray' ],
+    color1 = cols[Math.floor( Math.random() * cols.length )],
+    color2 = cols[Math.floor( Math.random() * cols.length )];
 
-module.exports = chalk.green(
+
+while( color2 === color1 ){
+  color2 = cols[Math.floor( Math.random() * cols.length )];
+}
+
+module.exports = chalk[color1](
 "\n   _______                                              " +
 "\n  |       |  ________   ________                        " +
 "\n  |   ____| |   __   | |   __   |  ________             " +
@@ -11,7 +19,7 @@ module.exports = chalk.green(
 "\n  |  |____   __   |  |  __   |  | |______  |            " +
 "\n  |       | |  |__|  | |  |__|  |  ______| |            " +
 "\n  |_______| |________| |________| |________|            " ) +
-chalk.cyan(
+chalk[color2](
 "\n   _________                                    __   __ " +
 "\n  |   ___   |    ______   __  ____   __  ____  |  | /  /" +
 "\n  |  |   |__|   |   _  | |  |/    | |  |/    | |  |/  / " +
@@ -20,4 +28,4 @@ chalk.cyan(
 "\n  |  |___|  |   |  |___  |  |  |  | |  |  |  | |   |    " +
 "\n  |_________|   |______| |__|  |__| |__|  |__| |___|    " +
 "\n                                                        ") +
-chalk.gray( "\n  Created by Dave Lunny in the beautiful year 2014\n");
+chalk.grey( "\n  Created by Dave Lunny in the beautiful year 2014\n");

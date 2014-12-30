@@ -38,7 +38,7 @@ gulp.task( 'reload-me', function(){
   plug.livereload.listen()
   gulp.watch( 'app/css/*.less', ['compile-me'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit("Reloading your page, <% if(gender === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>")
+    loggit("Reloading your page, <% if(greeting === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>")
   })
   .on('change', plug.livereload.changed);
 });
