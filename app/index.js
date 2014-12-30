@@ -8,9 +8,16 @@ var util   = require('util'),
     fs     = require('fs'),
     banner = require('./banner.js'),
     //  A simple copy function that uses streams
-    dCopy  = function( oldFile, newFile ){
+    copIt  = function( oldFile, newFile ){
       // console.log( chalk.yellow( "Copying "+oldFile+" over to "+newFile ) );
       fs.createReadStream( oldFile ).pipe( fs.createWriteStream( newFile ) );
+    },
+    //  Dead simple logging
+    loggit = function(msg, color){
+      if(typeof color === "undefined"){ var color = 'blue'; }
+      var printThis = "==================================\n"+msg+
+                      "\n=================================="
+      console.log( chalk[color]( printThis ) );
     }
 
 var EggsGennyGenerator = yeoman.generators.Base.extend({
@@ -23,10 +30,10 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         //  PROMPT USER TO FIGURE OUT WHAT DEPENDENCIES TO JAM IN THERE
         var prompts = [
             {
-                name:    "gender",
+                name:    "greeting",
                 type:    "list",
                 message: "First off, let's personalize things! Which do you prefer?",
-                choices: [ "sir", "ma'am", "cap'n", "homie" ],
+                choices: [ "sir", "ma'am", "cap'n", "homie", "hombre" ],
                 default: "sir"
             },
             {
@@ -65,30 +72,35 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             this.userInputs = props,
             this.appName = props.name;
             this.desc = props.desc;
-            this.gender = props.gender;
+            this.greeting = props.greeting;
 
             done();
         }.bind(this));
     }, // end promptUser function
     scaffold: function(){
         // for easier reffing
-        var UI = this.userInputs,
+        var UI     = this.userInputs,
+            greeting = this.greeting,
             testString = 'Building you a sweet app with the following deps:\n';
+
         //  Make a coolass string to tell the user what they agreed to install
         if( UI.jquery ){ testString += '\t- jQuery\n' }
         if( UI.angular ){ testString += '\t- Angular\n' }
         if( UI.gsap ){ testString += '\t- GSAP\n' }
         if( UI.bootstrap ){ testString += '\t- Bootstrap\n' }
-        // if( UI.fontawesome ){ testString += '\t- FontAwesome Icons\n' }
+
         //  in case they're going bareback
         if( !UI.jquery && !UI.angular && !UI.gsap && !UI.bootstrap ){
             testString += '\t<no dependencies>\n'
-            console.log(testString + chalk.red('Looks like someone\'s going bareback! YEEE HAWWW!\n') );
+            loggit( testString );
+            loggit( 'Looks like someone\'s going bareback! YEEE HAWWW!\n', 'red' );
+        }else{
+          loggit( testString );
         }
 
     //  Make some directories
+      loggit( "\nBuilding Your Directories, "+greeting+"\n", 'green' )
         //  app/ directories
-        console.log(chalk.green("\n--  Creating app/ directories\n"));
         this.mkdir("app");
         this.mkdir("app/css");
         this.mkdir("app/js");
@@ -98,8 +110,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             this.mkdir("app/partials");
         }
 
-        console.log(chalk.green("--  Creating build/ directories\n"));
-        //  build/ dir, for builds
         this.mkdir("build");
 
 
@@ -110,7 +120,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         var ctxt = {
                 appName: this.appName,
                 appDesc: this.desc,
-                gender: this.gender,
+                greeting: this.greeting,
                 deps: this.userInputs
             };
 
@@ -141,7 +151,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     bower: function(){
         //  Becuase Lesslie is always a dependancy
         var dependencies = [ 'lesslie' ],
-            gender       = this.gender,
+            greeting       = this.greeting,
             userInputs   = this.userInputs;
             // done = this.async();
 
@@ -156,25 +166,25 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 dependencies,
                 { 'saveDev': true },
                 function(){
-                    console.log(chalk.magenta("\n================================\n   Bower deps Installed, "+gender+"!   \n================================\n"));
+                    loggit( "Bower dependencies installed, "+greeting+"!",'magenta' );
 
                     //  CLEANUP SOME app/lib/ stuff
-                    dCopy( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/lesslie.less' );
+                    copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/lesslie.less' );
 
                     if( userInputs.jquery ){
-                        dCopy( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/jquery.js' );
+                        copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/jquery.js' );
                     }
                     if( userInputs.angular ){
-                        dCopy( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
+                        copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
                     }
                     if( userInputs.gsap ){
-                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
-                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/TimelineMax.js' );
-                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/CSSPlugin.js' );
-                        dCopy( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/EasePack.js' );
+                        copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
+                        copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/TimelineMax.js' );
+                        copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/CSSPlugin.js' );
+                        copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/EasePack.js' );
                     }
                     if( userInputs.bootstrap ){
-                        dCopy( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/bootstrap.css' );
+                        copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/bootstrap.css' );
                     }
 
                     del(['app/lib_tmp/'], function (err, deletedFiles) {
@@ -187,15 +197,14 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     npm: function(){
-        var gender = this.gender;
+        var greeting = this.greeting;
         this.npmInstall( '', function(){
-            console.log(chalk.magenta("\n================================\n   NPM Modules Installed, "+gender+"!   \n================================\n"));
+            loggit( "NPM modules installed, "+greeting+"!",'magenta' );
+            console.log("\n\n\n\n\n");
+            loggit( "Your eggs are ready, "+greeting+"!",'green' );
+            console.log("\n\n\n\n\n");
             // done();
         });
-    },
-    end: function(){
-        var gender = this.gender;
-        console.log(chalk.green("\n================================\n   Your eggs are ready, "+gender+"!   \n================================\n"));
     }
 
 });

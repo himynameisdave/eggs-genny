@@ -63,7 +63,7 @@ gulp.task( 'compile-me', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-me'], function(){
 
-  return  <% if (deps.bootstrap) { %>gulp.src( ['app/css/*.css', 'app/lib/bootstrap/dist/css/bootstrap.css'] )<% } else{ %>gulp.src( 'app/css/*.css' )<% } %>
+  return  gulp.src( ['app/css/*.css', <% if (deps.bootstrap) { %>'app/lib/bootstrap.css' <% } %>] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -87,9 +87,14 @@ gulp.task( 'annotate-me',  function(){
 });
 gulp.task( 'js-me', ['annotate-me'], function(){
 
-  return  gulp.src( [
-                  'app/lib/*.js',
-                  'app/js/*.js' ] )
+  return  gulp.src([<% if (deps.jquery) { %>
+                  'app/lib/jquery.js',<% } if(deps.gsap){ %>
+                  'app/lib/TweenMax.min.js',
+                  'app/lib/TimelineMax.js',
+                  'app/lib/CSSPlugin.js',
+                  'app/lib/EasePack.js',<% } if(deps.angular){ %>
+                  'app/lib/angular.js',<% } %>
+                  'app/js/*.js' ])
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
           .pipe( plug.uglify( {mangle: false} ) )

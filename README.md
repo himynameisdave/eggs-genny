@@ -21,7 +21,7 @@ You should have [Bower](http://bower.io/) and [Grunt](http://gruntjs.com/), and 
 npm install --global yo bower grunt-cli
 ```
 ####Step 2:
-Install the greatest Yeoman genny known to man (step off, [generator-webapp](https://github.com/yeoman/generator-webapp)!):
+Install the greatest Yeoman genny known to man (step off, [generator-angular](https://github.com/yeoman/generator-angular)!):
 ```bash
 npm install -g git://github.com/himynameisdave/eggs-genny.git
 ```
