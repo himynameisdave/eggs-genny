@@ -13,20 +13,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- build:css -->
-	<% if (deps.bootstrap) { %><link href="lib/bootstrap.css" rel="stylesheet" />
+	<% if (deps.bootstrap) { %><link href="lib/css/bootstrap.css" rel="stylesheet" />
 	<% } %><link rel="stylesheet" type="text/css" href="css/style.css"	/>
 <!-- endbuild -->
-<!-- build:js -->
-	<% if (deps.angular) { %><!--Angular-->
-	<script type="text/javascript" src="lib/angular.js"></script>
-	<% } if (deps.jquery) { %><!--jQuery-->
-	<script type="text/javascript" src="lib/jquery.js"></script>
-	<% } if (deps.gsap) { %><!-- GSAP -->
-	<script type="text/javascript" src="lib/TweenMax.js"></script>
-	<script type="text/javascript" src="lib/TimelineMax.js"></script>
-	<script type="text/javascript" src="lib/CSSPlugin.js"></script>
-	<script type="text/javascript" src="lib/EasePack.js"></script>
-	<% } %><!--MAIN SRIPTS-->
+<!-- build:js --><% if (deps.angular) { %>
+	<script type="text/javascript" src="lib/js/angular.js"></script><% } if (deps.jquery) { %>
+	<script type="text/javascript" src="lib/js/jquery.js"></script><% } if (deps.gsap) { %>
+	<script type="text/javascript" src="lib/js/TweenMax.js"></script>
+	<script type="text/javascript" src="lib/js/TimelineMax.js"></script>
+	<script type="text/javascript" src="lib/js/CSSPlugin.js"></script>
+	<script type="text/javascript" src="lib/js/EasePack.js"></script>
+	<% } %>
 	<script type="text/javascript" src="js/app.js"></script>
 <!-- endbuild -->
 
@@ -35,7 +32,7 @@
 
 
 
-	<!-- Unicorn Flight  -->
+	<!-- Unicorn Flight Happens Here -->
 
 
 

@@ -138,6 +138,8 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/js");
         this.mkdir("app/img");
         this.mkdir("app/lib");
+        this.mkdir("app/lib/css");
+        this.mkdir("app/lib/js");
         this.mkdir("build");
         //  If they're using Angular they'll need a partials folder
         if( UI.angular ){
@@ -211,26 +213,26 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 loggit( "Bower dependencies installed, "+greeting+"!",'magenta' );
 
                 //  Copy over Lesslie
-                copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/lesslie.less' );
+                copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
 
                 //  Copy jQuery if need be
                 if( userInputs.jquery ){
-                    copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/jquery.js' );
+                    copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
                 if( userInputs.angular ){
-                    copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/angular.js' );
+                    copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
                 //  Copy GSAP if need be
                 if( userInputs.gsap ){
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/TweenMax.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/TimelineMax.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/CSSPlugin.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/EasePack.js' );
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/js/TimelineMax.js' );
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/js/CSSPlugin.js' );
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/js/EasePack.js' );
                 }
                 //  Copy Bootstrap if need be
                 if( userInputs.bootstrap ){
-                    copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/bootstrap.css' );
+                    copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
                 }
 
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
