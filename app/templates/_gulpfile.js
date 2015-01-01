@@ -113,6 +113,9 @@ gulp.task( 'assets-me', function(){
   <% } %>//  IMAGES
   gulp.src( 'app/img/*' )
     .pipe( gulp.dest('build/img/') );
+  //  Favicon move
+  gulp.src( 'app/favicon.ico' )
+    .pipe( gulp.dest('build/favicon.ico') );
 
 })
 

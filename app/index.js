@@ -192,7 +192,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             userInputs   = this.userInputs;
 
         //  Let the user know what's goin on
-        loggit( "Installing Bower dependencies, "+greeting+"!",'cyan' );
+        // loggit( "Installing Bower dependencies, "+greeting+"!",'cyan' );
 
         //  Add needed deps to the list
         if( userInputs.jquery ){ dependencies.push('jquery'); }
@@ -251,7 +251,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         var greeting = this.greeting;
 
         //  Tell the user what we're doing
-        loggit( "Installing NPM modules, "+greeting+"!",'cyan' );
+        // loggit( "Installing NPM modules, "+greeting+"!",'cyan' );
 
         //  Run an NPM install
         //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
@@ -261,7 +261,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
           loggit( "NPM modules installed, "+greeting+"!",'magenta' );
 
           //  Conclusion: Your eggs are ready, sir!
-          console.log("\n\n\n\n\n");
+          console.log("\n\n\n");
           loggit( "Your eggs are ready, "+greeting+"!",'green' );
           console.log("\n");
         });
