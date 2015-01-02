@@ -1,7 +1,7 @@
 {
   "name": "generator-eggs-genny",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
+  "version": "1.0.0",
+  "description": "An EGGS-ellent Yeoman GENNY-erator for building modern web apps.",
   "license": "MIT",
   "main": "app/index.js",
   "repository": "himynameisdave/generator-eggs-genny",

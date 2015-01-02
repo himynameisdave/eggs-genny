@@ -1,5 +1,5 @@
-# eggs-genny
-> An EGGSellent [Yeoman](http://yeoman.io/) GENNY-erator by [Dave Lunny](http://himynameisdave.github.io/)
+# eggs-genny [![version](https://img.shields.io/badge/version-1.0.0-00aacc.svg?style=flat-square)](https://github.com/himynameisdave/eggs-genny/releases/tag/1.0.0)
+> An EGGS-ellent [Yeoman](http://yeoman.io/) GENNY-erator for building modern web apps.
 
 Creates a template project after asking a few dependency-related questions.
 
@@ -23,7 +23,7 @@ npm install --global yo bower grunt-cli
 ####Step 2:
 Install the greatest Yeoman genny known to man (step off, [generator-angular](https://github.com/yeoman/generator-angular)!):
 ```bash
-npm install -g git://github.com/himynameisdave/eggs-genny.git
+npm install -g generator-eggs-genny
 ```
 
 ####Step 3:
@@ -55,7 +55,7 @@ Pretty bitchin', isn't it?
 
 By default, eggs-genny uses [Gulp](http://gulpjs.com/) as a task-runner (porting it to Grunt soon!). Here's a rundown of the essential tasks it has:
 
-#####Supported browsers
+######Supported browsers
 
 There is a [variable at the top of the Gulpfile](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L23) called `supportedBrowsers` which is how you can set which browsers [Autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) will add vendor prefixes to support. By default it goes back to like the stone age:
 ```javascript
