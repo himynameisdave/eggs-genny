@@ -20,7 +20,7 @@
     "app"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator", "yeoman", "webapps", "AngularJS", "Angular", "GSAP", "GreensockJS", "jQuery", "Bootstrap"
   ],
   "dependencies": {
     "chalk": "^0.5.0",
