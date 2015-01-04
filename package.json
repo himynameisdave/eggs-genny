@@ -1,6 +1,6 @@
 {
   "name": "generator-eggs-genny",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An EGGS-ellent Yeoman GENNY-erator for building modern web apps.",
   "license": "MIT",
   "main": "app/index.js",
