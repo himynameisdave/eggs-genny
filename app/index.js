@@ -213,7 +213,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 loggit( "Bower dependencies installed, "+greeting+"!",'magenta' );
 
                 //  Copy over Lesslie
-                copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
+                copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
 
                 //  Copy jQuery if need be
                 if( userInputs.jquery ){
