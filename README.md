@@ -90,3 +90,5 @@ Yeah, there's two 'utility' functions. One is a [hilarious error message](https:
 You can fully remove all instances of these if you want, they are non-essential.
 
 ---
+
+*Created by [Dave Lunny](https://himynameisdave.github.io) in the beautiful year 2015.*
