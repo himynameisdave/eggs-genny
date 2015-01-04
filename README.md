@@ -1,4 +1,4 @@
-# eggs-genny [![version](https://img.shields.io/badge/version-1.0.1-00aacc.svg?style=flat-square)](https://github.com/himynameisdave/eggs-genny/releases/tag/1.0.1)
+# eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
 > An EGGS-ellent [Yeoman](http://yeoman.io/) GENNY-erator for building modern web apps.
 
 Creates a template project after asking a few dependency-related questions.
