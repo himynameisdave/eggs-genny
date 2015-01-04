@@ -55,7 +55,7 @@ Pretty bitchin', isn't it?
 
 By default, eggs-genny uses [Gulp](http://gulpjs.com/) as a task-runner (porting it to Grunt soon!). Here's a rundown of the essential tasks it has:
 
-######Supported browsers
+#####*Supported browsers*
 
 There is a [variable at the top of the Gulpfile](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L23) called `supportedBrowsers` which is how you can set which browsers [Autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) will add vendor prefixes to support. By default it goes back to like the stone age:
 ```javascript
@@ -84,8 +84,8 @@ This is the 'build' or 'distribution' or 'production' or whatever you want to ca
 - copy over main `index.html` file, while [replacing](https://www.npmjs.com/package/gulp-html-replace) the many links to external JS/CSS files with just the one for the JS file and one for the CSS files that were just created
 - perform a cleanup by [deleting](https://www.npmjs.com/package/del) the `tmp/` directory used to build the files
 
-######Utilities
-Yeah, there's two 'utility' functions. One is a [hilarious error message](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L164) and the other just logs stuff in a more visible way. These will one day be npm modules too and will then just get required in so as to keep the `gulpfile.js` clean.
+#####*Utilities*
+Yeah, there's two 'utility' functions. One is a [hilarious error message](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L168) and the other just logs stuff in a more visible way. These will one day be npm modules too and will then just get required in so as to keep the `gulpfile.js` clean.
 
 You can fully remove all instances of these if you want, they are non-essential.
 
