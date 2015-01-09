@@ -38,7 +38,7 @@ gulp.task( 'reload-me', function(){
   plug.livereload.listen()
   gulp.watch( 'app/css/*.less', ['compile-me'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit("Reloading your page, <% if(greeting === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>")
+    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>\n    "+timePlz());
   })
   .on('change', plug.livereload.changed);
 });
@@ -178,4 +178,37 @@ function errorLog(er){
   console.log( chalk.red( log )  );
 }
 
+function timePlz(){
 
+  var D  = new Date(),
+      h  = D.getHours(),
+      m  = D.getMinutes(),
+      s  = D.getSeconds(),
+      dt = D.getDate(),
+      yr = D.getFullYear(),
+      months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      mt = months[D.getMonth()];
+
+      //  convert to 12 hour time
+      if(h > 12){ h = h - 12 };
+      if(h === 0){ h = 12 };
+
+      //  in case seconds is lower than 10
+      if( s < 10 ){ s = '0' + s }
+
+      return mt + ' ' + dt + ', ' + yr + ' at ' + h + ':' + m + ':' + s;
+
+}
