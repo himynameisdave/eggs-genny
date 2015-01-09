@@ -112,6 +112,10 @@ gulp.task( 'assets-me', function(){
     .pipe( gulp.dest('build/partials/') );
   <% } %>//  IMAGES
   gulp.src( 'app/img/*' )
+    .pipe(plug.imagemin({
+      progressive: true,
+      optimizationLevel: 5
+    }))
     .pipe( gulp.dest('build/img/') );
   //  Favicon move
   gulp.src( 'app/favicon.ico' )

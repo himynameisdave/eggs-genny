@@ -12,6 +12,7 @@
     "gulp-concat": "~2.4.2",
     "gulp-csscomb": "~3.0.3",
     "gulp-html-replace": "~1.4.1",
+    "gulp-imagemin": "~2.1.0",
     "gulp-jshint": "~1.9.0",
     "gulp-less": "~2.0.1",
     "gulp-livereload": "~3.0.2",
