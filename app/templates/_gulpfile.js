@@ -35,7 +35,7 @@ gulp.task( 'default', ['reload-me']);
 **          Development/Watch Task            **
 ************************************************/
 gulp.task( 'reload-me', function(){
-  plug.livereload.listen()
+  plug.livereload.listen();
   gulp.watch( 'app/css/*.less', ['compile-me'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
     loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>\n    "+timePlz());
@@ -75,10 +75,13 @@ gulp.task( 'css-me', ['compile-me'], function(){
             .pipe( gulp.dest( 'build/css/' ) );
 
 });
-gulp.task( 'uncss-me', ['compile-me'], function(){
+gulp.task( 'uncss-me', ['css-me', 'assets-me', 'html-me'], function(){
 
-  return gulp.src('build/css/styles.css');
-
+  return gulp.src('build/css/styles.css')
+          .pipe(plug.uncss({
+            html: ['build/index.html'<% if (deps.angular) { %>, 'build/partials/*.html'<% } %>]
+          }))
+          .pipe(gulp.dest('build/css/'));
 });
 
 //  JSTASKS
