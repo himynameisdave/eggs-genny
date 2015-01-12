@@ -35,10 +35,10 @@ gulp.task( 'default', ['reload-me']);
 **          Development/Watch Task            **
 ************************************************/
 gulp.task( 'reload-me', function(){
-  plug.livereload.listen()
+  plug.livereload.listen();
   gulp.watch( 'app/css/*.less', ['compile-me'] );
-  gulp.watch( ['app/css/*.css', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% }else{ %>ma'am!<% } %>\n    "+timePlz());
+  gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
+    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz());
   })
   .on('change', plug.livereload.changed);
 });
@@ -49,7 +49,9 @@ gulp.task( 'reload-me', function(){
 **                   build                    **
 ************************************************/
 
-gulp.task( 'build', [ 'compile-me', 'css-me', 'annotate-me', 'js-me', 'assets-me', 'html-me', 'clean-me' ]);
+
+gulp.task( 'build', [ 'compile-me', 'css-me', <% if (deps.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
+
 
 //  LESS compile
 gulp.task( 'compile-me', function(){
@@ -71,12 +73,32 @@ gulp.task( 'css-me', ['compile-me'], function(){
                       cascade: false
                     }))
             .pipe( plug.csscomb() )
-            .pipe( plug.minifyCss() )
             .pipe( gulp.dest( 'build/css/' ) );
 
 });
+gulp.task( 'uncss-me', ['css-me',<% if (deps.angular) { %> 'partials-me',<% } %> 'html-me'], function(){
+  <% if (deps.angular) { %>
+    //  Alert for angular users to add partials to the uncss task.
+    //  You can delete once you've seen this message
+    console.log(chalk.red(  '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'+
+                            '           WARNING!             \n'+
+                            ' Add your partial files to the  \n'+
+                            ' uncss task or their css will   \n'+
+                            ' be stripped out!!              \n'+
+                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'));
+
+  <% } %>return gulp.src('build/css/styles.css')
+          .pipe(plug.uncss({
+            //  UNCSS (sadly) does not support globbing, so 'build/partials/*.html' does not work here
+            //  Manually add your partial files to this array so they can be parsed
+            html: ['build/index.html']
+          }))
+          .pipe( plug.minifyCss() )
+          .pipe(gulp.dest('build/css/'));
+});
 
 //  JSTASKS
+<% if (deps.angular) { %>
 gulp.task( 'annotate-me',  function(){
 
   return  gulp.src( 'app/js/app.js' )
@@ -85,7 +107,7 @@ gulp.task( 'annotate-me',  function(){
           .pipe(gulp.dest('app/js/'));
 
 });
-gulp.task( 'js-me', ['annotate-me'], function(){
+<% } %>gulp.task( 'js-me',<% if (deps.angular) { %> ['annotate-me'],<% } %> function(){
 
   return  gulp.src([<% if (deps.jquery) { %>
                   'app/lib/js/jquery.js',<% } if(deps.gsap){ %>
@@ -106,11 +128,7 @@ gulp.task( 'js-me', ['annotate-me'], function(){
 //MOVE ASSETS
 gulp.task( 'assets-me', function(){
 
-<%  if(deps.angular){ %>//  PARTIALS
-  gulp.src( 'app/partials/*' )
-    .pipe(plug.angularHtmlify())
-    .pipe( gulp.dest('build/partials/') );
-  <% } %>//  IMAGES
+  //  IMAGES
   gulp.src( 'app/img/*' )
     .pipe(plug.imagemin({
       progressive: true,
@@ -121,7 +139,15 @@ gulp.task( 'assets-me', function(){
   gulp.src( 'app/favicon.ico' )
     .pipe( gulp.dest('build/favicon.ico') );
 
-})
+});<%  if(deps.angular){ %>
+
+gulp.task( 'partials-me', function(){
+
+  return gulp.src( 'app/partials/*' )
+          .pipe(plug.angularHtmlify())
+          .pipe( gulp.dest('build/partials/') );
+
+});<% } %>
 
 //HTMLMOVE/REPLACE
 gulp.task( 'html-me', function(){
