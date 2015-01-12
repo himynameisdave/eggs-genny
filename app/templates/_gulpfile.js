@@ -88,12 +88,12 @@ gulp.task( 'annotate-me',  function(){
 gulp.task( 'js-me', ['annotate-me'], function(){
 
   return  gulp.src([<% if (deps.jquery) { %>
-                  'app/lib/jquery.js',<% } if(deps.gsap){ %>
-                  'app/lib/TweenMax.min.js',
-                  'app/lib/TimelineMax.js',
-                  'app/lib/CSSPlugin.js',
-                  'app/lib/EasePack.js',<% } if(deps.angular){ %>
-                  'app/lib/angular.js',<% } %>
+                  'app/lib/js/jquery.js',<% } if(deps.gsap){ %>
+                  'app/lib/js/TweenMax.min.js',
+                  'app/lib/js/TimelineMax.js',
+                  'app/lib/js/CSSPlugin.js',
+                  'app/lib/js/EasePack.js',<% } if(deps.angular){ %>
+                  'app/lib/js/angular.js',<% } %>
                   'app/js/*.js' ])
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
