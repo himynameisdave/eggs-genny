@@ -83,6 +83,13 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 type:    "confirm",
                 message: "Y'all need some GSAP?",
                 default: false
+            },// sub GSAP stuffs
+            {
+              when: function (response) {
+                return response.movie;
+              },
+              name: 'good-or-not',
+              message: 'Sweet! Was it any good?'
             },{ //  Do they need Bootstrap CSS?
                 name:    "bootstrap",
                 type:    "confirm",
@@ -90,6 +97,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 default: true
             }
         ];
+
 
         //  What actually prompts the users
         this.prompt(prompts, function (props) {
