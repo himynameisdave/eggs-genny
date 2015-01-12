@@ -71,7 +71,6 @@ gulp.task( 'css-me', ['compile-me'], function(){
                       cascade: false
                     }))
             .pipe( plug.csscomb() )
-            .pipe( plug.minifyCss() )
             .pipe( gulp.dest( 'build/css/' ) );
 
 });
@@ -84,7 +83,7 @@ gulp.task( 'uncss-me', ['css-me',<% if (deps.angular) { %> 'partials-me',<% } %>
                             ' Add your partial files to the  \n'+
                             ' uncss task or their css will   \n'+
                             ' be stripped out!!              \n'+
-                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n');
+                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'));
 
   <% } %>return gulp.src('build/css/styles.css')
           .pipe(plug.uncss({
@@ -92,6 +91,7 @@ gulp.task( 'uncss-me', ['css-me',<% if (deps.angular) { %> 'partials-me',<% } %>
             //  Manually add your partial files to this array so they can be parsed
             html: ['build/index.html']
           }))
+          .pipe( plug.minifyCss() )
           .pipe(gulp.dest('build/css/'));
 });
 
