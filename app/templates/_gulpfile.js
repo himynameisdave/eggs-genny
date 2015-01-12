@@ -49,7 +49,7 @@ gulp.task( 'reload-me', function(){
 **                   build                    **
 ************************************************/
 
-gulp.task( 'build', [ 'compile-me', 'css-me', 'annotate-me', 'js-me', 'assets-me', 'html-me', 'clean-me' ]);
+gulp.task( 'build', [ 'compile-me', 'css-me', <% if (deps.angular) { %>'annotate-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me' ]);
 
 //  LESS compile
 gulp.task( 'compile-me', function(){
@@ -77,6 +77,7 @@ gulp.task( 'css-me', ['compile-me'], function(){
 });
 
 //  JSTASKS
+<% if (deps.angular) { %>
 gulp.task( 'annotate-me',  function(){
 
   return  gulp.src( 'app/js/app.js' )
@@ -85,7 +86,8 @@ gulp.task( 'annotate-me',  function(){
           .pipe(gulp.dest('app/js/'));
 
 });
-gulp.task( 'js-me', ['annotate-me'], function(){
+<% } %>
+gulp.task( 'js-me',<% if (deps.angular) { %> ['annotate-me'],<% } %> function(){
 
   return  gulp.src([<% if (deps.jquery) { %>
                   'app/lib/js/jquery.js',<% } if(deps.gsap){ %>
