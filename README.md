@@ -70,6 +70,12 @@ gulp OR gulp default
 
 By simply running `gulp`, you will get a watch on all the main dev files under the `app`. Any saved LESS files will compile to CSS. A livereload will be triggered on the change of any of these files (for CSS this is after it is compiled from LESS).
 
+######Validate
+```
+gulp validate-me
+```
+This one is currently just a quick jshint report. Will be beefed up soon!
+
 #####Build
 ```
 gulp build

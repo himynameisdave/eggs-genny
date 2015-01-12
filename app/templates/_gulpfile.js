@@ -37,10 +37,19 @@ gulp.task( 'default', ['reload-me']);
 gulp.task( 'reload-me', function(){
   plug.livereload.listen();
   gulp.watch( 'app/css/*.less', ['compile-me'] );
+  gulp.watch( 'app/js/*.js', ['validate-me'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
     loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz());
   })
   .on('change', plug.livereload.changed);
+});
+
+gulp.task( 'validate-me', function(){
+
+  return gulp.src('app/js/*.js')
+          .pipe(plug.jshint())
+          .pipe(plug.jshint.reporter('default'));
+
 });
 
 
