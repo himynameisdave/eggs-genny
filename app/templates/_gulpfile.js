@@ -49,7 +49,7 @@ gulp.task( 'reload-me', function(){
 **                   build                    **
 ************************************************/
 
-gulp.task( 'build', [ 'compile-me', 'css-me', 'annotate-me', 'js-me', 'assets-me', 'html-me', 'clean-me' ]);
+gulp.task( 'build', [ 'compile-me', 'css-me', 'annotate-me', 'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
 
 //  LESS compile
 gulp.task( 'compile-me', function(){
@@ -73,6 +73,11 @@ gulp.task( 'css-me', ['compile-me'], function(){
             .pipe( plug.csscomb() )
             .pipe( plug.minifyCss() )
             .pipe( gulp.dest( 'build/css/' ) );
+
+});
+gulp.task( 'uncss-me', ['compile-me'], function(){
+
+  return gulp.src('build/css/styles.css');
 
 });
 
