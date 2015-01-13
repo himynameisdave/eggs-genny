@@ -39,7 +39,7 @@ gulp.task( 'reload-me', function(){
   gulp.watch( 'app/css/*.less', ['compile-me'] );
   gulp.watch( 'app/js/*.js', ['validate-js'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit(" - I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz());
+    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz());
   })
   .on('change', plug.livereload.changed);
 });
@@ -194,7 +194,7 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
   del( ['tmp/**','tmp'] , function (err, deletedFiles) {
     deletedFiles.forEach( function( val, index ){
         dels +=  '  - '+val+'\n';
-    })
+    });
     loggit(dels);
   });
 
