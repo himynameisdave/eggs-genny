@@ -83,13 +83,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 type:    "confirm",
                 message: "Y'all need some GSAP?",
                 default: false
-            },// sub GSAP stuffs
-            {
-              when: function (response) {
-                return response.movie;
-              },
-              name: 'good-or-not',
-              message: 'Sweet! Was it any good?'
             },{ //  Do they need Bootstrap CSS?
                 name:    "bootstrap",
                 type:    "confirm",
@@ -112,6 +105,32 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             done();
 
         }.bind(this));
+
+    },
+    gsapPrompts: function(){
+
+      //  Only executes if they asked for GSAP
+      if(this.userInputs.gsap){
+
+        var done = this.async();
+
+        var prompts = [
+            // {   //  What should we call the user?
+            //     name:    "greeting",
+            //     type:    "list",
+            //     message: "First off, let's personalize things! Which do you prefer?",
+            //     choices: [ "sir", "ma'am", "cap'n", "homie", "hombre" ],
+            //     default: "sir"
+            // }
+
+        ];
+
+
+
+
+
+
+      }
 
     },
     //  PHASE TWO: Scaffold out the directory structure
