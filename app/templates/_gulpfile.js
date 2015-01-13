@@ -37,14 +37,18 @@ gulp.task( 'default', ['reload-me']);
 gulp.task( 'reload-me', function(){
   plug.livereload.listen();
   gulp.watch( 'app/css/*.less', ['compile-me'] );
-  gulp.watch( 'app/js/*.js', ['validate-me'] );
+  gulp.watch( 'app/js/*.js', ['validate-js'] );
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
     loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz());
   })
   .on('change', plug.livereload.changed);
 });
 
-gulp.task( 'validate-me', function(){
+//   VALIDATION SHIT
+gulp.task( 'validate-me', [ 'validate-js', 'validate-css' ]);
+
+//  VALIDATION JS
+gulp.task( 'validate-js', function(){
 
   return gulp.src('app/js/*.js')
           .pipe(plug.jshint())
@@ -52,6 +56,14 @@ gulp.task( 'validate-me', function(){
 
 });
 
+//  VALIDATION CSS
+gulp.task( 'validate-css', function(){
+
+  return gulp.src('app/css/*.css')
+          .pipe(plug.csslint())
+          .pipe(plug.csslint.reporter(CSSReport));
+
+});
 
 
 /***********************************************
@@ -162,20 +174,19 @@ gulp.task( 'partials-me', function(){
 gulp.task( 'html-me', function(){
 
   return gulp.src( 'app/index.html' )<%  if(deps.angular){ %>
-              .pipe(plug.angularHtmlify())
-              <% } %>.pipe(plug.htmlReplace({
-                css: {
-                  src: 'css/styles.css',
-                  tpl: '  <link rel="stylesheet" type="text/css" href="%s" />'
-                },
-                js: {
-                  src: 'js/scripts.js',
-                  tpl: '  <script type="text/javascript" src="%s"></script>'
-                }
-            }))
-            .pipe(gulp.dest( 'build/' ));
+          .pipe(plug.angularHtmlify())
+          <% } %>.pipe(plug.htmlReplace({
+              css: {
+                src: 'css/styles.css',
+                tpl: '  <link rel="stylesheet" type="text/css" href="%s" />'
+              },
+              js: {
+                src: 'js/scripts.js',
+                tpl: '  <script type="text/javascript" src="%s"></script>'
+              }
+          }))
+          .pipe(gulp.dest( 'build/' ));
 });
-
 
 gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
 
@@ -183,7 +194,7 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
   del( ['tmp/**','tmp'] , function (err, deletedFiles) {
     deletedFiles.forEach( function( val, index ){
         dels +=  '  - '+val+'\n';
-    })
+    });
     loggit(dels);
   });
 
@@ -195,14 +206,13 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
 **          Utility/Logging Functions         **
 **   Nothing (gulp) to see here, move along   **
 ************************************************/
-function loggit(l){
+var loggit = function (l){
   var log = "*****************************************\n"+
-            " - "+l+"\n"+
-            "*****************************************\n"
+            l+"\n"+
+            "*****************************************\n";
   console.log( chalk.cyan(log) );
-}
-
-function errorLog(er){
+},
+errorLog = function (er){
   var log = "*****************************************\n"+
             "**          CATASTROPHIC ERROR!        **\n"+
             "**                                     **\n"+
@@ -210,14 +220,14 @@ function errorLog(er){
             "**     program in the manner it was    **\n"+
             "**          intended to be used!       **\n"+
             "**                                     **\n"+
-            "              ERROR MESSAGE:             \n"+
-            " - "+er+"\n"+
+            "**            ERROR MESSAGE:           **\n"+
+            "**                                     **\n"+
+            er+"\n"+
             "*****************************************\n";
 
   console.log( chalk.red( log )  );
-}
-
-function timePlz(){
+},
+timePlz = function(){
 
   var D  = new Date(),
       h  = D.getHours(),
@@ -242,12 +252,34 @@ function timePlz(){
       mt = months[D.getMonth()];
 
       //  convert to 12 hour time
-      if(h > 12){ h = h - 12 };
-      if(h === 0){ h = 12 };
+      if(h > 12){ h = h - 12; }
+      if(h === 0){ h = 12; }
 
       //  in case seconds is lower than 10
-      if( s < 10 ){ s = '0' + s }
+      if( s < 10 ){ s = '0' + s; }
 
       return mt + ' ' + dt + ', ' + yr + ' at ' + h + ':' + m + ':' + s;
 
-}
+},
+CSSReport = function(file) {
+
+  var ers = file.csslint.errorCount+' errors in '+file.path+'\n';
+
+  file.csslint.results.forEach(function(result) {
+
+    var col = 'yellow';
+    if( result.error.type === "error" ){
+      col = "red";
+    }
+
+    if(result.error.line !== undefined){
+      ers += chalk.underline[col]('LINE '+result.error.line+':') + ' ' +result.error.message + "\n";
+    }else{
+      ers += chalk.underline.green('GENERAL:') + ' ' + result.error.message + "\n";
+    }
+
+  });
+
+  loggit(ers);
+
+};
