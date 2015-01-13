@@ -70,6 +70,12 @@ gulp OR gulp default
 
 By simply running `gulp`, you will get a watch on all the main dev files under the `app`. Any saved LESS files will compile to CSS. A livereload will be triggered on the change of any of these files (for CSS this is after it is compiled from LESS).
 
+######Validate
+```
+gulp validate-me
+```
+This one is currently just a quick jshint report. Will be beefed up soon!
+
 #####Build
 ```
 gulp build
@@ -82,6 +88,7 @@ This is the 'build' or 'distribution' or 'production' or whatever you want to ca
 - then moves onto the JS by (if your using Angular in your project) prepping your code for minification using [ng-annotate](https://www.npmjs.com/package/gulp-ng-annotate), concating all js files into one and then [uglifying](https://www.npmjs.com/package/gulp-uglify) them
 - copy over any assets or partials (and make them [validation-friendly](https://www.npmjs.com/package/gulp-angular-htmlify) if using Angular)
 - copy over main `index.html` file, while [replacing](https://www.npmjs.com/package/gulp-html-replace) the many links to external JS/CSS files with just the one for the JS file and one for the CSS files that were just created
+- runs [uncss](https://www.npmjs.com/package/gulp-uncss) to see what css is not being used by the HTML file(s) and removes it.
 - perform a cleanup by [deleting](https://www.npmjs.com/package/del) the `tmp/` directory used to build the files
 
 #####*Utilities*
