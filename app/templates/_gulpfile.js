@@ -44,7 +44,7 @@ gulp.task( 'reload-me', function(){
   .on('change', plug.livereload.changed);
 });
 
-//   VALIDATION SHIT
+//  VALIDATE TASK THAT RUNS BOTH JS AND CSS VALIDATION
 gulp.task( 'validate-me', [ 'validate-js', 'validate-css' ]);
 
 //  VALIDATION JS

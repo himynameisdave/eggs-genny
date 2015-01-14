@@ -17,8 +17,7 @@
 var util   = require('util'),
     path   = require('path'),
     yeoman = require('yeoman-generator'),
-    yosay  = require('yosay'),
-    chalk  = require( "chalk" ),
+    chalk  = require('chalk'),
     del    = require('del'),        //  Using del but should be using fs.unlink
     fs     = require('fs'),         //  To do some filesystem stuff easier
     banner = require('./banner.js'),//  Our own personal little banner for when they start eggs-genny
