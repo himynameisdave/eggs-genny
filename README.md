@@ -3,7 +3,7 @@
 
 Creates a template project after asking a few dependency-related questions.
 
-![Simulated animation of using eggs-genny](http://i.imgur.com/2aavFBc.gif)
+![Simulated animation of using eggs-genny](http://i.imgur.com/GzfAoaq.gifv)
 
 
 In case you don't know what [Yeoman](http://yeoman.io/) is, it's essentially like builds you out a "template" project or project skeleton. It's fucking dope, saves you a shit load of time, and there are [literally](https://github.com/yeoman/generator-webapp) [a bunch](https://github.com/yeoman/generator-polymer) [of prebuilt ones](https://github.com/yeoman/generator-bootstrap). You can also write your own, obviously, which is how EggsGenny was born.
@@ -32,12 +32,22 @@ npm install -g generator-eggs-genny
 yo eggs-genny
 ```
 
-####Step 4:
+####Step 4a:
 Answer some questions about the following dependencies:
 - [jQuery](http://jquery.com/)
 - [Angular](https://angularjs.org/)
-- [GSAP](http://greensock.com/gsap)
 - [Bootstrap](http://getbootstrap.com/) (only the CSS, [fuck their goofy JS components](http://getbootstrap.com/javascript/))
+- [GSAP](http://greensock.com/gsap)
+
+####Step 4b (for GSAP users):
+Answer if you want [TweenLite & TimelineLite](https://greensock.com/docs/#/HTML5/GSAP/TweenLite/) or [TweenMax & TimelineMax](https://greensock.com/docs/#/HTML5/GSAP/TweenMax/), and then answer which GSAP plugins you want:
+- [AttrPlugin](https://greensock.com/AttrPlugin)
+- [CSSPlugin](https://greensock.com/CSSPlugin)
+- [CSSRulePlugin](https://greensock.com/CSSRulePlugin)
+- [EasePack](https://greensock.com/get-started-js#easing)
+- [RaphaelPlugin](https://greensock.com/RaphaelPlugin)
+- [RoundPropsPlugin](https://greensock.com/RoundPropsPlugin)
+- [ScrollToPlugin](https://greensock.com/ScrollToPlugin)
 
 ####Step 5 (for some users):
 eggs-genny attempts to do an `npm install` of the necessary dependencies. Depending on how permissions are configured on your system, you may also need to run it with `sudo` after doing step 4:
@@ -92,7 +102,7 @@ This is the 'build' or 'distribution' or 'production' or whatever you want to ca
 - perform a cleanup by [deleting](https://www.npmjs.com/package/del) the `tmp/` directory used to build the files
 
 #####*Utilities*
-Yeah, there's two 'utility' functions. One is a [hilarious error message](https://github.com/himynameisdave/eggs-genny/blob/master/app/templates/_gulpfile.js#L168) and the other just logs stuff in a more visible way. These will one day be npm modules too and will then just get required in so as to keep the `gulpfile.js` clean.
+Yeah, there's two 'utility' functions. One is a hilarious error message and the other just logs stuff in a more visible way. These will one day be npm modules too and will then just get required in so as to keep the `gulpfile.js` clean.
 
 You can fully remove all instances of these if you want, they are non-essential.
 
