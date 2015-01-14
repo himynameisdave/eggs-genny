@@ -37,12 +37,12 @@ var util   = require('util'),
       var printThis = "=================================================\n"+msg+
                       "\n================================================="
       console.log( chalk[color]( printThis ) );
-    }
+    },
 
 
 
 /////////////Actual eggs-genny Module/////////////
-var EggsGennyGenerator = yeoman.generators.Base.extend({
+EggsGennyGenerator = yeoman.generators.Base.extend({
 
     ////////////////////////////////////////
     //    PHASE ONE: PERSONALIZE          //
@@ -121,9 +121,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  What actually prompts the users
         this.prompt(prompts, function (props) {
-
-            //  Store all responses in a generic variable
-            this.userInputs = props;
 
 //          this will be the new var that stores the deps values
             this.deps = props;
@@ -211,28 +208,26 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     scaffold: function(){
 
         //  for easier/local referencing
-        var UI         = this.userInputs,
+        var deps       = this.deps,
             greeting   = this.greeting,
-            testString = 'Building you a sweet app with the following deps:';
+            testString = 'Building your app with the following deps, '+greeting+':';
 
         //  Build a string that lets the user know what they've ordered
-        if( UI.jquery ){ testString += '\n\t- jQuery' }
-        if( UI.angular ){ testString += '\n\t- Angular' }
-        if( UI.gsap ){ testString += '\n\t- GSAP' }
-        if( UI.bootstrap ){ testString += '\n\t- Bootstrap' }
+        if( deps.jquery ){ testString += '\n\t- jQuery' }
+        if( deps.angular ){ testString += '\n\t- Angular' }
+        if( deps.gsap ){ testString += '\n\t- GSAP' }
+        if( deps.bootstrap ){ testString += '\n\t- Bootstrap' }
 
         //  If they aren't using anything, write a hilarious message...
-        if( !UI.jquery && !UI.angular && !UI.gsap && !UI.bootstrap ){
-            testString += '\n\t<no dependencies>'
-            loggit( testString );
-            loggit( 'Looks like someone\'s going bareback! YEEE HAWWW!', 'red' );
+        if( !deps.jquery && !deps.angular && !deps.gsap && !deps.bootstrap ){
+            testString += '\n\t<no dependencies>';
+            loggit( testString, 'yellow' );
+            loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red' );
         }else{
         //  ...otherwise just log the built string
-          loggit( testString );
+          loggit( testString, 'yellow' );
         }
 
-        //  Inform the user what we're doing
-        loggit( "Building Your Directories, "+greeting, 'green' );
         //  Build out some directories
         this.mkdir("app");
         this.mkdir("app/css");
@@ -243,7 +238,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/lib/js");
         this.mkdir("build");
         //  If they're using Angular they'll need a partials folder
-        if( UI.angular ){
+        if( deps.angular ){
             this.mkdir("app/partials");
         }
 
@@ -258,7 +253,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 appName: this.appName,
                 appDesc: this.desc,
                 greeting: this.greeting,
-                deps: this.userInputs
+                deps: this.deps
             };
 
         //  Copy over some bower-related stuff,
@@ -271,7 +266,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
         //  Angular has it's own particular package.json file & app.js file
-        if( this.userInputs.angular ){
+        if( this.deps.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
@@ -294,13 +289,13 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         var dependencies = [ 'lesslie' ], // Lesslie is always a dep by default
           //  local variables for easier access
             greeting     = this.greeting,
-            userInputs   = this.userInputs;
+            deps   = this.deps;
 
         //  Add needed deps to the list
-        if( userInputs.jquery ){ dependencies.push('jquery'); }
-        if( userInputs.angular ){ dependencies.push('angular'); }
-        if( userInputs.gsap ){ dependencies.push('gsap'); }
-        if( userInputs.bootstrap ){ dependencies.push('bootstrap'); }
+        if( deps.jquery ){ dependencies.push('jquery'); }
+        if( deps.angular ){ dependencies.push('angular'); }
+        if( deps.gsap ){ dependencies.push('gsap'); }
+        if( deps.bootstrap ){ dependencies.push('bootstrap'); }
 
         //  Actually do our bower install
         //  Note that the .bowerrc file installs everything to app/lib_tmp/
@@ -318,22 +313,22 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
 
                 //  Copy jQuery if need be
-                if( userInputs.jquery ){
+                if( deps.jquery ){
                     copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
-                if( userInputs.angular ){
+                if( deps.angular ){
                     copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
                 //  Copy GSAP if need be
-                if( userInputs.gsap ){
+                if( deps.gsap ){
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/js/TimelineMax.js' );
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/js/CSSPlugin.js' );
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/js/EasePack.js' );
                 }
                 //  Copy Bootstrap if need be
-                if( userInputs.bootstrap ){
+                if( deps.bootstrap ){
                     copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
                 }
 
@@ -362,7 +357,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
           loggit( "NPM modules installed, "+greeting+"!",'magenta' );
 
           //  Conclusion: Your eggs are ready, sir!
-          console.log("\n\n\n");
+          console.log("\n");
           loggit( "Your eggs are ready, "+greeting+"!",'green' );
           console.log("\n");
         });
