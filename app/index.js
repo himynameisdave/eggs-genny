@@ -100,22 +100,22 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "jquery",
                 type:    "confirm",
                 message: "Y'all need some jQuery?",
-                default: true
+                default: false
             },{ //  Do they need Angular?
                 name:    "angular",
                 type:    "confirm",
                 message: "Y'all need some Angular?",
-                default: true
-            },{ //  Do they need GSAP?
-                name:    "gsap",
-                type:    "confirm",
-                message: "Y'all need some GSAP?",
                 default: false
             },{ //  Do they need Bootstrap CSS?
                 name:    "bootstrap",
                 type:    "confirm",
                 message: "Y'all need some Bootstrap CSS?",
-                default: true
+                default: false
+            },{ //  Do they need GSAP?
+                name:    "gsap",
+                type:    "confirm",
+                message: "Y'all need some GSAP?",
+                default: false
             }
         ];
 
@@ -125,6 +125,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 //          this will be the new var that stores the deps values
             this.deps = props;
 
+            //  create the gsap object if they said yes to GSAP
             if( props.gsap ){
               this.deps.gsap = {};
             }
@@ -149,7 +150,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           {   //  TweenLite or TweenMax?
               name:    "minMax",
               type:    "list",
-              message: "Do you want TweenLite or TweenMax",
+              message: "Do you want TweenLite/TimelineLite or TweenMax/TimelineMax?",
               choices: [ 'TweenLite', 'TweenMax' ],
               default: 'TweenLite'
           },
@@ -190,7 +191,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           var plugs = [];
 
           props.plugs.forEach(function(plug){
-            plugs.push( plug.toLowerCase() );
+          //   plugs.push( plug.toLowerCase() ); //  we're going to lowercase them later
+            plugs.push( plug );
           });
 
           this.deps.gsap.plugs = plugs;
@@ -213,10 +215,16 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             testString = 'Building your app with the following deps, '+greeting+':';
 
         //  Build a string that lets the user know what they've ordered
-        if( deps.jquery ){ testString += '\n\t- jQuery' }
-        if( deps.angular ){ testString += '\n\t- Angular' }
-        if( deps.gsap ){ testString += '\n\t- GSAP' }
-        if( deps.bootstrap ){ testString += '\n\t- Bootstrap' }
+        if( deps.jquery ){ testString += '\n\t- jQuery'; }
+        if( deps.angular ){ testString += '\n\t- Angular'; }
+        if( deps.bootstrap ){ testString += '\n\t- Bootstrap'; }
+        if( deps.gsap ){
+          testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
+          this.deps.gsap.plugs.forEach(function(p){
+            testString += '\n\t  - '+p;
+          });
+        }
+
 
         //  If they aren't using anything, write a hilarious message...
         if( !deps.jquery && !deps.angular && !deps.gsap && !deps.bootstrap ){
