@@ -221,7 +221,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( deps.gsap ){
           testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
           this.deps.gsap.plugs.forEach(function(p){
-            testString += '\n\t  - '+p;
+            testString += '\n\t|--- '+p;
           });
         }
 

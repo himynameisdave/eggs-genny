@@ -131,13 +131,13 @@ gulp.task( 'annotate-me',  function(){
 <% } %>gulp.task( 'js-me',<% if (deps.angular) { %> ['annotate-me'],<% } %> function(){
 
   return  gulp.src([<% if (deps.jquery) { %>
-                  'app/lib/js/jquery.js',<% } if(deps.gsap){ if(deps.gsap.minMax === 'TweenLite'){ %>
+                  'app/lib/js/jquery.js',<% } if(deps.angular){ %>
+                  'app/lib/js/angular.js',<% } if(deps.gsap){ if(deps.gsap.minMax === 'TweenLite'){ %>
                   'app/lib/js/TweenLite.js',
                   'app/lib/js/TimelineLite.js',<% }else { %>
                   'app/lib/js/TweenMax.js',
                   'app/lib/js/TimelineMax.js',<% } deps.gsap.plugs.forEach(function(plug){ %>
-                  'app/lib/js/<%= plug %>.js',<% }) } if(deps.angular){ %>
-                  'app/lib/js/angular.js',<% } %>
+                  'app/lib/js/<%= plug %>.js',<% }) } %>
                   'app/js/*.js' ])
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
