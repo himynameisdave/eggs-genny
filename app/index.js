@@ -4,6 +4,7 @@
 //  eggs-genny is a 5-phase process, as follows:
 
 //    PHASE ONE:    Prompts
+//    PHASE ONE-B:  GSAP Prompts
 //    PHASE TWO:    Scaffold
 //    PHASE THREE:  File Creation
 //    PHASE FOUR:   Bower Install & Lib Cleanup
@@ -43,6 +44,18 @@ var util   = require('util'),
 
 /////////////Actual eggs-genny Module/////////////
 var EggsGennyGenerator = yeoman.generators.Base.extend({
+
+    ////////////////////////////////////////
+    //    PHASE ONE: PERSONALIZE          //
+    ////////////////////////////////////////
+    personalize: function(){
+
+
+
+      
+
+    },
+
 
     //  PHASE ONE: Prompt questions at the user
     promptUser: function() {
@@ -101,34 +114,78 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             this.appName = props.name;
             this.desc = props.desc;
             this.greeting = props.greeting;
+            if( props.gsap ){
+              this.gsap = {};
+            }
             //  Call the async done function
             done();
 
         }.bind(this));
 
     },
+    //  PHASE ONE-B
     gsapPrompts: function(){
 
       //  Only executes if they asked for GSAP
       if(this.userInputs.gsap){
-
+        //  asyncer
         var done = this.async();
 
-        var prompts = [
-            // {   //  What should we call the user?
-            //     name:    "greeting",
-            //     type:    "list",
-            //     message: "First off, let's personalize things! Which do you prefer?",
-            //     choices: [ "sir", "ma'am", "cap'n", "homie", "hombre" ],
-            //     default: "sir"
-            // }
+        loggit('GSAP Plugin Questions:', 'green');
 
+        var prompts = [
+          {   //  TweenLite or TweenMax?
+              name:    "minMax",
+              type:    "list",
+              message: "Do you want TweenLite or TweenMax",
+              choices: [ 'TweenLite', 'TweenMax' ],
+              default: 'TweenLite'
+          },
+          {   //  What gsap plugs do ya want?
+              name:    "plugs",
+              type:    "checkbox",
+              message: "Which GSAP plugins do you need?",
+              choices: [
+                {
+                  name: "AttrPlugin",
+                  checked: false
+                },{
+                  name: "CSSPlugin",
+                  checked: true
+                },{
+                  name: "CSSRulePlugin",
+                  checked: false
+                },{
+                  name: "EasePack",
+                  checked: true
+                },{
+                  name: "RaphaelPlugin",
+                  checked: false
+                },{
+                  name: "RoundPropsPlugin",
+                  checked: false
+                },{
+                  name: "ScrollToPlugin",
+                  checked: false
+                }
+              ]
+          }
         ];
 
+        this.prompt(prompts, function (props) {
 
+          this.gsap.minMax = props.minMax;
+          var plugs = [];
 
+          props.plugs.forEach(function(plug){
+            plugs.push( plug.toLowerCase() );
+          });
 
+          this.gsap.plugs = plugs;
+          plugs = null;//reset plugs for le garbage man
 
+          done();
+        }.bind(this));
 
       }
 
@@ -218,9 +275,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             greeting     = this.greeting,
             userInputs   = this.userInputs;
 
-        //  Let the user know what's goin on
-        // loggit( "Installing Bower dependencies, "+greeting+"!",'cyan' );
-
         //  Add needed deps to the list
         if( userInputs.jquery ){ dependencies.push('jquery'); }
         if( userInputs.angular ){ dependencies.push('angular'); }
@@ -276,9 +330,6 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  So the greeting is localized
         var greeting = this.greeting;
-
-        //  Tell the user what we're doing
-        // loggit( "Installing NPM modules, "+greeting+"!",'cyan' );
 
         //  Run an NPM install
         //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
