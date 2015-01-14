@@ -1,13 +1,15 @@
 'use strict';
 ///////////////////EGGS GENNY///////////////////
 
-//  eggs-genny is a 5-phase process, as follows:
+//  eggs-genny is a multi-phase process, as follows:
 
-//    PHASE ONE:    Prompts
-//    PHASE TWO:    Scaffold
-//    PHASE THREE:  File Creation
-//    PHASE FOUR:   Bower Install & Lib Cleanup
-//    PHASE FIVE:   NPM Install
+//    PHASE ONE:      Personalize
+//    PHASE TWO:      Dependency Prompts
+//      PHASE TWO-B:  GSAP Plugins (if applicable)
+//    PHASE THREE:    Scaffold
+//    PHASE FOUR:     File Creation
+//    PHASE FIVE:     Bower Install & Lib Cleanup
+//    PHASE SIX:      NPM Install
 
 ///////////////////////////////////////////////
 
@@ -34,23 +36,23 @@ var util   = require('util'),
       var printThis = "=================================================\n"+msg+
                       "\n================================================="
       console.log( chalk[color]( printThis ) );
-    }
-
-
+    },
 
 
 
 /////////////Actual eggs-genny Module/////////////
-var EggsGennyGenerator = yeoman.generators.Base.extend({
+EggsGennyGenerator = yeoman.generators.Base.extend({
 
-    //  PHASE ONE: Prompt questions at the user
-    promptUser: function() {
+    ////////////////////////////////////////
+    //    PHASE ONE: PERSONALIZE          //
+    ////////////////////////////////////////
+    personalize: function(){
         var done = this.async();
 
         // have our banner greet the user
         console.log( banner );
 
-        //  The list of prompts
+        //  personal prompts
         var prompts = [
             {   //  What should we call the user?
                 name:    "greeting",
@@ -66,71 +68,172 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "desc",
                 message: "Care to describe this application of yours?",
                 default: "Totally awesome rad app!"
-            },//  DEPENDENCY PROPMTS
-            {   //  Do they need jQuery?
-                name:    "jquery",
-                type:    "confirm",
-                message: "Y'all need some jQuery?",
-                default: true
-            },{ //  Do they need Angular?
-                name:    "angular",
-                type:    "confirm",
-                message: "Y'all need some Angular?",
-                default: true
-            },{ //  Do they need GSAP?
-                name:    "gsap",
-                type:    "confirm",
-                message: "Y'all need some GSAP?",
-                default: false
-            },{ //  Do they need Bootstrap CSS?
-                name:    "bootstrap",
-                type:    "confirm",
-                message: "Y'all need some Bootstrap CSS?",
-                default: true
             }
         ];
 
-        //  What actually prompts the users
         this.prompt(prompts, function (props) {
 
-            //  Store all responses in a generic variable
-            this.userInputs = props,
             //  App's name, description & greeting get it's own var for faster referencing
+            this.greeting = props.greeting;
             this.appName = props.name;
             this.desc = props.desc;
-            this.greeting = props.greeting;
+
             //  Call the async done function
             done();
 
         }.bind(this));
 
     },
-    //  PHASE TWO: Scaffold out the directory structure
+    ////////////////////////////////////////
+    //    PHASE TWO: DEPENDENCIES         //
+    ////////////////////////////////////////
+    dependencies: function() {
+        var done = this.async();
+
+        loggit('Choose your dependencies:', 'green');
+
+        //  The list of prompts
+        var prompts = [
+            //  DEPENDENCY PROPMTS
+            {   //  Do they need jQuery?
+                name:    "jquery",
+                type:    "confirm",
+                message: "Y'all need some jQuery?",
+                default: false
+            },{ //  Do they need Angular?
+                name:    "angular",
+                type:    "confirm",
+                message: "Y'all need some Angular?",
+                default: false
+            },{ //  Do they need Bootstrap CSS?
+                name:    "bootstrap",
+                type:    "confirm",
+                message: "Y'all need some Bootstrap CSS?",
+                default: false
+            },{ //  Do they need GSAP?
+                name:    "gsap",
+                type:    "confirm",
+                message: "Y'all need some GSAP?",
+                default: false
+            }
+        ];
+
+        //  What actually prompts the users
+        this.prompt(prompts, function (props) {
+
+//          this will be the new var that stores the deps values
+            this.deps = props;
+
+            //  create the gsap object if they said yes to GSAP
+            if( props.gsap ){
+              this.deps.gsap = {};
+            }
+            //  Call the async done function
+            done();
+
+        }.bind(this));
+
+    },
+    ////////////////////////////////////////
+    //    PHASE TWO-B: GSAP PLUGINS       //
+    ////////////////////////////////////////
+    gsapPlugs: function(){
+      //  Only executes if they asked for GSAP
+      if(this.deps.gsap){
+        //  asyncer
+        var done = this.async();
+
+        loggit('Choose your GSAP Plugins:', 'green');
+
+        var prompts = [
+          {   //  TweenLite or TweenMax?
+              name:    "minMax",
+              type:    "list",
+              message: "Do you want TweenLite/TimelineLite or TweenMax/TimelineMax?",
+              choices: [ 'TweenLite', 'TweenMax' ],
+              default: 'TweenLite'
+          },
+          {   //  What gsap plugs do ya want?
+              name:    "plugs",
+              type:    "checkbox",
+              message: "Which GSAP plugins do you need?",
+              choices: [
+                {
+                  name: "AttrPlugin",
+                  checked: false
+                },{
+                  name: "CSSPlugin",
+                  checked: true
+                },{
+                  name: "CSSRulePlugin",
+                  checked: false
+                },{
+                  name: "EasePack",
+                  checked: true
+                },{
+                  name: "RaphaelPlugin",
+                  checked: false
+                },{
+                  name: "RoundPropsPlugin",
+                  checked: false
+                },{
+                  name: "ScrollToPlugin",
+                  checked: false
+                }
+              ]
+          }
+        ];
+
+        this.prompt(prompts, function (props) {
+
+          this.deps.gsap.minMax = props.minMax;
+          var plugs = [];
+
+          props.plugs.forEach(function(plug){
+          //   plugs.push( plug.toLowerCase() ); //  we're going to lowercase them later
+            plugs.push( plug );
+          });
+
+          this.deps.gsap.plugs = plugs;
+          done();
+
+          plugs = null;
+        }.bind(this));
+
+      }
+
+    },
+    ////////////////////////////////////////
+    //    PHASE THREE: SCAFFOLD           //
+    ////////////////////////////////////////
     scaffold: function(){
 
         //  for easier/local referencing
-        var UI         = this.userInputs,
+        var deps       = this.deps,
             greeting   = this.greeting,
-            testString = 'Building you a sweet app with the following deps:';
+            testString = 'Building your app with the following deps, '+greeting+':';
 
         //  Build a string that lets the user know what they've ordered
-        if( UI.jquery ){ testString += '\n\t- jQuery' }
-        if( UI.angular ){ testString += '\n\t- Angular' }
-        if( UI.gsap ){ testString += '\n\t- GSAP' }
-        if( UI.bootstrap ){ testString += '\n\t- Bootstrap' }
-
-        //  If they aren't using anything, write a hilarious message...
-        if( !UI.jquery && !UI.angular && !UI.gsap && !UI.bootstrap ){
-            testString += '\n\t<no dependencies>'
-            loggit( testString );
-            loggit( 'Looks like someone\'s going bareback! YEEE HAWWW!', 'red' );
-        }else{
-        //  ...otherwise just log the built string
-          loggit( testString );
+        if( deps.jquery ){ testString += '\n\t- jQuery'; }
+        if( deps.angular ){ testString += '\n\t- Angular'; }
+        if( deps.bootstrap ){ testString += '\n\t- Bootstrap'; }
+        if( deps.gsap ){
+          testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
+          this.deps.gsap.plugs.forEach(function(p){
+            testString += '\n\t|--- '+p;
+          });
         }
 
-        //  Inform the user what we're doing
-        loggit( "Building Your Directories, "+greeting, 'green' );
+        //  If they aren't using anything, write a hilarious message...
+        if( !deps.jquery && !deps.angular && !deps.gsap && !deps.bootstrap ){
+            testString += '\n\t<no dependencies>';
+            loggit( testString, 'yellow' );
+            loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red' );
+        }else{
+        //  ...otherwise just log the built string
+          loggit( testString, 'yellow' );
+        }
+
         //  Build out some directories
         this.mkdir("app");
         this.mkdir("app/css");
@@ -141,20 +244,22 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/lib/js");
         this.mkdir("build");
         //  If they're using Angular they'll need a partials folder
-        if( UI.angular ){
+        if( deps.angular ){
             this.mkdir("app/partials");
         }
 
     },
-    //  PHASE THREE: Copy over template files
-    copyFiles: function(){
+    ////////////////////////////////////////
+    //    PHASE FOUR: BUILD FILES         //
+    ////////////////////////////////////////
+    buildFiles: function(){
 
         //  Some context for things that need templating
         var ctxt = {
                 appName: this.appName,
                 appDesc: this.desc,
                 greeting: this.greeting,
-                deps: this.userInputs
+                deps: this.deps
             };
 
         //  Copy over some bower-related stuff,
@@ -167,7 +272,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
         //  Angular has it's own particular package.json file & app.js file
-        if( this.userInputs.angular ){
+        if( this.deps.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
@@ -181,23 +286,22 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.template('app/_index.html', "app/index.html", ctxt);
 
     },
-    //  PHASE FOUR: Bower Install & Lib Cleanup
+    ////////////////////////////////////////
+    //    PHASE FIVE: BOWER INSTALLS      //
+    ////////////////////////////////////////
     bower: function(){
 
         //  depenencies for bower to install
         var dependencies = [ 'lesslie' ], // Lesslie is always a dep by default
           //  local variables for easier access
             greeting     = this.greeting,
-            userInputs   = this.userInputs;
-
-        //  Let the user know what's goin on
-        // loggit( "Installing Bower dependencies, "+greeting+"!",'cyan' );
+            deps   = this.deps;
 
         //  Add needed deps to the list
-        if( userInputs.jquery ){ dependencies.push('jquery'); }
-        if( userInputs.angular ){ dependencies.push('angular'); }
-        if( userInputs.gsap ){ dependencies.push('gsap'); }
-        if( userInputs.bootstrap ){ dependencies.push('bootstrap'); }
+        if( deps.jquery ){ dependencies.push('jquery'); }
+        if( deps.angular ){ dependencies.push('angular'); }
+        if( deps.gsap ){ dependencies.push('gsap'); }
+        if( deps.bootstrap ){ dependencies.push('bootstrap'); }
 
         //  Actually do our bower install
         //  Note that the .bowerrc file installs everything to app/lib_tmp/
@@ -215,22 +319,36 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
 
                 //  Copy jQuery if need be
-                if( userInputs.jquery ){
+                if( deps.jquery ){
                     copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
-                if( userInputs.angular ){
+                if( deps.angular ){
                     copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
                 //  Copy GSAP if need be
-                if( userInputs.gsap ){
+                if( deps.gsap ){
+
+                  //  adding the minMax
+                  if( deps.gsap.minMax === 'TweenLite' ){
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenLite.js', 'app/lib/js/TweenLite.js' );
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
+                  }else {
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/js/TimelineMax.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/js/CSSPlugin.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/js/EasePack.js' );
+                  }
+                  //  loop through and add each plugin specified
+                  deps.gsap.plugs.forEach(function(plug){
+                    if( plug === 'EasePack' ){
+                      copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
+                    }else{
+                      copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
+                    }
+                  });
+
                 }
                 //  Copy Bootstrap if need be
-                if( userInputs.bootstrap ){
+                if( deps.bootstrap ){
                     copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
                 }
 
@@ -243,14 +361,13 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         );
 
     },
-    //  PHASE FIVE: NPM Install & Finish
+    ////////////////////////////////////////
+    //    PHASE SIX: NPM INSTALLS         //
+    ////////////////////////////////////////
     npm: function(){
 
         //  So the greeting is localized
         var greeting = this.greeting;
-
-        //  Tell the user what we're doing
-        // loggit( "Installing NPM modules, "+greeting+"!",'cyan' );
 
         //  Run an NPM install
         //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
@@ -260,7 +377,7 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
           loggit( "NPM modules installed, "+greeting+"!",'magenta' );
 
           //  Conclusion: Your eggs are ready, sir!
-          console.log("\n\n\n");
+          console.log("\n");
           loggit( "Your eggs are ready, "+greeting+"!",'green' );
           console.log("\n");
         });
