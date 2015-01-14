@@ -225,7 +225,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           });
         }
 
-
         //  If they aren't using anything, write a hilarious message...
         if( !deps.jquery && !deps.angular && !deps.gsap && !deps.bootstrap ){
             testString += '\n\t<no dependencies>';
@@ -330,10 +329,24 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 }
                 //  Copy GSAP if need be
                 if( deps.gsap ){
+
+                  //  adding the minMax
+                  if( deps.gsap.minMax === 'TweenLite' ){
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenLite.js', 'app/lib/js/TweenLite.js' );
+                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
+                  }else {
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/js/TimelineMax.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/CSSPlugin.js', 'app/lib/js/CSSPlugin.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/EasePack.js', 'app/lib/js/EasePack.js' );
+                  }
+                  //  loop through and add each plugin specified
+                  deps.gsap.plugs.forEach(function(plug){
+                    if( plug === 'EasePack' ){
+                      copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
+                    }else{
+                      copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
+                    }
+                  });
+
                 }
                 //  Copy Bootstrap if need be
                 if( deps.bootstrap ){
