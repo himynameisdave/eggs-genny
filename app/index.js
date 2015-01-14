@@ -1,14 +1,15 @@
 'use strict';
 ///////////////////EGGS GENNY///////////////////
 
-//  eggs-genny is a 5-phase process, as follows:
+//  eggs-genny is a multi-phase process, as follows:
 
-//    PHASE ONE:    Prompts
-//    PHASE ONE-B:  GSAP Prompts
-//    PHASE TWO:    Scaffold
-//    PHASE THREE:  File Creation
-//    PHASE FOUR:   Bower Install & Lib Cleanup
-//    PHASE FIVE:   NPM Install
+//    PHASE ONE:      Personalize
+//    PHASE TWO:      Dependency Prompts
+//      PHASE TWO-B:  GSAP Plugins (if applicable)
+//    PHASE THREE:    Scaffold
+//    PHASE FOUR:     File Creation
+//    PHASE FIVE:     Bower Install & Lib Cleanup
+//    PHASE SIX:      NPM Install
 
 ///////////////////////////////////////////////
 
@@ -40,8 +41,6 @@ var util   = require('util'),
 
 
 
-
-
 /////////////Actual eggs-genny Module/////////////
 var EggsGennyGenerator = yeoman.generators.Base.extend({
 
@@ -49,22 +48,12 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
     //    PHASE ONE: PERSONALIZE          //
     ////////////////////////////////////////
     personalize: function(){
-
-
-
-      
-
-    },
-
-
-    //  PHASE ONE: Prompt questions at the user
-    promptUser: function() {
         var done = this.async();
 
         // have our banner greet the user
         console.log( banner );
 
-        //  The list of prompts
+        //  personal prompts
         var prompts = [
             {   //  What should we call the user?
                 name:    "greeting",
@@ -80,7 +69,33 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "desc",
                 message: "Care to describe this application of yours?",
                 default: "Totally awesome rad app!"
-            },//  DEPENDENCY PROPMTS
+            }
+        ];
+
+        this.prompt(prompts, function (props) {
+
+            //  App's name, description & greeting get it's own var for faster referencing
+            this.greeting = props.greeting;
+            this.appName = props.name;
+            this.desc = props.desc;
+
+            //  Call the async done function
+            done();
+
+        }.bind(this));
+
+    },
+    ////////////////////////////////////////
+    //    PHASE TWO: DEPENDENCIES         //
+    ////////////////////////////////////////
+    dependencies: function() {
+        var done = this.async();
+
+        loggit('Choose your dependencies:', 'green');
+
+        //  The list of prompts
+        var prompts = [
+            //  DEPENDENCY PROPMTS
             {   //  Do they need jQuery?
                 name:    "jquery",
                 type:    "confirm",
@@ -104,18 +119,17 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
             }
         ];
 
-
         //  What actually prompts the users
         this.prompt(prompts, function (props) {
 
             //  Store all responses in a generic variable
-            this.userInputs = props,
-            //  App's name, description & greeting get it's own var for faster referencing
-            this.appName = props.name;
-            this.desc = props.desc;
-            this.greeting = props.greeting;
+            this.userInputs = props;
+
+//          this will be the new var that stores the deps values
+            this.deps = props;
+
             if( props.gsap ){
-              this.gsap = {};
+              this.deps.gsap = {};
             }
             //  Call the async done function
             done();
@@ -123,15 +137,16 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         }.bind(this));
 
     },
-    //  PHASE ONE-B
-    gsapPrompts: function(){
-
+    ////////////////////////////////////////
+    //    PHASE TWO-B: GSAP PLUGINS       //
+    ////////////////////////////////////////
+    gsapPlugs: function(){
       //  Only executes if they asked for GSAP
-      if(this.userInputs.gsap){
+      if(this.deps.gsap){
         //  asyncer
         var done = this.async();
 
-        loggit('GSAP Plugin Questions:', 'green');
+        loggit('Choose your GSAP Plugins:', 'green');
 
         var prompts = [
           {   //  TweenLite or TweenMax?
@@ -174,23 +189,25 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
 
         this.prompt(prompts, function (props) {
 
-          this.gsap.minMax = props.minMax;
+          this.deps.gsap.minMax = props.minMax;
           var plugs = [];
 
           props.plugs.forEach(function(plug){
             plugs.push( plug.toLowerCase() );
           });
 
-          this.gsap.plugs = plugs;
-          plugs = null;//reset plugs for le garbage man
-
+          this.deps.gsap.plugs = plugs;
           done();
+
+          plugs = null;
         }.bind(this));
 
       }
 
     },
-    //  PHASE TWO: Scaffold out the directory structure
+    ////////////////////////////////////////
+    //    PHASE THREE: SCAFFOLD           //
+    ////////////////////////////////////////
     scaffold: function(){
 
         //  for easier/local referencing
@@ -231,8 +248,10 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
     },
-    //  PHASE THREE: Copy over template files
-    copyFiles: function(){
+    ////////////////////////////////////////
+    //    PHASE FOUR: BUILD FILES         //
+    ////////////////////////////////////////
+    buildFiles: function(){
 
         //  Some context for things that need templating
         var ctxt = {
@@ -266,7 +285,9 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         this.template('app/_index.html', "app/index.html", ctxt);
 
     },
-    //  PHASE FOUR: Bower Install & Lib Cleanup
+    ////////////////////////////////////////
+    //    PHASE FIVE: BOWER INSTALLS      //
+    ////////////////////////////////////////
     bower: function(){
 
         //  depenencies for bower to install
@@ -325,7 +346,9 @@ var EggsGennyGenerator = yeoman.generators.Base.extend({
         );
 
     },
-    //  PHASE FIVE: NPM Install & Finish
+    ////////////////////////////////////////
+    //    PHASE SIX: NPM INSTALLS         //
+    ////////////////////////////////////////
     npm: function(){
 
         //  So the greeting is localized
