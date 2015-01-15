@@ -39,7 +39,23 @@ var util   = require('util'),
       console.log( chalk[color]( printThis ) );
     },
 
+    //  Simple function that alters the install location after shit gets moved
+    changeBowerInstallLocation = function(file){
+      fs.readFile(file, 'utf8', function(err,data){
+        if(err){
+          loggit(err,'red');
+          return;
+        }
+        var result = data.replace( /lib_tmp/g, 'lib' );
 
+        fs.writeFile(file, result, 'utf8', function(err){
+          if(err){
+            loggit(err,'red');
+            return;
+          }
+        });
+      });
+    },
 
 /////////////Actual eggs-genny Module/////////////
 EggsGennyGenerator = yeoman.generators.Base.extend({
@@ -433,7 +449,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
                 del(['app/lib_tmp/'], function (err, deletedFiles) {});
 
-                //  TODO: change the bower install location back to app/lib
+                changeBowerInstallLocation('.bowerrc');
 
             }
         );
