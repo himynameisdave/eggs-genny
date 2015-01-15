@@ -161,21 +161,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         this.prompt(prompts, function (props) {
 
-          //  set a local plugs variable we can use in our loop function
-          var plugs = [];
           //  becasue currently it's only a boolean and he need it to store properties
           this.deps.gsap = {
             minMax: props.minMax
           };
-
-          //  Loop through plugin list and
-          props.plugs.forEach(function(plug){
-            plugs.push( plug );
-          });
-
-          //  store the plugins
-          this.deps.gsap.plugs = plugs;
-          plugs = null;
 
           //  Call the async done guy
           done();
@@ -228,10 +217,15 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
           this.prompt(prompts, function (props) {
 
+            //  set a local plugs variable we can use in our loop function
             var plugs = [];
+
+            //  Loop through plugin list and
             props.plugs.forEach(function(plug){
               plugs.push( plug );
             });
+
+            //  store the plugins
             this.deps.gsap.plugs = plugs;
             done();plugs = null;
 
