@@ -3,13 +3,14 @@
 
 //  eggs-genny is a multi-phase process, as follows:
 
-//    PHASE ONE:      Personalize
-//    PHASE TWO:      Dependency Prompts
-//      PHASE TWO-B:  GSAP Plugins (if applicable)
-//    PHASE THREE:    Scaffold
-//    PHASE FOUR:     File Creation
-//    PHASE FIVE:     Bower Install & Lib Cleanup
-//    PHASE SIX:      NPM Install
+//    PHASE ONE:        Personalize
+//    PHASE TWO:        Dependency Prompts
+//    PHASE THREE-A:    GSAP MinMax (if applicable)
+//    PHASE THREE-B:    GSAP Plugins (if applicable)
+//    PHASE FOUR:       Scaffold
+//    PHASE FIVE:       File Creation
+//    PHASE SIX:        Bower Install & Lib Cleanup
+//    PHASE SEVEN:      NPM Install
 
 ///////////////////////////////////////////////
 
@@ -119,7 +120,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  What actually prompts the users
         this.prompt(prompts, function (props) {
 
-//          this will be the new var that stores the deps values
+        //  this will be the new var that stores the deps values
             var obj = {};
             props.plugs.forEach(function(dep){
               dep = dep.toLowerCase();
@@ -139,63 +140,133 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE TWO-B: GSAP PLUGINS       //
+    //    PHASE THREE-A: GSAP MinMax      //
     ////////////////////////////////////////
-    gsapPlugs: function(){
+    gsapMinMax: function(){
       //  Only executes if they asked for GSAP
       if(this.deps.gsap){
-        //  asyncer
         var done = this.async();
 
-        loggit('Choose your GSAP Plugins:', 'green');
+        loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green');
 
         var prompts = [
-          {   //  TweenLite or TweenMax?
+          {
               name:    "minMax",
               type:    "list",
-              message: "Do you want TweenLite/TimelineLite or TweenMax/TimelineMax?",
+              message: "Do you want Tween/TimelineLite or Tween/TimelineMax?",
               choices: [ 'TweenLite', 'TweenMax' ],
               default: 'TweenLite'
-          },
-          {   //  What gsap plugs do ya want?
-              name:    "plugs",
-              type:    "checkbox",
-              message: "Which GSAP plugins do you need?",
-              choices: [
-                {
-                  name: "AttrPlugin",
-                  checked: false
-                },{
-                  name: "CSSPlugin",
-                  checked: true
-                },{
-                  name: "CSSRulePlugin",
-                  checked: false
-                },{
-                  name: "EasePack",
-                  checked: true
-                },{
-                  name: "RaphaelPlugin",
-                  checked: false
-                },{
-                  name: "RoundPropsPlugin",
-                  checked: false
-                },{
-                  name: "ScrollToPlugin",
-                  checked: false
-                }
-              ]
           }
         ];
 
         this.prompt(prompts, function (props) {
 
-          //  set a local plugs variable we can use in our loop function
-          var plugs = [];
           //  becasue currently it's only a boolean and he need it to store properties
           this.deps.gsap = {
             minMax: props.minMax
           };
+
+          //  Call the async done guy
+          done();
+        }.bind(this));
+
+      }
+    },
+    ////////////////////////////////////////
+    //    PHASE THREE-B: GSAP PLUGINS     //
+    ////////////////////////////////////////
+    gsapPlugs: function(){
+
+      //  Only executes if they asked for GSAP
+      if(this.deps.gsap){
+        //  asyncer
+        var done = this.async();
+        //  Wat wat gsap plugs
+        loggit('Choose your GSAP Plugins:', 'green');
+
+        if( this.deps.gsap.minMax === 'TweenLite' ){
+
+          var prompts = [
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Which GSAP plugins do you need?",
+                choices: [
+                  {
+                    name:    "AttrPlugin",
+                    checked: false
+                  },{
+                    name:    "BezierPlugin",
+                    checked: false
+                  },{
+                    name:    "CSSPlugin",
+                    checked: true
+                  },{
+                    name:    "CSSRulePlugin",
+                    checked: false
+                  },{
+                    name:    "DirectionalRotationPlugin",
+                    checked: false
+                  },{
+                    name:    "EaselPlugin",
+                    checked: false
+                  },{
+                    name:    "EasePack",
+                    checked: true
+                  },{
+                    name:    "KineticPlugin",
+                    checked: false
+                  },{
+                    name:    "RaphaelPlugin",
+                    checked: false
+                  },{
+                    name:    "RoundPropsPlugin",
+                    checked: false
+                  },{
+                    name:    "ScrollToPlugin",
+                    checked: false
+                  },{
+                    name:    "TextPlugin",
+                    checked: false
+                  }
+                ]
+            }
+          ];
+
+        }else{
+
+          var prompts = [
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones?",
+                choices: [
+                  {
+                    name:    "CSSRulePlugin",
+                    checked: false
+                  },{
+                    name:    "EaselPlugin",
+                    checked: false
+                  },{
+                    name:    "RaphaelPlugin",
+                    checked: false
+                  },{
+                    name:    "ScrollToPlugin",
+                    checked: false
+                  },{
+                    name:    "TextPlugin",
+                    checked: false
+                  }
+                ]
+            }
+          ];
+
+        }
+
+        this.prompt(prompts, function (props) {
+
+          //  set a local plugs variable we can use in our loop function
+          var plugs = [];
 
           //  Loop through plugin list and
           props.plugs.forEach(function(plug){
@@ -204,17 +275,15 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
           //  store the plugins
           this.deps.gsap.plugs = plugs;
-          plugs = null;
+          done();plugs = null;
 
-          //  Call the async done guy
-          done();
         }.bind(this));
 
-      }
+      }//end check for gsap
 
     },
     ////////////////////////////////////////
-    //    PHASE THREE: SCAFFOLD           //
+    //    PHASE FOUR: SCAFFOLD            //
     ////////////////////////////////////////
     scaffold: function(){
 
@@ -260,7 +329,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE FOUR: BUILD FILES         //
+    //    PHASE FIVE: BUILD FILES         //
     ////////////////////////////////////////
     buildFiles: function(){
 
@@ -297,7 +366,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE FIVE: BOWER INSTALLS      //
+    //    PHASE SIX: BOWER INSTALLS       //
     ////////////////////////////////////////
     bower: function(){
 
@@ -330,11 +399,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
                 //  Copy jQuery if need be
                 if( deps.jquery ){
-                    copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
+                  copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
                 if( deps.angular ){
-                    copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
+                  copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
                 //  Copy GSAP if need be
                 if( deps.gsap ){
@@ -345,7 +414,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
                   }else {
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/js/TimelineMax.js' );
                   }
                   //  loop through and add each plugin specified
                   deps.gsap.plugs.forEach(function(plug){
@@ -359,7 +427,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 }
                 //  Copy Bootstrap if need be
                 if( deps.bootstrap ){
-                    copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
                 }
 
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
@@ -372,7 +440,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE SIX: NPM INSTALLS         //
+    //    PHASE SEVEN: NPM INSTALLS       //
     ////////////////////////////////////////
     npm: function(){
 
