@@ -94,27 +94,25 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  The list of prompts
         var prompts = [
-            //  DEPENDENCY PROPMTS
-            {   //  Do they need jQuery?
-                name:    "jquery",
-                type:    "confirm",
-                message: "Y'all need some jQuery?",
-                default: false
-            },{ //  Do they need Angular?
-                name:    "angular",
-                type:    "confirm",
-                message: "Y'all need some Angular?",
-                default: false
-            },{ //  Do they need Bootstrap CSS?
-                name:    "bootstrap",
-                type:    "confirm",
-                message: "Y'all need some Bootstrap CSS?",
-                default: false
-            },{ //  Do they need GSAP?
-                name:    "gsap",
-                type:    "confirm",
-                message: "Y'all need some GSAP?",
-                default: false
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Which dependencies do you need?",
+                choices: [
+                  {
+                    name:    "jQuery",
+                    checked: false
+                  },{
+                    name:    "Angular",
+                    checked: false
+                  },{
+                    name:    "Bootstrap",
+                    checked: false
+                  },{
+                    name:    "GSAP",
+                    checked: false
+                  }
+                ]
             }
         ];
 
@@ -122,12 +120,18 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
 
 //          this will be the new var that stores the deps values
-            this.deps = props;
+            var obj = {};
+            props.plugs.forEach(function(dep){
+              dep = dep.toLowerCase();
+              obj[dep] = true;
+            });
+            this.deps = obj;
 
             //  create the gsap object if they said yes to GSAP
             if( props.gsap ){
               this.deps.gsap = {};
             }
+
             //  Call the async done function
             done();
 
@@ -186,18 +190,24 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         this.prompt(prompts, function (props) {
 
-          this.deps.gsap.minMax = props.minMax;
+          //  set a local plugs variable we can use in our loop function
           var plugs = [];
+          //  becasue currently it's only a boolean and he need it to store properties
+          this.deps.gsap = {
+            minMax: props.minMax
+          };
 
+          //  Loop through plugin list and
           props.plugs.forEach(function(plug){
-          //   plugs.push( plug.toLowerCase() ); //  we're going to lowercase them later
             plugs.push( plug );
           });
 
+          //  store the plugins
           this.deps.gsap.plugs = plugs;
-          done();
-
           plugs = null;
+
+          //  Call the async done guy
+          done();
         }.bind(this));
 
       }
@@ -220,7 +230,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( deps.gsap ){
           testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
           this.deps.gsap.plugs.forEach(function(p){
-            testString += '\n\t|--- '+p;
+            testString += '\n\t |-- '+p;
           });
         }
 
