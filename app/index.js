@@ -399,11 +399,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
                 //  Copy jQuery if need be
                 if( deps.jquery ){
-                    copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
+                  copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
                 if( deps.angular ){
-                    copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
+                  copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
                 //  Copy GSAP if need be
                 if( deps.gsap ){
@@ -414,7 +414,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
                   }else {
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineMax.js', 'app/lib/js/TimelineMax.js' );
                   }
                   //  loop through and add each plugin specified
                   deps.gsap.plugs.forEach(function(plug){
@@ -428,7 +427,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 }
                 //  Copy Bootstrap if need be
                 if( deps.bootstrap ){
-                    copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
                 }
 
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
