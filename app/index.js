@@ -176,12 +176,15 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     //    PHASE THREE-B: GSAP PLUGINS     //
     ////////////////////////////////////////
     gsapPlugs: function(){
+
       //  Only executes if they asked for GSAP
       if(this.deps.gsap){
-        if( this.deps.gsap.minMax === 'TweenLite' ){
         //  asyncer
         var done = this.async();
+        //  Wat wat gsap plugs
         loggit('Choose your GSAP Plugins:', 'green');
+
+        if( this.deps.gsap.minMax === 'TweenLite' ){
 
           var prompts = [
             {   //  What gsap plugs do ya want?
@@ -190,50 +193,91 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 message: "Which GSAP plugins do you need?",
                 choices: [
                   {
-                    name: "AttrPlugin",
+                    name:    "AttrPlugin",
                     checked: false
                   },{
-                    name: "CSSPlugin",
+                    name:    "BezierPlugin",
+                    checked: false
+                  },{
+                    name:    "CSSPlugin",
                     checked: true
                   },{
-                    name: "CSSRulePlugin",
+                    name:    "CSSRulePlugin",
                     checked: false
                   },{
-                    name: "EasePack",
+                    name:    "DirectionalRotationPlugin",
+                    checked: false
+                  },{
+                    name:    "EaselPlugin",
+                    checked: false
+                  },{
+                    name:    "EasePack",
                     checked: true
                   },{
-                    name: "RaphaelPlugin",
+                    name:    "KineticPlugin",
                     checked: false
                   },{
-                    name: "RoundPropsPlugin",
+                    name:    "RaphaelPlugin",
                     checked: false
                   },{
-                    name: "ScrollToPlugin",
+                    name:    "RoundPropsPlugin",
+                    checked: false
+                  },{
+                    name:    "ScrollToPlugin",
+                    checked: false
+                  },{
+                    name:    "TextPlugin",
                     checked: false
                   }
                 ]
             }
           ];
 
-          this.prompt(prompts, function (props) {
-
-            //  set a local plugs variable we can use in our loop function
-            var plugs = [];
-
-            //  Loop through plugin list and
-            props.plugs.forEach(function(plug){
-              plugs.push( plug );
-            });
-
-            //  store the plugins
-            this.deps.gsap.plugs = plugs;
-            done();plugs = null;
-
-          }.bind(this));
-
         }else{
-          this.deps.gsap.plugs = [];
+
+          var prompts = [
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones?",
+                choices: [
+                  {
+                    name:    "CSSRulePlugin",
+                    checked: false
+                  },{
+                    name:    "EaselPlugin",
+                    checked: false
+                  },{
+                    name:    "RaphaelPlugin",
+                    checked: false
+                  },{
+                    name:    "ScrollToPlugin",
+                    checked: false
+                  },{
+                    name:    "TextPlugin",
+                    checked: false
+                  }
+                ]
+            }
+          ];
+
         }
+
+        this.prompt(prompts, function (props) {
+
+          //  set a local plugs variable we can use in our loop function
+          var plugs = [];
+
+          //  Loop through plugin list and
+          props.plugs.forEach(function(plug){
+            plugs.push( plug );
+          });
+
+          //  store the plugins
+          this.deps.gsap.plugs = plugs;
+          done();plugs = null;
+
+        }.bind(this));
 
       }//end check for gsap
 
