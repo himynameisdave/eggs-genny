@@ -3,13 +3,14 @@
 
 //  eggs-genny is a multi-phase process, as follows:
 
-//    PHASE ONE:      Personalize
-//    PHASE TWO:      Dependency Prompts
-//      PHASE TWO-B:  GSAP Plugins (if applicable)
-//    PHASE THREE:    Scaffold
-//    PHASE FOUR:     File Creation
-//    PHASE FIVE:     Bower Install & Lib Cleanup
-//    PHASE SIX:      NPM Install
+//    PHASE ONE:        Personalize
+//    PHASE TWO:        Dependency Prompts
+//    PHASE THREE-A:    GSAP MinMax (if applicable)
+//    PHASE THREE-B:    GSAP Plugins (if applicable)
+//    PHASE FOUR:       Scaffold
+//    PHASE FIVE:       File Creation
+//    PHASE SIX:        Bower Install & Lib Cleanup
+//    PHASE SEVEN:      NPM Install
 
 ///////////////////////////////////////////////
 
@@ -121,7 +122,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  What actually prompts the users
         this.prompt(prompts, function (props) {
 
-//          this will be the new var that stores the deps values
+            //  this will be the new var that stores the deps values
             this.deps = props;
 
             //  create the gsap object if they said yes to GSAP
@@ -135,76 +136,95 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE TWO-B: GSAP PLUGINS       //
+    //    PHASE THREE-A: GSAP MinMax      //
     ////////////////////////////////////////
-    gsapPlugs: function(){
+    gsapMinMax: function(){
       //  Only executes if they asked for GSAP
       if(this.deps.gsap){
-        //  asyncer
         var done = this.async();
 
-        loggit('Choose your GSAP Plugins:', 'green');
+        loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green');
 
         var prompts = [
-          {   //  TweenLite or TweenMax?
+          {
               name:    "minMax",
               type:    "list",
-              message: "Do you want TweenLite/TimelineLite or TweenMax/TimelineMax?",
+              message: "Do you want Tween/TimelineLite or Tween/TimelineMax?",
               choices: [ 'TweenLite', 'TweenMax' ],
               default: 'TweenLite'
-          },
-          {   //  What gsap plugs do ya want?
-              name:    "plugs",
-              type:    "checkbox",
-              message: "Which GSAP plugins do you need?",
-              choices: [
-                {
-                  name: "AttrPlugin",
-                  checked: false
-                },{
-                  name: "CSSPlugin",
-                  checked: true
-                },{
-                  name: "CSSRulePlugin",
-                  checked: false
-                },{
-                  name: "EasePack",
-                  checked: true
-                },{
-                  name: "RaphaelPlugin",
-                  checked: false
-                },{
-                  name: "RoundPropsPlugin",
-                  checked: false
-                },{
-                  name: "ScrollToPlugin",
-                  checked: false
-                }
-              ]
           }
         ];
 
         this.prompt(prompts, function (props) {
-
           this.deps.gsap.minMax = props.minMax;
-          var plugs = [];
-
-          props.plugs.forEach(function(plug){
-          //   plugs.push( plug.toLowerCase() ); //  we're going to lowercase them later
-            plugs.push( plug );
-          });
-
-          this.deps.gsap.plugs = plugs;
           done();
-
-          plugs = null;
         }.bind(this));
 
       }
+    },
+    ////////////////////////////////////////
+    //    PHASE THREE-B: GSAP PLUGINS     //
+    ////////////////////////////////////////
+    gsapPlugs: function(){
+      //  Only executes if they asked for GSAP
+      if(this.deps.gsap){
+        if( this.deps.gsap.minMax === 'TweenLite' ){
+        //  asyncer
+        var done = this.async();
+        loggit('Choose your GSAP Plugins:', 'green');
+
+          var prompts = [
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Which GSAP plugins do you need?",
+                choices: [
+                  {
+                    name: "AttrPlugin",
+                    checked: false
+                  },{
+                    name: "CSSPlugin",
+                    checked: true
+                  },{
+                    name: "CSSRulePlugin",
+                    checked: false
+                  },{
+                    name: "EasePack",
+                    checked: true
+                  },{
+                    name: "RaphaelPlugin",
+                    checked: false
+                  },{
+                    name: "RoundPropsPlugin",
+                    checked: false
+                  },{
+                    name: "ScrollToPlugin",
+                    checked: false
+                  }
+                ]
+            }
+          ];
+
+          this.prompt(prompts, function (props) {
+
+            var plugs = [];
+            props.plugs.forEach(function(plug){
+              plugs.push( plug );
+            });
+            this.deps.gsap.plugs = plugs;
+            done();plugs = null;
+
+          }.bind(this));
+
+        }else{
+          this.deps.gsap.plugs = [];
+        }
+
+      }//end check for gsap
 
     },
     ////////////////////////////////////////
-    //    PHASE THREE: SCAFFOLD           //
+    //    PHASE FOUR: SCAFFOLD            //
     ////////////////////////////////////////
     scaffold: function(){
 
@@ -250,7 +270,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE FOUR: BUILD FILES         //
+    //    PHASE FIVE: BUILD FILES         //
     ////////////////////////////////////////
     buildFiles: function(){
 
@@ -287,7 +307,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE FIVE: BOWER INSTALLS      //
+    //    PHASE SIX: BOWER INSTALLS       //
     ////////////////////////////////////////
     bower: function(){
 
@@ -362,7 +382,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
     },
     ////////////////////////////////////////
-    //    PHASE SIX: NPM INSTALLS         //
+    //    PHASE SEVEN: NPM INSTALLS       //
     ////////////////////////////////////////
     npm: function(){
 
