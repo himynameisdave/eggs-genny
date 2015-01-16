@@ -357,6 +357,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 deps: this.deps
             };
 
+
         //  Copy over some bower-related stuff,
         //  adding the app name and description to the bower.json
         this.copy( '_.bowerrc', '.bowerrc' );
@@ -366,6 +367,13 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( 'app/css/_style.less', 'app/css/style.less' );
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
+        //  Copy over our lil node server
+        this.template( '_server.js', 'server.js', ctxt );
+        //  Copy over gulpfile.js
+        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
+        //  Copy over index.html
+        this.template('app/_index.html', "app/index.html", ctxt);
+
         //  Angular has it's own particular package.json file & app.js file
         if( this.deps.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
@@ -374,11 +382,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             this.template('_package.json', "package.json", ctxt);
             this.copy( 'app/js/_app.js', 'app/js/app.js' );
         }
-
-        //  Copy over gulpfile.js
-        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
-        //  Copy over index.html
-        this.template('app/_index.html', "app/index.html", ctxt);
 
     },
     ////////////////////////////////////////
