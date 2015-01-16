@@ -12,10 +12,11 @@
 **               Require Stuff                **
 ************************************************/
 var gulp    = require('gulp'),
-    chalk   = require('chalk'),
     connect = require('connect'),
-    dirlist = require('dirlist'),
+    chalk   = require('chalk'),
     del     = require('del'),
+    dirlist = require('dirlist'),
+    glob   = require('glob'),
     plug    = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',
@@ -121,21 +122,10 @@ gulp.task( 'css-me', ['compile-me'], function(){
 
 });
 gulp.task( 'uncss-me', ['css-me',<% if (deps.angular) { %> 'partials-me',<% } %> 'html-me'], function(){
-  <% if (deps.angular) { %>
-    //  Alert for angular users to add partials to the uncss task.
-    //  You can delete once you've seen this message
-    console.log(chalk.red(  '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'+
-                            '           WARNING!             \n'+
-                            ' Add your partial files to the  \n'+
-                            ' uncss task or their css will   \n'+
-                            ' be stripped out!!              \n'+
-                            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'));
 
-  <% } %>return gulp.src('build/css/styles.css')
+  return gulp.src('build/css/styles.css')
           .pipe(plug.uncss({
-            //  UNCSS (sadly) does not support globbing, so 'build/partials/*.html' does not work here
-            //  Manually add your partial files to this array so they can be parsed
-            html: ['build/index.html']
+            html: <% if (deps.angular) { %>glob.sync('build/**/*.html')<% }else { %>['build/index.html']<% } %>
           }))
           .pipe( plug.minifyCss() )
           .pipe(gulp.dest('build/css/'));
