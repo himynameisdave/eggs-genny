@@ -16,7 +16,7 @@ var gulp    = require('gulp'),
     chalk   = require('chalk'),
     del     = require('del'),
     dirlist = require('dirlist'),
-    glob   = require('glob'),
+    glob    = require('glob'),
     plug    = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',

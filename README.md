@@ -3,10 +3,10 @@
 
 Creates a template project after asking a few dependency-related questions.
 
-![Simulated animation of using eggs-genny](http://i.imgur.com/enYXKCv.gif)
+![Simulated animation of using eggs-genny](http://i.imgur.com/ujBGSSM.gif)
 
 
-In case you don't know what [Yeoman](http://yeoman.io/) is, it's essentially like builds you out a "template" project or project skeleton. It's fucking dope, saves you a shit load of time, and there are [literally](https://github.com/yeoman/generator-webapp) [a bunch](https://github.com/yeoman/generator-polymer) [of prebuilt ones](https://github.com/yeoman/generator-bootstrap). You can also write your own, obviously, which is how EggsGenny was born.
+In case you don't know what [Yeoman](http://yeoman.io/) is, it's essentially like builds you out a "template" project or project skeleton. It's fucking dope, saves you a shit load of time, and there are [literally](https://github.com/yeoman/generator-webapp) [a bunch](https://github.com/yeoman/generator-polymer) [of prebuilt ones](https://github.com/yeoman/generator-bootstrap). You can also write your own, obviously, which is how [eggs-genny](https://www.npmjs.com/package/generator-eggs-genny) was born.
 
 ---
 ##Installation/Setup
