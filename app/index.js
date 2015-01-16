@@ -367,8 +367,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( 'app/css/_style.less', 'app/css/style.less' );
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
-        //  Copy over our lil node server
-        this.template( '_server.js', 'server.js', ctxt );
         //  Copy over gulpfile.js
         this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
         //  Copy over index.html
@@ -475,7 +473,16 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
           //  Conclusion: Your eggs are ready, sir!
           console.log("\n");
-          loggit( "Your eggs are ready, "+greeting+"!",'green' );
+          var ready = "   ___                     \n"+
+                      "  /   \\    Your            \n"+
+                      " |     |___  eggs          \n"+
+                      " |     /   \\   are         \n"+
+                      "  \\___|     |    ready,    \n"+
+                      "      |     |        "+greeting+"\n"+
+                      "       \\___/ ";
+
+
+          loggit( ready,'green' );
           console.log("\n");
         });
 
