@@ -11,10 +11,12 @@
 /***********************************************
 **               Require Stuff                **
 ************************************************/
-var gulp   = require('gulp'),
-    chalk  = require('chalk'),
-    del    = require('del'),
-    plug   = require('gulp-load-plugins')({
+var gulp    = require('gulp'),
+    chalk   = require('chalk'),
+    connect = require('connect'),
+    dirlist = require('dirlist'),
+    del     = require('del'),
+    plug    = require('gulp-load-plugins')({
               scope: ['devDependencies'],
               replaceString: 'gulp-',
             }),
@@ -27,7 +29,7 @@ var gulp   = require('gulp'),
 /***********************************************
 **          Default Task (dev/watch)          **
 ************************************************/
-gulp.task( 'default', ['reload-me']);
+gulp.task( 'default', [ 'serve-me', 'reload-me' ]);
 
 
 
@@ -44,8 +46,30 @@ gulp.task( 'reload-me', function(){
   .on('change', plug.livereload.changed);
 });
 
-//  VALIDATE TASK THAT RUNS BOTH JS AND CSS VALIDATION
+
+
+/***********************************************
+**               Server Task                  **
+************************************************/
+gulp.task( 'serve-me', function(){
+
+  var base = __dirname,
+      host = "localhost",
+      port = 6969;
+
+  connect(  connect.favicon(),
+          dirlist(base),
+          connect.static(base) ).listen(port, host);
+  loggit('Server running at http://'+host+':'+port+'/');
+
+});
+
+
+/***********************************************
+**              Validation Task               **
+************************************************/
 gulp.task( 'validate-me', [ 'validate-js', 'validate-css' ]);
+
 
 //  VALIDATION JS
 gulp.task( 'validate-js', function(){
@@ -55,7 +79,6 @@ gulp.task( 'validate-js', function(){
           .pipe(plug.jshint.reporter('default'));
 
 });
-
 //  VALIDATION CSS
 gulp.task( 'validate-css', function(){
 
