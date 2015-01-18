@@ -1,8 +1,9 @@
-[![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
-##Welcome To eggs-genny
+##Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
 > *An EGGS-ellent [Yeoman](http://yeoman.io/) GENNY-erator for building modern web apps.*
 
 eggs-genny is a robust webapp scaffolding Yeoman generator.
+
+![Simulated animation of using eggs-genny](http://i.imgur.com/ujBGSSM.gif)
 
 In case you don't know what [Yeoman](http://yeoman.io/) is, it essentially like builds you out a "template" project or project skeleton. It's fucking dope, saves you a shit load of time, and there are [literally](https://github.com/yeoman/generator-webapp) [a bunch](https://github.com/yeoman/generator-polymer) [of prebuilt ones](https://github.com/yeoman/generator-bootstrap). You can also write your own, obviously, which is how [eggs-genny](https://www.npmjs.com/package/generator-eggs-genny) was born.
 
@@ -26,11 +27,9 @@ yo eggs-genny
 
 If that didn't work try running it with [`sudo`](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup#what-the-s-h-i-t-is-this) in front of the command.
 
-If it did work, then this is where shit gets real.
+If it did work, then this is where shit gets real...
 
-![Simulated animation of using eggs-genny](http://i.imgur.com/ujBGSSM.gif)
-
-Answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
+...answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
 
 ---
 
