@@ -1,7 +1,9 @@
 ##Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
-> *An EGGS-ellent [Yeoman](http://yeoman.io/) GENNY-erator for building modern web apps.*
+> Dumb name, great generator.
 
-eggs-genny is a robust webapp scaffolding Yeoman generator.
+eggs-genny is a robust webapp-building [Yeoman](http://yeoman.io/) generator. The terriblly [punny](http://en.wikipedia.org/wiki/Pun) name comes from this line that I wrote when I initialized the repo:
+
+>*An EGGS-ellent Yeoman GENNY-erator for building modern web apps.*
 
 ![Simulated animation of using eggs-genny](http://i.imgur.com/ujBGSSM.gif)
 
