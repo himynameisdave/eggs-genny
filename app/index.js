@@ -357,6 +357,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 deps: this.deps
             };
 
+        //  we want these items to get removed before trying to install anything
+        del(['.bowerrc', 'bower.json'], function (err, deletedFiles) {});
 
         //  Copy over some bower-related stuff,
         //  adding the app name and description to the bower.json
