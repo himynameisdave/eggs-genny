@@ -393,7 +393,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         var dependencies = [ 'lesslie' ], // Lesslie is always a dep by default
           //  local variables for easier access
             greeting     = this.greeting,
-            deps   = this.deps;
+            deps         = this.deps;
 
         //  Add needed deps to the list
         if( deps.jquery ){ dependencies.push('jquery'); }
