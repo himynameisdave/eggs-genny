@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html data-ng-app="app">
+<head>
+
+	<title>eggs-genny | A robust Yeoman Generator for building modern web apps</title>
+	<meta charset="UTF-8">
+
+	<meta name="description" content="A robust Yeoman Generator for building modern web apps">
+	<meta name="keywords" content="yeoman, generator-yeoman, generator, template, HTML5, CSS, LESS, Gulp, GulpJS, NodeJS, node, yeoman generator, eggs-genny, eggs yeoman, eggs genny, webapp, web app, scaffolding, project builder, HTML, npm, GSAP, Greensock, AngularJS, Angular, jQuery, Bootstrap CSS, Bootstrap">
+	<meta name="author" content="Dave Lunny">
+
+	<!--Mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="css/styles.css" />
+  <script type="text/javascript" src="js/scripts.js"></script>
+
+</head>
+<body data-ng-controller="Controller">
+
+	<!-- <header data-ng-include="'partials/header.html'" class="header"></header> -->
+
+	<div class="container-fluid fullheight">
+		<div class="row fullheight">
+			<nav class="nav col-xs-12 col-sm-3">
+				<ul class="nav-list">
+					<li data-ng-repeat="item in navlist" class="nav-list-item">
+						<span class="nav-list-item-inner">{{item.name}}</span>
+						<ul data-ng-if="item.subs" class="nav-list-sub">
+							<li data-ng-repeat="subitem in item.subs" class="nav-list-sub-item">
+								{{subitem.name}}
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<main class="main-area col-xs-12 col-sm-9" ui-view>
+
+
+			</main>
+		</div>
+	</div>
+
+
+</body>
+</html>

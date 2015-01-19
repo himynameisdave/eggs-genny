@@ -1,0 +1,11 @@
+{
+  "name": "eggs-genny-page",
+  "version": "0.0.1",
+  "description": "A landing page for eggs-genny",
+  "dependencies": {},
+  "devDependencies": {
+    "lesslie": "~1.0.5",
+    "angular": "~1.3.9",
+    "bootstrap": "~3.3.1"
+  }
+}

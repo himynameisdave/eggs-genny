@@ -1,0 +1,139 @@
+@import "../lib/css/lesslie.less";
+@import url(http://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,700|Playfair+Display:900);
+
+@color1:  #2c3e50;
+@deskWidth: 840px;
+@logoSize: 100px;
+
+@serif: 'Playfair Display', serif;
+@sans: 'Fira Sans', sans-serif;
+
+html, body{
+  font-family: @sans;
+  color: @color1;
+}
+
+
+.header {
+  background: #f1f1f1;
+  // border-top: 1px solid @color1;
+  border-bottom: 1px dotted @color1;
+  height: auto;
+  position: fixed;
+  left:0; top: 0;
+  width: 100%;
+  z-index: 900;
+  .header-inner {
+    .mauto;
+    max-width: @deskWidth;
+  }
+}
+
+.header-logo {
+  .ib;
+  background: url(../img/logo.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  height: @logoSize;
+  width: @logoSize;
+}
+
+.header-info {
+  .ib;
+
+  .header-title {
+    color: @color1;
+    font-family: @serif;
+    font-size: 39px;
+    margin:0; padding: 0;
+    line-height: 1;
+  }
+
+  .header-desc {
+    font-family:  @sans;
+    font-size: 13px;
+    font-weight: 100;
+    margin:0; padding: 0;
+    .mt2;
+    padding-left: 1px;
+    letter-spacing: 0.025em;
+    line-height: 1;
+  }
+
+}
+
+
+
+/* main area styles */
+.nav {
+  border-right: 1px dotted @color1;
+  height: 100%;
+  padding-top: @logoSize + 25px;
+  padding-left: 3em;
+  @media screen and (max-width: 800px){
+    height: 50px;
+  }
+
+}
+
+.nav-list {
+  padding: 0;
+  .nav-list-item {
+    .clickable();
+    .nav-list-item-inner{
+      .trans(color 0.35s ease-out);
+      color: @color1;
+      font-size: 17px;
+      font-family: @serif;
+      &:hover{
+        color: lighten(@color1, 35%);
+      }
+    }
+
+  }
+}
+
+.nav-list-sub {
+  padding: 0;
+  margin: 0.5em 0 0.5em;
+  padding-left: 1em;
+  .nav-list-sub-item {
+    color: #333;
+    font-size: 13px;
+    -webkit-transition: padding 0.45s ease-in-out, color 0.4s ease-out;
+    -moz-transition: padding 0.45s ease-in-out, color 0.4s ease-out;
+    -o-transition: padding 0.45s ease-in-out, color 0.4s ease-out;
+    transition: padding 0.45s ease-in-out, color 0.4s ease-out;
+    &:hover{
+      padding-left: 7px;
+      color: lighten(@color1, 35%);
+    }
+  }
+}
+
+
+
+
+.main-area{
+  .box-sizing();
+  padding-top: @logoSize + 25px;
+  padding-left: 4em;
+  padding-right: 2.5em;
+  color: @color1;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+
+.section {}
+
+.section-header {
+  color: @color1;
+  font-size: 28px;
+  font-family: @serif;
+}
+
+
+
+
