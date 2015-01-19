@@ -1,6 +1,6 @@
 ##Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
 
-[logo](http://i.imgur.com/OHr16iK.png)
+![logo](http://i.imgur.com/OHr16iK.png)
 
 ####*Dumb name, great generator.*
 
