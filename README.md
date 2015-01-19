@@ -1,5 +1,6 @@
 ##Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
-> Dumb name, great generator.
+
+####*Dumb name, great generator.*
 
 eggs-genny is a robust webapp-building [Yeoman](http://yeoman.io/) generator. The terriblly [punny](http://en.wikipedia.org/wiki/Pun) name comes from this line that I wrote when I initialized the repo:
 
@@ -43,7 +44,7 @@ If you want to know about the automated Gulp [build process](https://github.com/
 
 ##Contribute
 
-Wanna help a brother out? Feel free to make suggestions here or [on Twitter](https://twitter.com/dave_lunny), or better yet create a pull request and help build eggs-genny!
+Wanna [help a brother out?](https://github.com/himynameisdave/eggs-genny/wiki/Help-a-brother-out%3F) Feel free to make suggestions here or [on Twitter](https://twitter.com/dave_lunny), or better yet create a pull request and help build eggs-genny!
 
 ---
 
