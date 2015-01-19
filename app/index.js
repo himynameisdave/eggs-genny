@@ -92,7 +92,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
             //  App's name, description & greeting get it's own var for faster referencing
             this.greeting = props.greeting;
-            this.appName = props.name;
+            this.appName = props.name.replace(/ /g, "-");
             this.desc = props.desc;
 
             //  Call the async done function
