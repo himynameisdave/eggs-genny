@@ -7,28 +7,80 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
   $urlRouterProvider.otherwise("/");
 
   $stateProvider
-      .state('home', {
+      .state("intro", {
         url: "/",
-        templateUrl: "partials/intro.html",
-        controller: "Controller"
+        templateUrl: "partials/intro.html"
       })
-      .state('what-is-yeoman', {
+      .state("what-is-yeoman", {
         url: "/what-is-yeoman",
-        templateUrl: "partials/.html",
-        controller: "Controller"
+        templateUrl: "partials/what-is-yeoman.html"
       })
+      .state("installation", {
+        url: "/installation",
+        templateUrl: "partials/installation.html"
+      })
+
+      .state("dependencies", {
+        url: "/dependencies",
+        templateUrl: "partials/dependencies.html"
+      })
+      .state("jquery", {
+        url: "/jquery",
+        templateUrl: "partials/jquery.html"
+      })
+      .state("angular", {
+        url: "/angular",
+        templateUrl: "partials/angular.html"
+      })
+      .state("bootstrap", {
+        url: "/bootstrap",
+        templateUrl: "partials/bootstrap.html"
+      })
+      .state("gsap", {
+        url: "/GSAP",
+        templateUrl: "partials/gsap.html"
+      })
+
+      .state("usage", {
+        url: "/usage",
+        templateUrl: "partials/usage.html"
+      })
+      .state("directory-structure", {
+        url: "/directory-structure",
+        templateUrl: "partials/directory-structure.html"
+      })
+      .state("gulp-dev", {
+        url: "/gulp-dev",
+        templateUrl: "partials/gulp-dev.html"
+      })
+      .state("gulp-build", {
+        url: "/gulp-build",
+        templateUrl: "partials/gulp-build.html"
+      })
+
+      .state("about", {
+        url: "/about",
+        templateUrl: "partials/about.html"
+      })
+      .state("planned-features", {
+        url: "/planned-features",
+        templateUrl: "partials/planned-features.html"
+      })
+      .state("help-a-brother-out", {
+        url: "/help-a-brother-out",
+        templateUrl: "partials/help-a-brother-out.html"
+      });
 
 }]);
 
 
 //	MAIN CONTROLLER
-app.controller('Controller', ["$scope", function ($scope) {
-
+app.controller('Controller', ["$scope", "$state", function ($scope, $state) {
 
   $scope.navlist = [
     {
       name: "Intro",
-      link: "",
+      link: "intro",
       subs: [
         {
           name: "What the f-word is Yeoman?",
@@ -57,7 +109,7 @@ app.controller('Controller', ["$scope", function ($scope) {
         },
         {
           name: "GSAP",
-          link: "GSAP"
+          link: "gsap"
         }
       ]
     },{
@@ -91,4 +143,24 @@ app.controller('Controller', ["$scope", function ($scope) {
   ];
 
 
+
+  $scope.getOuttaHere = function(partial){
+    $state.go(partial);
+  };
+
+
+  $scope.menuState = false;
+  $scope.toggleMenu = function(){
+
+    if($scope.menuState){
+      $scope.menuState = false;
+    }else{
+      $scope.menuState = true;
+    }
+
+  };
+
+
 }]);
+
+

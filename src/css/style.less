@@ -1,12 +1,14 @@
 @import "../lib/css/lesslie.less";
-@import url(http://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,700|Playfair+Display:900);
+// @import url(http://fonts.googleapis.com/css?family=Fira+Sans:300|Playfair+Display:900|Fira+Mono);
 
 @color1:  #2c3e50;
-@deskWidth: 840px;
+@deskWidth: 800px;
 @logoSize: 100px;
 
 @serif: 'Playfair Display', serif;
 @sans: 'Fira Sans', sans-serif;
+
+@MQsm: ~"screen and (max-width: 800px)";
 
 html, body{
   font-family: @sans;
@@ -23,10 +25,6 @@ html, body{
   left:0; top: 0;
   width: 100%;
   z-index: 900;
-  .header-inner {
-    .mauto;
-    max-width: @deskWidth;
-  }
 }
 
 .header-logo {
@@ -41,6 +39,7 @@ html, body{
 
 .header-info {
   .ib;
+  width: 66.6666666%;
 
   .header-title {
     color: @color1;
@@ -64,15 +63,60 @@ html, body{
 }
 
 
+.header-menu-btn {
+  .clickable();
+  .trans( all 0.45s ease-in-out );
+  position: absolute;
+  top: @logoSize/4; right: 10px;
+  height: @logoSize/2;
+  width: @logoSize/2;
+
+  &:hover{
+    .rotate(-5deg);
+  }
+  .icon{
+    width: 100%; height: 100%;
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    &.icon-close{
+      background-image: url(../img/icon-close.svg);
+    }
+    &.icon-eggs{
+      background-image: url(../img/icon-eggs.svg);
+    }
+  }
+
+}
 
 /* main area styles */
 .nav {
   border-right: 1px dotted @color1;
   height: 100%;
   padding-top: @logoSize + 25px;
-  padding-left: 3em;
-  @media screen and (max-width: 800px){
-    height: 50px;
+  padding-left: 2em;
+  padding-right: 1em;
+  overflow: hidden;
+  z-index: 800;
+  @media @MQsm{
+    height: 0;
+    margin-top: 0;
+    position: fixed;
+    top: 100px;
+    padding: 0;
+    background: @color1;
+    .trans( all 0.85s ease-in-out );
+  }
+  &.nav-closed{
+    @media @MQsm{
+      height: 0;
+    }
+  }
+  &.nav-open{
+    @media @MQsm{
+      height: 500px;
+      padding: 1em 0;
+    }
   }
 
 }
@@ -81,6 +125,7 @@ html, body{
   padding: 0;
   .nav-list-item {
     .clickable();
+    .pos-rel;
     .nav-list-item-inner{
       .trans(color 0.35s ease-out);
       color: @color1;
@@ -88,6 +133,69 @@ html, body{
       font-family: @serif;
       &:hover{
         color: lighten(@color1, 35%);
+        @media @MQsm{ color: darken(#f1f1f1, 5%);  }
+      }
+      @media @MQsm{
+        color: #f1f1f1;
+      }
+    }
+
+    @media @MQsm{
+      padding: 0; margin: 10px 0;
+      text-align: center;
+    }
+
+    &:before,
+    &::before,
+    &:after,
+    &::after {
+      @media @MQsm{
+        content: '';
+        position: absolute;
+        top: 13px;
+        display: block;
+        background: #f1f1f1;
+        height: 1px;
+        width: 20%;
+        .trans( all 0.45s ease-in-out );
+      }
+    }
+
+    &:before,
+    &::before {
+      @media @MQsm{
+        left: 14%;
+      }
+    }
+
+    &:after,
+    &::after {
+      @media @MQsm{
+        right: 14%;
+      }
+    }
+
+    &:hover{
+      &:before,
+      &::before,
+      &:after,
+      &::after {
+        @media @MQsm{
+          width: 28%;
+        }
+      }
+      &:before,
+      &::before {
+        @media @MQsm{
+          left: 10%;
+        }
+      }
+
+      &:after,
+      &::after {
+        @media @MQsm{
+          right: 10%;
+        }
       }
     }
 
@@ -108,7 +216,15 @@ html, body{
     &:hover{
       padding-left: 7px;
       color: lighten(@color1, 35%);
+      @media @MQsm{ color: darken(#f1f1f1, 5%); padding: 0; }
     }
+    @media @MQsm{
+      color: #f1f1f1;
+    }
+  }
+  @media @MQsm{
+    padding: 0; margin: 10px 0;
+    text-align: center;
   }
 }
 
@@ -123,6 +239,16 @@ html, body{
   color: @color1;
   height: 100%;
   overflow-y: scroll;
+  z-index: 700;
+  @media @MQsm{
+    .trans( padding 0.85s ease-in-out );
+    &.nav-open{
+      padding-top: 625px;
+    }
+    &.nav-closed{
+      padding-top: 125px;
+    }
+  }
 }
 
 
@@ -132,8 +258,38 @@ html, body{
   color: @color1;
   font-size: 28px;
   font-family: @serif;
+  margin: 0.75em 0;
+}
+.section-sub-header{
+  color: @color1;
+  font-size: 24px;
+  font-family: @serif;
+  margin: 0.5em 0;
 }
 
+.section .para {
+  padding: 0;
+  margin: 0.5em 0;
+}
+.para-link{
+  color: lighten(@color1, 35%);
+  .trans(color 0.35s);
+  &:hover{
+    color: @color1;
+    text-decoration: none;
+  }
+}
 
+.section .img {
+  width: 100%;
+  max-width: 500px;
+  margin: 2em 0;
+  .mauto;
+  display: block;
+}
 
+.section .quote{
+  font-style: italic;
+  font-family: @serif;
+}
 

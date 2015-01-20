@@ -4,4 +4,8 @@
     <h1 class="header-title">eggs-genny</h1>
     <h2 class="header-desc">Dumb name, great generator.</h2>
   </div>
+  <div class="header-menu-btn visible-xs hidden-sm" data-ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }" data-ng-click="toggleMenu()">
+    <div class="icon icon-eggs" data-ng-if="!menuState"></div>
+    <div class="icon icon-close" data-ng-if="menuState"></div>
+  </div>
 </div>

@@ -112,7 +112,7 @@ gulp.task( 'compile-me', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-me'], function(){
 
-  return  gulp.src( [ 'src/lib/bootstrap.css', 'src/css/*.css' ] )
+  return  gulp.src( [ 'src/lib/css/bootstrap.css', 'src/css/*.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -123,15 +123,15 @@ gulp.task( 'css-me', ['compile-me'], function(){
             .pipe( gulp.dest( 'css/' ) );
 
 });
-gulp.task( 'uncss-me', ['css-me', 'partials-me', 'html-me'], function(){
+// gulp.task( 'uncss-me', ['css-me', 'partials-me', 'html-me'], function(){
 
-  return gulp.src('css/styles.css')
-          .pipe(plug.uncss({
-            html: glob.sync('partials/*.html')
-          }))
-          .pipe( plug.minifyCss() )
-          .pipe(gulp.dest('css/'));
-});
+//   return gulp.src('css/styles.css')
+//           .pipe(plug.uncss({
+//             html: glob.sync('partials/*.html')
+//           }))
+//           .pipe( plug.minifyCss() )
+//           .pipe(gulp.dest('css/'));
+// });
 
 //  JSTASKS
 

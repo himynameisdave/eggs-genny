@@ -761,23 +761,17 @@ p {
 blockquote {
 	.type-sizer( @val: 1.25 );
 	.border-radius( 5px );
-	.trans(background 0.35s);
 	.pos-rel;
 	padding: 0.75em 1.25em;
 	margin: 0.25em 0.75em;
-	background: @darkColor-1;
-	color: @offWhite;
 	border: 0;
-
+  
 	.cite {
 		.type-sizer( @val: 1 );
 		display: block;
 		padding: 0.5em 1em;
 	}
 
-	&:hover {
-		background: lighten(@darkColor-1, 1.5%);
-	}
 }
 
 blockquote.quotey {

@@ -8,10 +8,12 @@
 	<meta name="description" content="A robust Yeoman Generator for building modern web apps">
 	<meta name="keywords" content="yeoman, generator-yeoman, generator, template, HTML5, CSS, LESS, Gulp, GulpJS, NodeJS, node, yeoman generator, eggs-genny, eggs yeoman, eggs genny, webapp, web app, scaffolding, project builder, HTML, npm, GSAP, Greensock, AngularJS, Angular, jQuery, Bootstrap CSS, Bootstrap">
 	<meta name="author" content="Dave Lunny">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 	<!--Mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<link href='http://fonts.googleapis.com/css?family=Fira+Sans:300|Playfair+Display:900|Fira+Mono' rel='stylesheet' type='text/css'>
 <!-- build:css -->
 	<link href="lib/css/bootstrap.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="css/style.css"	/>
@@ -25,25 +27,24 @@
 </head>
 <body ng-controller="Controller">
 
-	<!-- <header ng-include="'partials/header.html'" class="header"></header> -->
+	<header ng-include="'partials/header.html'" class="header container-fluid"></header>
 
 	<div class="container-fluid fullheight">
 		<div class="row fullheight">
-			<nav class="nav col-xs-12 col-sm-3">
+			<nav id="nav" class="nav col-xs-12 col-sm-3" ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }">
 				<ul class="nav-list">
 					<li ng-repeat="item in navlist" class="nav-list-item">
-						<span class="nav-list-item-inner">{{item.name}}</span>
+						<span class="nav-list-item-inner" ng-click="getOuttaHere(item.link)">{{item.name}}</span>
 						<ul ng-if="item.subs" class="nav-list-sub">
-							<li ng-repeat="subitem in item.subs" class="nav-list-sub-item">
+							<li ng-repeat="subitem in item.subs" class="nav-list-sub-item" ng-click="getOuttaHere(subitem.link)">
 								{{subitem.name}}
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</nav>
-			<main class="main-area col-xs-12 col-sm-9" ui-view>
-
-
+			<main class="main-area col-xs-12 col-sm-9" ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }" ui-view>
+				
 			</main>
 		</div>
 	</div>
