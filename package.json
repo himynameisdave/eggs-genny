@@ -1,10 +1,10 @@
 {
   "name": "generator-eggs-genny",
   "version": "1.1.1",
-  "description": "Dumb name, great generator.",
+  "description": "Dumb name, great yeoman-generator.",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "himynameisdave/generator-eggs-genny",
+  "repository": "himynameisdave/eggs-genny",
   "author": {
     "name": "Dave Lunny",
     "email": "sir.dave@me.com",
