@@ -2,7 +2,102 @@
 
   <h3 class="section-header">Installation/Setup</h3>
 
+  <p class="para">
+    It's pretty easy to install Yeoman and then eggs-genny, which are both available on the <a class="para-link" href="https://npmjs.com">npm</a> registry. Dependencies are installed using <a class="para-link" href="http://bower.io">Bower</a>, and if you aren't familiar with these it's totally fine because eggs-genny takes care of all that for you. It uses <a class="para-link" href="http://gulpjs.com/">Gulp</a> as a task runner (Grunt and <a class="para-link" href="http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/">pure-npm</a> task-runners coming soon!), and even if you don't use it you should be able to follow the usage <a class="para-link" href="https://github.com/himynameisdave/eggs-genny/wiki">guide/wiki</a> and understand what's going on.
+  </p>
 
+  <hr class="line" />
 
+  <h4 class="section-sub-header">Step One:</h4>
+
+  <p class="para">
+    Install Yeoman. That `-g` means gangster --er, I mean 'global'-- as in it is globally available on your system.
+  </p>
+
+  <code class="code code-block">
+    npm install -g yo
+  </code>
+
+  <p class="para">
+    As we said, you'll need Bower &amp; Gulp, so if you want you can install as many as you want at the same time:
+  </p>
+
+  <code class="code code-block">
+    npm install -g yo bower gulp
+  </code>
+
+  <p class="para">
+    Problems? <a class="para-link" href="#installation#wtf-errors">See below</a>.
+  </p>
+
+  <h4 class="section-sub-header">Step Two:</h4>
+
+  <p class="para">
+    Install the greatest Yeoman genny known to man:
+  </p>
+
+  <code class="code code-block">
+    npm install -g generator-eggs-genny
+  </code>
+
+  <p class="para">
+    Thats it. You've got eggs-genny on your system.
+  </p>
+
+  <h4 class="section-sub-header">Step Three:</h4>
+
+  <p class="para">
+    <a class="para-link" href="http://en.wikipedia.org/wiki/Cd_%28command%29">
+      <code class="code">cd</code>
+    </a> into you rag-tag little project and run:
+  </p>
+
+  <code class="code code-block">
+    yo eggs-genny
+  </code>
+
+  <p class="para">
+    This is where shit gets real.
+  </p>
+
+  <img class="img" src="http://i.imgur.com/7oepdLv.png" alt="eggs-genny startup" />
+
+  <h4 class="section-sub-header">Step Four:</h4>
+
+  <p class="para">
+    Answer some questions about you and your app. Then answer some questions about the dependencies you want.
+  </p>
+
+  <p class="para">
+    You can learn all about the dependencies that eggs-genny has to offer on the dependency pages. If you are using the <a class="para-link" href="https://greensock.com/gsap">GSAP</a> animation platform, you will also be asked additional questions about which plugins you would like to use.
+  </p>
+
+  <h4 class="section-sub-header">Step Five (some users):</h4>
+
+  <p class="para">
+    So if you saw a bunch of like errors or red stuff toward the end of that, then you may need to do this one tiny extra step. eggs-genny attempts to do an <code class="code">npm install</code> of the necessary dependencies. Depending on how permissions are configured on your system, you may also need to run it with <code class="code">sudo</code> after doing step 4. You can see more about this below.
+  </p>
+
+  <hr class="line" />
+
+  <h3 id="wtf-errors" class="section-sub-header">What the shit is this?</h3>
+
+  <img class="img" src="http://i.imgur.com/TrFjvAO.png" alt="eggs-genny errors" />
+
+  <p class="para">
+    Don't panic, it's all good. All you need to do is throw <code class="code">sudo</code> in front of those commands and you should be good. Like this:
+  </p>
+
+  <code class="code code-block">
+    sudo npm install
+  </code>
+
+  <p class="para">
+    And then type your password. You probably won't be able to see what you're typing DON'T SCREW UP! Just kidding it's nbd if you do, you'll just have to re-type it.
+  </p>
+
+  <p class="para">
+    <code class="code">sudo</code> is short for <a class="para-link" href="http://en.wikipedia.org/wiki/Pseudoephedrine">pseudoephedrine</a>, which is what some commands need to be run on some people's systems. Not actually though.
+  </p>
 
 </section>

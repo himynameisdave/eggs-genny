@@ -145,6 +145,7 @@ app.controller('Controller', ["$scope", "$state", function ($scope, $state) {
 
 
   $scope.getOuttaHere = function(partial){
+    $scope.menuState = false;
     $state.go(partial);
   };
 

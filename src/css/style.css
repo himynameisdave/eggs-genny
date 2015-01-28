@@ -988,6 +988,9 @@ body {
   font-family: 'Fira Sans', sans-serif;
   color: #2c3e50;
 }
+a:hover {
+  text-decoration: none;
+}
 .header {
   background: #f1f1f1;
   border-bottom: 1px dotted #2c3e50;
@@ -1049,11 +1052,6 @@ body {
   right: 10px;
   height: 50px;
   width: 50px;
-}
-.header-menu-btn:hover {
-  -ms-transform: rotate(-5deg);
-  -webkit-transform: rotate(-5deg);
-  transform: rotate(-5deg);
 }
 .header-menu-btn .icon {
   width: 100%;
@@ -1256,17 +1254,22 @@ body {
     padding-top: 125px;
   }
 }
+.section {
+  padding-bottom: 80px;
+}
 .section-header {
   color: #2c3e50;
   font-size: 28px;
   font-family: 'Playfair Display', serif;
+  line-height: 1.15;
   margin: 0.75em 0;
 }
 .section-sub-header {
   color: #2c3e50;
-  font-size: 24px;
+  font-size: 22px;
   font-family: 'Playfair Display', serif;
-  margin: 0.5em 0;
+  line-height: 1.15;
+  margin: 1em 0;
 }
 .section .para {
   padding: 0;
@@ -1291,7 +1294,31 @@ body {
   margin-right: auto;
   display: block;
 }
+.section .img.img-small {
+  max-width: 300px;
+}
+.img-quote {
+  font-size: 12px;
+  padding-left: 3em;
+}
 .section .quote {
   font-style: italic;
   font-family: 'Playfair Display', serif;
+}
+.line {
+  margin: 2em 0;
+}
+.code {
+  background: #2c3e50;
+  color: #f1f1f1;
+  display: inline;
+  font-family: monospace;
+  margin: 1.5em 0;
+  padding: 0.1em 0.4em;
+  vertical-align: middle;
+  width: 100%;
+}
+.code.code-block {
+  display: block;
+  padding: 0.5em 1em;
 }

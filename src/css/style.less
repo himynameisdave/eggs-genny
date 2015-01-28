@@ -8,11 +8,16 @@
 @serif: 'Playfair Display', serif;
 @sans: 'Fira Sans', sans-serif;
 
-@MQsm: ~"screen and (max-width: 800px)";
+@MQsm: ~"screen and (max-width: 575px)";
+@MQmd: ~"screen and (max-width: 800px)";
 
 html, body{
   font-family: @sans;
   color: @color1;
+}
+
+a:hover{
+  text-decoration: none;
 }
 
 
@@ -71,9 +76,9 @@ html, body{
   height: @logoSize/2;
   width: @logoSize/2;
 
-  &:hover{
-    .rotate(-5deg);
-  }
+  // &:hover{
+  //   .scale(1.225);
+  // }
   .icon{
     width: 100%; height: 100%;
     background-size: contain;
@@ -98,7 +103,7 @@ html, body{
   padding-right: 1em;
   overflow: hidden;
   z-index: 800;
-  @media @MQsm{
+  @media @MQmd{
     height: 0;
     margin-top: 0;
     position: fixed;
@@ -108,12 +113,12 @@ html, body{
     .trans( all 0.85s ease-in-out );
   }
   &.nav-closed{
-    @media @MQsm{
+    @media @MQmd{
       height: 0;
     }
   }
   &.nav-open{
-    @media @MQsm{
+    @media @MQmd{
       height: 500px;
       padding: 1em 0;
     }
@@ -133,14 +138,14 @@ html, body{
       font-family: @serif;
       &:hover{
         color: lighten(@color1, 35%);
-        @media @MQsm{ color: darken(#f1f1f1, 5%);  }
+        @media @MQmd{ color: darken(#f1f1f1, 5%);  }
       }
-      @media @MQsm{
+      @media @MQmd{
         color: #f1f1f1;
       }
     }
 
-    @media @MQsm{
+    @media @MQmd{
       padding: 0; margin: 10px 0;
       text-align: center;
     }
@@ -149,7 +154,7 @@ html, body{
     &::before,
     &:after,
     &::after {
-      @media @MQsm{
+      @media @MQmd{
         content: '';
         position: absolute;
         top: 13px;
@@ -163,14 +168,14 @@ html, body{
 
     &:before,
     &::before {
-      @media @MQsm{
+      @media @MQmd{
         left: 14%;
       }
     }
 
     &:after,
     &::after {
-      @media @MQsm{
+      @media @MQmd{
         right: 14%;
       }
     }
@@ -180,20 +185,20 @@ html, body{
       &::before,
       &:after,
       &::after {
-        @media @MQsm{
+        @media @MQmd{
           width: 28%;
         }
       }
       &:before,
       &::before {
-        @media @MQsm{
+        @media @MQmd{
           left: 10%;
         }
       }
 
       &:after,
       &::after {
-        @media @MQsm{
+        @media @MQmd{
           right: 10%;
         }
       }
@@ -216,13 +221,13 @@ html, body{
     &:hover{
       padding-left: 7px;
       color: lighten(@color1, 35%);
-      @media @MQsm{ color: darken(#f1f1f1, 5%); padding: 0; }
+      @media @MQmd{ color: darken(#f1f1f1, 5%); padding: 0; }
     }
-    @media @MQsm{
+    @media @MQmd{
       color: #f1f1f1;
     }
   }
-  @media @MQsm{
+  @media @MQmd{
     padding: 0; margin: 10px 0;
     text-align: center;
   }
@@ -240,7 +245,7 @@ html, body{
   height: 100%;
   overflow-y: scroll;
   z-index: 700;
-  @media @MQsm{
+  @media @MQmd{
     .trans( padding 0.85s ease-in-out );
     &.nav-open{
       padding-top: 625px;
@@ -251,20 +256,23 @@ html, body{
   }
 }
 
-
-.section {}
+.section {
+  padding-bottom: 80px;
+}
 
 .section-header {
   color: @color1;
   font-size: 28px;
   font-family: @serif;
+  line-height: 1.15;
   margin: 0.75em 0;
 }
 .section-sub-header{
   color: @color1;
-  font-size: 24px;
+  font-size: 22px;
   font-family: @serif;
-  margin: 0.5em 0;
+  line-height: 1.15;
+  margin: 1em 0;
 }
 
 .section .para {
@@ -286,10 +294,39 @@ html, body{
   margin: 2em 0;
   .mauto;
   display: block;
+  &.img-small {
+    max-width: 300px;
+  }
+}
+
+.img-quote {
+  font-size: 12px;
+  padding-left: 3em;
 }
 
 .section .quote{
   font-style: italic;
   font-family: @serif;
 }
+
+.line {
+  margin: 2em 0;
+}
+
+.code {
+  background: @color1;
+  color: #f1f1f1;
+  display: inline;
+  font-family: monospace;
+  margin: 1.5em 0;
+  padding: 0.1em 0.4em;
+  vertical-align: middle;
+  width: 100%;
+  &.code-block{
+    display: block;
+    padding: 0.5em 1em;
+  }
+}
+
+
 
