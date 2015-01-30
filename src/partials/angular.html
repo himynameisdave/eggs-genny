@@ -2,6 +2,51 @@
 
   <h3 class="section-header">AngularJS</h3>
 
+  <p class="para">
+    Maybe you've never developed anything using Google's little [AngularJS](angularjs.org) project. So, for those of you who have not yet <code class="code">ng-app</code>'d, let me put it in perspective what developing an app in Angular feels like:
+  </p>
+
+  <img class="img" src="http://www.reactiongifs.com/r/dpfy.gif" alt="fuck yeah angular" />
+
+  <p class="para">
+    Now, of course, not everything comes super easy at first. As <a class="para-link" href="http://ruoyusun.com/2013/05/25/things-i-wish-i-were-told-about-angular-js.html">many</a>, <a class="para-link" href="http://www.bennadel.com/blog/2439-my-experience-with-angularjs-the-super-heroic-javascript-mvw-framework.htm">many</a> people will point out there is a weird learning curve that comes with Angular. It's not a steep one per say, more of a WTF FUCK THIS WTF/THIS IS THE BEST FRAMEWORK! sort of roller coaster effect, first visualized here:
+  </p>
+
+  <img class="img" src="http://www.bennadel.com/resources/uploads/2013/feelings_about_angularjs_over_time.png" alt="angular over time" />
+
+  <p class="para">
+    That is literally everyone's feelings about Angular. Although it is easy to critique Angular's weaknesses (and believe me, the 1.x.x versions have them), the overall concept of <a class="para-link" href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> that Angular applies to web development will really make you think about your application stack in a lot more detail.
+  </p>
+
+  <hr class="line" />
+
+  <h4 class="section-sub-header">What's Included</h4>
+
+  <p class="para">
+    eggs-genny comes with an Angular option. This is going to do a few things that are a little different then a normal web app, but the first part is the same, with the main file being added to your <code class="code">index.html</code>:
+  </p>
+
+  <code class="code code-block">
+    &lt;script type="text/javascript" src="lib/js/angular.js"&gt;&lt;/script&gt;
+  </code>
+
+  <p class="para">
+    A <code class="code">app/partials/</code> directory is added to Angular projects to store partial HTML files.
+  </p>
+
+  <p class="para">
+    The <code class="code">gulp build</code> task is a little different if you are using Angular. Namely, it installs two additional gulp plugins to help build Angular:
+    <!-- <ul class="list">
+      <li>
+        <a class="para-link" href="https://www.npmjs.com/package/gulp-ng-annotate">gulp-ng-annotate</a> - to handle Angular's poor framework design choice where minifying an Angular app 'breaks' it
+      </li>
+      <li>
+        <a class="para-link" href="https://github.com/pgilad/gulp-angular-htmlify">gulp-angular-htmlify</a> - to add a `data-` prefix to Angular directives so that if the markup was run through <a class="para-link" href="http://validator.w3.org/">a validator</a> it would pass (what, am I the only one who gets a hard on for web standards?)
+      </li>
+    </ul> -->
+  </p>
+
+
 
 
 

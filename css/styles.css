@@ -3985,9 +3985,30 @@ a:hover
 
     color: #2c3e50;
 }
+.header-link
+{
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-transition: color .35s;
+            transition: color .35s;
+
+    color: #7997b5;
+
+    -webkit-touch-callout: none;
+     -khtml-user-select: none;
+}
+.header-link:hover
+{
+    text-decoration: none;
+
+    color: #2c3e50;
+}
 .section .para
 {
-    margin: .5em 0;
+    margin: 1em 0;
     padding: 0;
 }
 .para-link
@@ -4052,4 +4073,9 @@ a:hover
     display: block;
 
     padding: .5em 1em;
+}
+.list
+{
+    margin: 1.5em 0;
+    padding: 0 .25em;
 }

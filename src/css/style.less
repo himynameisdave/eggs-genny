@@ -274,10 +274,19 @@ a:hover{
   line-height: 1.15;
   margin: 1em 0;
 }
+.header-link {
+  .clickable();
+  color: lighten(@color1, 35%);
+  .trans(color 0.35s);
+  &:hover{
+    color: @color1;
+    text-decoration: none;
+  }
+}
 
 .section .para {
   padding: 0;
-  margin: 0.5em 0;
+  margin: 1em 0;
 }
 .para-link{
   color: lighten(@color1, 35%);
@@ -328,5 +337,7 @@ a:hover{
   }
 }
 
-
-
+.list {
+  margin: 1.5em 0;
+  padding: 0 0.25em;
+}

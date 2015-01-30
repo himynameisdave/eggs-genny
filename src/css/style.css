@@ -1271,9 +1271,27 @@ a:hover {
   line-height: 1.15;
   margin: 1em 0;
 }
+.header-link {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #7997b5;
+  -webkit-transition: color 0.35s;
+  -moz-transition: color 0.35s;
+  -o-transition: color 0.35s;
+  transition: color 0.35s;
+}
+.header-link:hover {
+  color: #2c3e50;
+  text-decoration: none;
+}
 .section .para {
   padding: 0;
-  margin: 0.5em 0;
+  margin: 1em 0;
 }
 .para-link {
   color: #7997b5;
@@ -1321,4 +1339,8 @@ a:hover {
 .code.code-block {
   display: block;
   padding: 0.5em 1em;
+}
+.list {
+  margin: 1.5em 0;
+  padding: 0 0.25em;
 }
