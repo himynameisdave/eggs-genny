@@ -2,7 +2,102 @@
 
   <h3 class="section-header">Basic Directory Tree</h3>
 
+  <p class="para">
+    The basic directory tree produced from running <code class="code">yo eggs-genny</code> is as follows:
+  </p>
 
+  <code class="code code-block"> ./
+ | .bowerrc
+ | app/
+ | | css/
+ | | | style.css
+ | | | style.less
+ | | img/
+ | | | ...all image files go here...
+ | | index.html
+ | | js/
+ | | | app.js
+ | | lib
+ | | | css/
+ | | | | lesslie.less
+ | | | | ...all other css lib files...
+ | | | | js/
+ | | | | ...all other js lib files...
+ | | partials/
+ | | | ...all partial files go here (Angular)...
+ | bower.json
+ | build/
+ | | css/
+ | | | styles.css
+ | | index.html
+ | | js/
+ | | | scripts.js
+ | | partials/
+ | | | ...all partial files go here
+ | gulpfile.js
+ | node_modules/
+ | | ...all node modules are installed into this directory...
+ | package.json
+  </code>
 
+  <p class="para">
+    Pretty ugly when it's guts are ripped right open for you, eh? Lets go through it together and make sense of what's going on.
+  </p>
+
+  <hr class="line" />
+
+  <h4 class="section-sub-header"><code class="code">.bowerrc</code></h4>
+
+  <p class="para">
+    This is the file that tells <a class="para-link" href="http://bower.io">Bower</a> where it should install shit. This file sets it to <code class="code">app/lib</code> so that they will go there while eggs-genny does it's thing.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">app/</code></h4>
+
+  <p class="para">
+    This is the development folder for your app. All assets, styles, scripts and markups are in this folder.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">app/partials</code></h4>
+
+  <p class="para">
+    If you chose to install <a class="para-link" href="https://github.com/himynameisdave/eggs-genny/wiki/AngularJS">Angular</a>, you will get a folder called <code class="code">partials</code> where you can stick your HTML partial files.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">bower.json</code></h4>
+
+  <p class="para">
+    Like a <code class="code">package.json</code> but for your Bower dependencies.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">build/</code></h4>
+
+  <p class="para">
+    This is where the minified and production-ready version of your app is. By default this folder is empty until <code class="code">gulp build</code> is run. Very minimal and once again if you use Angular your partials will also be here.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">tmp/</code></h4>
+
+  <p class="para">
+    <code class="code">tmp/</code> is a funny one because it is not listed, as it is only a temporary folder. It is used to store stuff during the <code class="code">gulp build</code> task and is deleted at the end of that build task.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">gulpfile.js</code></h4>
+
+  <p class="para">
+    The goods. This is where all the sweet Gulp tasks are defined. You can read more on the build (coming soon).
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">node_modules</code></h4>
+
+  <p class="para">
+    Where npm modules are installed &amp; stored.
+  </p>
+
+  <h4 class="section-sub-header"><code class="code">package.json</code></h4>
+
+  <p class="para">
+    Defines all the packages needed to run this show.
+  </p>
 
 </section>

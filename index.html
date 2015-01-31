@@ -24,7 +24,7 @@
 
 	<div class="container-fluid fullheight">
 		<div class="row fullheight">
-			<nav id="nav" class="nav col-xs-12 col-sm-3" data-ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }">
+			<nav id="nav" class="nav nav-trans col-xs-12 col-sm-3" data-ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }">
 				<ul class="nav-list">
 					<li data-ng-repeat="item in navlist" class="nav-list-item">
 						<span class="nav-list-item-inner" data-ng-click="getOuttaHere(item.link)">{{item.name}}</span>

@@ -2,7 +2,28 @@
 
   <h3 class="section-header">Bootstrap CSS</h3>
 
+  <p class="para">
+    <a class="para-link" href="http://getbootstrap.com/css/">Bootstrap CSS</a> is one of the dependency options offered by eggs-genny. Note that this is just the CSS, not the JS. There are plans to bring in the Bootstrap JS stuff, but not in the near future. If you want the JS in there really badly, open a pull request.
+  </p>
 
+  <p class="para">
+    The JS components were left out because they were seen as not as crucial as the CSS. Also they are clunky, and when eggs-genny does support them, it will be in a modular sort of 'pick your modules' thing like they have.
+  </p>
 
+  <hr class="line" />
+
+  <h4 class="section-sub-header">What's Included</h4>
+
+  <p class="para">
+    The Bootstrap CSS will live in <code class="code">app/lib/css/</code> and be brought in before your stylesheet in the <code class="code">index.html</code> file:
+  </p>
+
+  <code class="code code-block">
+    &lt;link rel="stylesheet" type="text/css" href="css/bootstrap.css" /&gt;
+  </code>
+
+  <p class="para">
+    The unminified version is used in development but is minified during the build process. <a class="para-link" href="https://github.com/giakki/uncss">Uncss</a> is run on the final concatenated CSS file as well, which strips out whatever Bootstrap is not being used in you HTML files (so no worries about bloat).
+  </p>
 
 </section>

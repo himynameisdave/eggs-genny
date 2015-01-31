@@ -2,7 +2,139 @@
 
   <h3 class="section-header">GSAP</h3>
 
+  <p class="para">
+    <a class="para-link" href="https://greensock.com/gsap">GSAP</a> stands for "GreenSock Animation Platform". Greensock is a company which has made the greatest JavaScript-based animation platform out there. Stupid name, right? The logo follows suit:
+  </p>
+
+  <img class="img" src="http://greensock.com/wp-content/themes/greensock/images/greensock-logo.svg" alt="GSAP" />
+
+  <div class="img-quote">
+    "Powering animation on the web (through the power of smelly socks!)"
+  </div>
+
+  <p class="para">
+    That one's actually pretty sexy though, it's not as bad as their old logo which I am shocked made it past the crack marketing team over at Greensock:
+  </p>
+
+  <img class="img" src="http://doitflash.com/wp-content/uploads/2011/07/greensock_logo.png" alt="old GSAP logo" />
+
+  <div class="img-quote">
+    It's like a man getting electrocuted by an alien eel
+  </div>
+
+  <p class="para">
+    Anyway this is by far the greatest animation platform out there. I recommend it over anything else for serious animation on the web. And I don't mean a button hover effect either (CSS animations handle that). I'm talking about legit transforming HTML5 DOM elements on the page.
+  </p>
+
+  <p class="para">
+    It was actually first made as an ActionScript library. Seeing as these guys have been doing this since the Flash days, I'd say they know their shit.
+  </p>
+
+  <hr class="line" />
+
+  <h4 class="section-sub-header">What's Included?</h4>
+
+  <p class="para">
+    What's included depends on some preferences because GSAP encompasses a wide range of tools and plugins for web animation:
+  </p>
+
+  <h4 class="section-sub-header">TweenLite or TweenMax</h4>
+
+  <p class="para">
+    The first thing eggs-genny asks you after you tell it you want some GSAP is if you would like to use <a class="para-link" href="https://greensock.com/tweenlite">TweenLite</a> or <a class="para-link" href="https://greensock.com/tweenmax">TweenMax</a>. If you are tooling around, doing some minor animation stuff, I'd recommend TweenLite, because it pretty much gives you all the features you'd ever need. And you can upgrade to TweenMax at any time without changing any code because TweenMax extends TweenLite. These green alien guys are so smart.
+  </p>
+
+  <p class="para">
+    <a class="para-link" href="https://greensock.com/tweenlite">TweenLite</a> comes with <a class="para-link" href="">TimelineLite</a>, which makes it easy to setup a series of animations.
+  </p>
+
+  TweenLite &amp; TimelineLite are brought into your <code class="code">index.html</code> file as such:
+
+  <code class="code code-block">
+&lt;script type="text/javascript" src="lib/js/TweenLite.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="lib/js/TimelineLite.js"&gt;&lt;/script&gt;
+  </code>
 
 
+  <p class="para">
+    <a class="para-link" href="https://greensock.com/tweenmax">TweenMax</a> comes with a shitload of stuff (to my surprise), all in one handy file. It has all that TweenLite stuff and the Timeline stuff, as well as a bunch of key plugins for it. This is kind of extra though if all you want to do is animate a few small things. Still offers great performance with minimal footprint.
+  </p>
+
+
+  <code class="code code-block">
+&lt;script type="text/javascript" src="lib/js/TweenMax.js"&gt;&lt;/script&gt;
+  </code>
+
+  <p class="para">
+    As will all depenendencies, they are unminified, as the they get minified during the build process. They are both brought in before your main <code class="code">app.js</code> file.
+  </p>
+
+  <h4 class="section-sub-header">Plugins</h4>
+
+  <p class="para">
+    There are a number of plugins for GSAP that extend it. eggs-genny is going to ask you which ones you want. Now you could just use TweenMax, which comes with a bunch of common plugins already, or you could go with TweenLite and then pick some plugins for it. Regardless, if you want info on what these plugins do, just follow the links to the Greensock site below: (descriptions coming straight from Greensock)
+
+    <ul class="list">
+      <li>
+        <a class="para-link" href="https://greensock.com/">AttrPlugin</a> - Tweens any numeric attribute of a DOM element.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/BezierPlugin">BezierPlugin</a> - Animate virtually any property (or properties) along a curved Bezier path which you define as an array of points/values.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/CSSPlugin">CSSPlugin</a> - With the help of the CSSPlugin, GSAP can animate almost any css-related property of DOM elements.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/CSSRulePlugin">CSSRulePlugin</a> - Allows TweenLite and TweenMax to animate the raw style sheet rules which affect all objects of a particular selector.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/DirectionalRotationPlugin">DirectionalRotationPlugin</a>Tweens any rotation-related property to another value in a particular direction.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/EaselPlugin">EaselPlugin</a> - Tweens special EaselJS-related properties for things like saturation, contrast, tint, colorize, brightness, exposure, and hue.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/EasePack">EasePack</a> - A bunch of extra eases you can use.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/KineticPlugin">KineticPlugin</a> - Enables TweenLite and TweenMax to animate properties of KineticJS objects.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/RaphaelPlugin">RaphaelPlugin</a> - Enables TweenLite and TweenMax to animate properties of Raphael JavaScript objects.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/RoundPropsPlugin">RoundPropsPlugin</a> - Rounds the inbetween values in a tween to the nearest integer.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/ScrollToPlugin">ScrollToPlugin</a> - Allows TweenLite and TweenMax to animate the scroll position of either the window or a DOM element's content.
+      </li>
+      <li>
+        <a class="para-link" href="https://greensock.com/TextPlugin">TextPlugin</a> - Tweens the text content of a DOM element, replacing it one character or word at a time.
+      </li>
+    </ul>
+  </p>
+
+  <p class="para">
+    These plugins are brought into your <code class="code">index.html</code> file as such (only the ones you selected are added):
+  </p>
+
+  <code class="code code-block">
+    &lt;script type="text/javascript" src="lib/js/AttrPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/BezierPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/CSSPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/CSSRulePlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/DirectionalRotationPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/EaselPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/EasePack.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/KineticPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/RaphaelPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/RoundPropsPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/ScrollToPlugin.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="lib/js/TextPlugin.js"&gt;&lt;/script&gt;
+  </code>
+
+  <p class="para">
+    These are also unminified, as they get minified during the build process. They are brought in after the TweenLite/Max stuff, but before your <code class="code">app.js</code> script.
+  </p>
 
 </section>

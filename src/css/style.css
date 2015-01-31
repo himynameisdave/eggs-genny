@@ -1291,7 +1291,7 @@ a:hover {
 }
 .section .para {
   padding: 0;
-  margin: 1em 0;
+  margin: 1.25em 0;
 }
 .para-link {
   color: #7997b5;
@@ -1317,7 +1317,8 @@ a:hover {
 }
 .img-quote {
   font-size: 12px;
-  padding-left: 3em;
+  font-style: italic;
+  text-align: center;
 }
 .section .quote {
   font-style: italic;
@@ -1338,9 +1339,27 @@ a:hover {
 }
 .code.code-block {
   display: block;
+  overflow-x: auto;
+  overflow: auto;
+  line-height: 0.75;
   padding: 0.5em 1em;
+  word-wrap: normal;
+  white-space: pre;
+  width: 100%;
 }
 .list {
   margin: 1.5em 0;
-  padding: 0 0.25em;
+  padding: 0;
+}
+.list li {
+  margin: 1em 0;
+  line-height: 1.68;
+  padding: 0 0.75em;
+  -webkit-transition: padding 0.475s;
+  -moz-transition: padding 0.475s;
+  -o-transition: padding 0.475s;
+  transition: padding 0.475s;
+}
+.list li:hover {
+  padding: 0 0.95em;
 }

@@ -2,7 +2,87 @@
 
   <h3 class="section-header">Gulp - Development</h3>
 
+  <p class="para">
+    Even if you have no experience with a task runner, that's fine because I'm going to show you the exact commands you have to copy &amp; paste into your terminal to start developing like a boss. Here's a rundown of the essential development tasks that eggs-genny offers (we'll cover tasks for building a production-ready app <a class="para-link" href="#gulp-build">over here</a>)
+  </p>
 
+  <hr class="line" />
 
+  <h4 class="section-sub-header">Default</h4>
+
+  <code class="code code-block">
+gulp
+  </code>
+
+  <p class="para">
+    In Gulp, the <code class="code">gulp</code> task is the default task. It sets up a development environment, by running some tasks outlined below:
+  </p>
+
+  <h4 class="section-sub-header"><code class="code code-block">serve-me</code></h4>
+
+  <p class="para">
+    This sets up a <code class="code">localhost</code> server. The port it listens to by default is <code class="code">:6969</code>, because I am inappropriate. So you can throw this url into your browser to see your app running right away:
+  </p>
+
+  <code class="code code-block">
+http://localhost:6969/app/index.html
+  </code>
+
+  <h4 class="section-sub-header"><code class="code code-block">reload-me</code></h4>
+
+  <p class="para">
+    Okay so if you aren't aware yet of the greatest developer tool ever invented, feast your eyes on <a class="para-link" href="https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en">LiveReload</a> which is a free Chrome extension that, when configured, runs with Gulp. So you have the LiveReload going on that url above, and then whenever your files are changed, the page automagically reloads.
+  </p>
+
+  <p class="para">
+    Here's what you do. You download the Chrome extension and run <code class="code">gulp</code> (or <code class="code">gulp reload-me</code>), then in the browser window running your app turn on LiveReload. When Gulp spots changes to your main files under <code class="code">app/</code>, such as your <code class="code">css/style.less</code> file or your <code class="code">js/script.js</code> file, or even your <code class="code">.hmtl</code> files, it will trigger the LiveReload and the page is reloaded for you!
+  </p>
+
+  <p class="para">
+    As mentioned, Gulp watches some files and runs tasks depending on what files are changed.
+    <ul class="list">
+      <li>
+        all <code class="code">.less</code> files are compiles to css on save
+      </li>
+      <li>
+        any <code class="code">.js</code> files changed get run through <a class="para-link" href="https://www.npmjs.com/package/gulp-jshint">js-hint</a> and reported to the console
+      </li>
+      <li>
+        and then as stated if any changes to main files are detected then the app will reload
+      </li>
+    </ul>
+  </p>
+
+  <h4 class="section-sub-header"><code class="code code-block">validate-me</code></h4>
+
+  <code class="code code-block">
+gulp validate-me
+  </code>
+
+  <p class="para">
+    This one isn't part of the default <code class="code">gulp</code> task or the `reload-me` task (though the <code class="code">validate-js</code> task is used when .js files are saved). You can run this at any time to test your js and css at the same time. By the way, the command to just test the css is <code class="code">validate-css</code>.
+  </p>
+
+  <hr class="line" />
+
+  <h4 class="section-sub-header">Utilities</h4>
+
+  <p class="para">
+    These are just a few functions that aid in the task running process, such as timestamping the reload and logging things in a visible way. There is also a custom reporter for css-lint.
+  </p>
+
+  <h4 class="section-sub-header">Supported Browsers</h4>
+
+  <p class="para">
+    There is a variable at the top of the Gulpfile called <code class="code">supportedBrowsers</code> which is how you can set which browsers <a class="para-link" href="https://www.npmjs.com/package/gulp-autoprefixer">Autoprefixer</a> will add vendor prefixes to support. By default it goes back to like the stone age:
+  </p>
+
+  <code class="code code-block">
+supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', 'ff 3', 'Firefox ESR', 'Android 2.1' ];
+  </code>
+
+  <p class="para">
+    ...which of course you can reset to whatever you like. Read more on Autoprefixer and the various browser strings <a class="para-link" href="http://css-tricks.com/autoprefixer/">over here</a>.
+  </p>
 
 </section>

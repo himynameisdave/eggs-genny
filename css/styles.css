@@ -4008,7 +4008,7 @@ a:hover
 }
 .section .para
 {
-    margin: 1em 0;
+    margin: 1.25em 0;
     padding: 0;
 }
 .para-link
@@ -4041,8 +4041,9 @@ a:hover
 .img-quote
 {
     font-size: 12px;
+    font-style: italic;
 
-    padding-left: 3em;
+    text-align: center;
 }
 .section .quote
 {
@@ -4070,12 +4071,34 @@ a:hover
 }
 .code.code-block
 {
-    display: block;
+    line-height: .75;
 
+    display: block;
+    overflow: auto;
+    overflow-x: auto;
+
+    width: 100%;
     padding: .5em 1em;
+
+    white-space: pre;
+    word-wrap: normal;
 }
 .list
 {
     margin: 1.5em 0;
-    padding: 0 .25em;
+    padding: 0;
+}
+.list li
+{
+    line-height: 1.68;
+
+    margin: 1em 0;
+    padding: 0 .75em;
+
+    -webkit-transition: padding .475s;
+            transition: padding .475s;
+}
+.list li:hover
+{
+    padding: 0 .95em;
 }

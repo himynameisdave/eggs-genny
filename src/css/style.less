@@ -286,7 +286,7 @@ a:hover{
 
 .section .para {
   padding: 0;
-  margin: 1em 0;
+  margin: 1.25em 0;
 }
 .para-link{
   color: lighten(@color1, 35%);
@@ -310,7 +310,8 @@ a:hover{
 
 .img-quote {
   font-size: 12px;
-  padding-left: 3em;
+  font-style: italic;
+  text-align: center;
 }
 
 .section .quote{
@@ -333,11 +334,26 @@ a:hover{
   width: 100%;
   &.code-block{
     display: block;
+    overflow-x: auto;
+    overflow: auto;
+    line-height: 0.75;
     padding: 0.5em 1em;
+    word-wrap: normal;
+    white-space: pre;
+    width: 100%;
   }
 }
 
 .list {
   margin: 1.5em 0;
-  padding: 0 0.25em;
+  padding: 0;
+  li {
+    margin: 1em 0;
+    line-height: 1.68;
+    padding: 0 0.75em;
+    .trans( padding 0.475s );
+    &:hover{
+      padding: 0 0.95em;
+    }
+  }
 }
