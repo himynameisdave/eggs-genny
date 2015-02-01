@@ -2,7 +2,40 @@
 
   <h3 class="section-header">Gulp - Build</h3>
 
+  <code class="code code-block">
+gulp build
+  </code>
 
+  <p class="para">
+    This is the 'build' or 'distribution' or 'production' or whatever you want to call it. This guy does a bunch of work to build you out a lean and clean app. It puts it all in the `/build/` folder for you.
+  </p>
 
+  <p class="para">
+    The process goes a little something like this:
+    <ul class="list">
+      <li>
+        starts by <a class="para-link" href="https://github.com/plus3network/gulp-less">compiling</a> all the LESS files
+      </li>
+      <li>
+        then <a class="para-link" href="https://www.npmjs.com/package/gulp-concat">concats</a> the CSS, <a class="para-link" href="https://www.npmjs.com/package/gulp-autoprefixer">autoprefixes</a> it, before finally <a class="para-link" href="https://www.npmjs.com/package/gulp-csscomb">combing</a> it for stupid mistakes and then <a class="para-link" href="https://www.npmjs.com/package/gulp-minify-css">minifying</a> it
+      </li>
+      <li>
+        then moves onto the JS by (if your using Angular in your project) prepping your code for minification using <a class="para-link" href="https://www.npmjs.com/package/gulp-ng-annotate">ng-annotate</a>, concating all js files into one and then <a class="para-link" href="https://www.npmjs.com/package/gulp-uglify">uglifying</a> them
+      </li>
+      <li>
+        copy over any assets or partials (and make them <a class="para-link" href="https://www.npmjs.com/package/gulp-angular-htmlify">validation-friendly</a> if using Angular)
+      </li>
+      <li>
+        copy over main <code class="code">index.html</code> file, while <a class="para-link" href="https://www.npmjs.com/package/gulp-html-replace">replacing</a> the many links to external JS/CSS files with just the one for the JS file and one for the CSS files that were just created
+      </li>
+      <li>
+        runs <a class="para-link" href="https://www.npmjs.com/package/gulp-uncss">uncss</a> to see what css is not being used by the HTML file(s) and removes it
+      </li>
+      <li>
+        perform a cleanup by <a class="para-link" href="https://www.npmjs.com/package/del">deleting</a> the <code class="code">tmp/</code> directory used to build the files
+      </li>
+    </ul>
+    That's pretty much it! What a nice little package that's been built for you!
+  </p>
 
 </section>

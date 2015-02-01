@@ -1341,7 +1341,7 @@ a:hover {
   display: block;
   overflow-x: auto;
   overflow: auto;
-  line-height: 0.75;
+  line-height: 1.25;
   padding: 0.5em 1em;
   word-wrap: normal;
   white-space: pre;

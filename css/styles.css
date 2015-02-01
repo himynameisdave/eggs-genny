@@ -4071,7 +4071,7 @@ a:hover
 }
 .code.code-block
 {
-    line-height: .75;
+    line-height: 1.25;
 
     display: block;
     overflow: auto;
