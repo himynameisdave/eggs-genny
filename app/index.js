@@ -21,6 +21,7 @@ var util   = require('util'),
     path   = require('path'),
     yeoman = require('yeoman-generator'),
     chalk  = require('chalk'),
+    loggit = require('loggit'),     //  For logging things to the console in a more visible way
     del    = require('del'),        //  Using del but should be using fs.unlink
     fs     = require('fs'),         //  To do some filesystem stuff easier
     banner = require('./banner.js'),//  Our own personal little banner for when they start eggs-genny
@@ -30,26 +31,18 @@ var util   = require('util'),
       fs.createReadStream( oldFile ).pipe( fs.createWriteStream( newFile ) );
     },
 
-    //  Dead simple logging, any color!
-    loggit = function(msg, color){
-      if(typeof color === "undefined"){ var color = 'blue'; }
-      var printThis = "=================================================\n"+msg+
-                      "\n================================================="
-      console.log( chalk[color]( printThis ) );
-    },
-
     //  Simple function that alters the install location after shit gets moved
     changeBowerInstallLocation = function(file){
       fs.readFile(file, 'utf8', function(err,data){
         if(err){
-          loggit(err,'red');
+          loggit(err,'red','!');
           return;
         }
         var result = data.replace( /lib_tmp/g, 'lib' );
 
         fs.writeFile(file, result, 'utf8', function(err){
           if(err){
-            loggit(err,'red');
+            loggit(err,'red','!');
             return;
           }
         });
@@ -106,7 +99,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     dependencies: function() {
         var done = this.async();
 
-        loggit('Choose your dependencies:', 'green');
+        loggit('Choose your dependencies:', 'green','+=');
 
         //  The list of prompts
         var prompts = [
@@ -168,7 +161,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       if(this.deps.gsap){
         var done = this.async();
 
-        loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green');
+        loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
 
         var prompts = [
           {
@@ -203,7 +196,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  asyncer
         var done = this.async();
         //  Wat wat gsap plugs
-        loggit('Choose your GSAP Plugins:', 'green');
+        loggit('Choose your GSAP Plugins:', 'green', '=+');
 
         if( this.deps.gsap.minMax === 'TweenLite' ){
 
@@ -327,11 +320,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  If they aren't using anything, write a hilarious message...
         if( !deps.jquery && !deps.angular && !deps.gsap && !deps.bootstrap ){
             testString += '\n\t<no dependencies>';
-            loggit( testString, 'yellow' );
-            loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red' );
+            loggit( testString, 'yellow','~' );
+            loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
         }else{
         //  ...otherwise just log the built string
-          loggit( testString, 'yellow' );
+          loggit( testString, 'yellow', '~' );
         }
 
         //  Build out some directories
@@ -431,7 +424,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             //  Lib cleanup takes everything from the app/lib_tmp/ dir, moves it to app/lib/ dir, then deletes the app/lib_tmp dir
 
                 //  Let the user know that everything has been installed
-                loggit( "Bower dependencies installed, "+greeting+"!",'magenta' );
+                loggit( "Bower dependencies installed, "+greeting+"!",'magenta', '-=' );
 
                 //  Copy over Lesslie
                 copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
@@ -491,7 +484,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.npmInstall( '', function(){
 
           //  Let the user know that everything has been installed
-          loggit( "NPM modules installed, "+greeting+"!",'magenta' );
+          loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
 
           //  Conclusion: Your eggs are ready, sir!
           console.log("\n");
@@ -504,7 +497,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                       "       \\___/ ";
 
 
-          loggit( ready,'green' );
+          loggit( ready,'green', '#' );
           console.log("\n");
         });
 
