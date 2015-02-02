@@ -334,6 +334,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/css");
         this.mkdir("app/js");
         this.mkdir("app/img");
+        this.mkdir("app/img/icons");
         this.mkdir("app/lib");
         this.mkdir("app/lib/css");
         this.mkdir("app/lib/js");
@@ -371,10 +372,18 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over gulpfile.js
         this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
-        //  Copy over favicon
-        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
         //  Copy over index.html
         this.template('app/_index.html', "app/index.html", ctxt);
+
+        //  Copy over favicon & apple icons
+        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
+        this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
+        this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
+        this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
+        this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
+        this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
+        this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
+
 
         //  Angular has it's own particular package.json file & app.js file
         if( this.deps.angular ){
