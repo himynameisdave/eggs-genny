@@ -27,7 +27,6 @@ var util   = require('util'),
 
     //  A simple copy function utilizing streams
     copIt  = function( oldFile, newFile ){
-      // console.log( chalk.yellow( "Copying "+oldFile+" over to "+newFile ) );
       fs.createReadStream( oldFile ).pipe( fs.createWriteStream( newFile ) );
     },
 
@@ -394,7 +393,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
           this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
         }
-
 
         //  Angular has it's own particular package.json file & app.js file
         if( this.deps.angular ){
