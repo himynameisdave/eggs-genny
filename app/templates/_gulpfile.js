@@ -271,6 +271,9 @@ timePlz = function(){
       if(h > 12){ h = h - 12; }
       if(h === 0){ h = 12; }
 
+      //  in case mins is lower than 10
+      if( m < 10 ){ m = '0' + m; }
+
       //  in case seconds is lower than 10
       if( s < 10 ){ s = '0' + s; }
 
