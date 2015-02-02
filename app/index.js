@@ -371,6 +371,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over gulpfile.js
         this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
+        //  Copy over favicon
+        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
         //  Copy over index.html
         this.template('app/_index.html', "app/index.html", ctxt);
 
