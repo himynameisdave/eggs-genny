@@ -898,6 +898,19 @@ blockquote.quotey:hover:after {
   -moz-transition: background 0.3s;
   -o-transition: background 0.3s;
   transition: background 0.3s;
+  background: 0;
+  border-radius: 7px;
+  max-width: initial;
+  margin-top: 1.75em;
+  padding: 12px 0;
+  font-size: 14px;
+  width: 180px;
+  border-color: #2c3e50;
+  color: #2c3e50;
+  -webkit-transition: background 0.85s;
+  -moz-transition: background 0.85s;
+  -o-transition: background 0.85s;
+  transition: background 0.85s;
 }
 .btn:hover {
   background: #00aacc;
@@ -907,6 +920,9 @@ blockquote.quotey:hover:after {
 .btn:active {
   border-color: #007f99;
   background: #007f99;
+}
+.btn:hover {
+  background: #2c3e50;
 }
 .btn-alt {
   display: inline-block;
@@ -929,6 +945,19 @@ blockquote.quotey:hover:after {
   -moz-transition: background 0.3s;
   -o-transition: background 0.3s;
   transition: background 0.3s;
+  background: 0;
+  border-radius: 7px;
+  max-width: initial;
+  margin-top: 1.75em;
+  padding: 12px 0;
+  font-size: 14px;
+  width: 180px;
+  border-color: #2c3e50;
+  color: #2c3e50;
+  -webkit-transition: background 0.85s;
+  -moz-transition: background 0.85s;
+  -o-transition: background 0.85s;
+  transition: background 0.85s;
   border-color: #ff6666;
   color: #ff6666;
 }
@@ -949,6 +978,12 @@ blockquote.quotey:hover:after {
 .btn-alt:active {
   border-color: #007f99;
   background: #007f99;
+}
+.btn-alt:hover {
+  background: #2c3e50;
+}
+.btn-alt:hover {
+  background: #2c3e50;
 }
 .btn-alt:hover {
   background: #ff6666;
@@ -1071,7 +1106,7 @@ a:hover {
   border-right: 1px dotted #2c3e50;
   height: 100%;
   padding-top: 125px;
-  padding-left: 2em;
+  padding-left: 1.35em;
   padding-right: 1em;
   overflow: hidden;
   z-index: 800;
@@ -1196,7 +1231,7 @@ a:hover {
 .nav-list-sub {
   padding: 0;
   margin: 0.5em 0 0.5em;
-  padding-left: 1em;
+  padding-left: 0.5em;
 }
 .nav-list-sub .nav-list-sub-item {
   color: #333;
@@ -1246,12 +1281,20 @@ a:hover {
     -moz-transition: padding 0.85s ease-in-out;
     -o-transition: padding 0.85s ease-in-out;
     transition: padding 0.85s ease-in-out;
+    padding-left: 3em;
+    padding-right: 1.85em;
   }
   .main-area.nav-open {
     padding-top: 625px;
   }
   .main-area.nav-closed {
     padding-top: 125px;
+  }
+}
+@media screen and (max-width: 575px) {
+  .main-area {
+    padding-left: 1.5em;
+    padding-right: 1em;
   }
 }
 .section {
@@ -1362,4 +1405,81 @@ a:hover {
 }
 .list li:hover {
   padding: 0 0.95em;
+}
+.btn {
+  background: 0;
+  border-radius: 7px;
+  max-width: initial;
+  margin-top: 1.75em;
+  padding: 12px 0;
+  font-size: 14px;
+  width: 180px;
+  border-color: #2c3e50;
+  color: #2c3e50;
+  -webkit-transition: background 0.85s;
+  -moz-transition: background 0.85s;
+  -o-transition: background 0.85s;
+  transition: background 0.85s;
+}
+.btn:hover {
+  background: #2c3e50;
+}
+.home-btn {
+  display: inline-block;
+}
+.home-btn:last-child {
+  display: block;
+}
+/**   HOME STYLES
+  *   for all the homepage stuffs
+  */
+.home-section {
+  margin: 0 auto;
+  width: 85%;
+  text-align: center;
+}
+.home-section .home-lead {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 68%;
+  min-width: 485px;
+}
+@media screen and (max-width: 800px) {
+  .home-section .home-lead {
+    min-width: 300px;
+  }
+}
+.home-section .home-logo {
+  display: inline-block;
+  vertical-align: middle;
+  background: url(../img/logo.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 200px;
+  width: 200px;
+}
+.home-section .home-info {
+  display: inline-block;
+  vertical-align: middle;
+}
+.home-section .home-info .home-title {
+  color: #2c3e50;
+  font-family: 'Playfair Display', serif;
+  font-size: 78px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+.home-section .home-info .home-desc {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+  margin-top: 12px;
+  padding-left: 1px;
+  letter-spacing: 0.025em;
+  line-height: 1;
 }

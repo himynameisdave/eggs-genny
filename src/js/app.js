@@ -7,8 +7,13 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
   $urlRouterProvider.otherwise("/");
 
   $stateProvider
-      .state("intro", {
+      .state("home", {
         url: "/",
+        templateUrl: "partials/home.html",
+        controller: "HomeCtrl"
+      })
+      .state("intro", {
+        url: "/intro",
         templateUrl: "partials/intro.html"
       })
       .state("what-is-yeoman", {
@@ -75,7 +80,9 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 
 
 //	MAIN CONTROLLER
-app.controller('Controller', ["$scope", "$state", function ($scope, $state) {
+app.controller('Controller', ["$scope", "$state", '$rootScope', function ($scope, $state, $rootScope) {
+
+  $rootScope.isHome = false;
 
   $scope.navlist = [
     {
@@ -142,8 +149,6 @@ app.controller('Controller', ["$scope", "$state", function ($scope, $state) {
     }
   ];
 
-
-
   $scope.getOuttaHere = function(partial){
     $scope.menuState = false;
     $state.go(partial);
@@ -159,6 +164,17 @@ app.controller('Controller', ["$scope", "$state", function ($scope, $state) {
       $scope.menuState = true;
     }
 
+  };
+
+}]);
+
+app.controller('HomeCtrl', ['$scope', '$state', '$rootScope', function($scope, $state, $rootScope){
+
+  $rootScope.isHome = true;
+
+  $scope.goToDocs = function(){
+    $rootScope.isHome = false;
+    $state.go('intro');
   };
 
 

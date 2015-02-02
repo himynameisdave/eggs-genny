@@ -3474,11 +3474,17 @@ blockquote.quotey:hover:after
 }
 .btn
 {
+    font-size: 14px;
+
     display: inline-block;
 
+    width: 180px;
     max-width: 100px;
+    max-width: initial;
     margin: 10px auto 0;
+    margin-top: 1.75em;
     padding: 7px 16px;
+    padding: 12px 0;
 
     cursor: pointer;
     -webkit-user-select: none;
@@ -3486,15 +3492,23 @@ blockquote.quotey:hover:after
         -ms-user-select: none;
             user-select: none;
     -webkit-transition: background .3s;
+    -webkit-transition: background .85s;
             transition: background .3s;
+            transition: background .85s;
     text-align: center;
     vertical-align: middle;
 
     color: #0ac;
+    color: #2c3e50;
     border: 1px solid #0ac;
+    border-color: #2c3e50;
     -webkit-border-radius: 4px;
+    -webkit-border-radius: 7px;
        -moz-border-radius: 4px;
+       -moz-border-radius: 7px;
             border-radius: 4px;
+            border-radius: 7px;
+    background: 0;
 
     -webkit-touch-callout: none;
      -khtml-user-select: none;
@@ -3512,13 +3526,23 @@ blockquote.quotey:hover:after
     border-color: #007f99;
     background: #007f99;
 }
+.btn:hover
+{
+    background: #2c3e50;
+}
 .btn-alt
 {
+    font-size: 14px;
+
     display: inline-block;
 
+    width: 180px;
     max-width: 100px;
+    max-width: initial;
     margin: 10px auto 0;
+    margin-top: 1.75em;
     padding: 7px 16px;
+    padding: 12px 0;
 
     cursor: pointer;
     -webkit-user-select: none;
@@ -3526,17 +3550,25 @@ blockquote.quotey:hover:after
         -ms-user-select: none;
             user-select: none;
     -webkit-transition: background .3s;
+    -webkit-transition: background .85s;
             transition: background .3s;
+            transition: background .85s;
     text-align: center;
     vertical-align: middle;
 
     color: #0ac;
+    color: #2c3e50;
     color: #f66;
     border: 1px solid #0ac;
+    border-color: #2c3e50;
     border-color: #f66;
     -webkit-border-radius: 4px;
+    -webkit-border-radius: 7px;
        -moz-border-radius: 4px;
+       -moz-border-radius: 7px;
             border-radius: 4px;
+            border-radius: 7px;
+    background: 0;
 
     -webkit-touch-callout: none;
      -khtml-user-select: none;
@@ -3566,6 +3598,14 @@ blockquote.quotey:hover:after
 {
     border-color: #007f99;
     background: #007f99;
+}
+.btn-alt:hover
+{
+    background: #2c3e50;
+}
+.btn-alt:hover
+{
+    background: #2c3e50;
 }
 .btn-alt:hover
 {
@@ -3727,7 +3767,7 @@ a:hover
     height: 100%;
     padding-top: 125px;
     padding-right: 1em;
-    padding-left: 2em;
+    padding-left: 1.35em;
 
     border-right: 1px dotted #2c3e50;
 }
@@ -3886,7 +3926,7 @@ a:hover
 {
     margin: .5em 0 .5em;
     padding: 0;
-    padding-left: 1em;
+    padding-left: .5em;
 }
 .nav-list-sub .nav-list-sub-item
 {
@@ -3949,6 +3989,9 @@ a:hover
 {
     .main-area
     {
+        padding-right: 1.85em;
+        padding-left: 3em;
+
         -webkit-transition: padding .85s ease-in-out;
                 transition: padding .85s ease-in-out;
     }
@@ -3959,6 +4002,14 @@ a:hover
     .main-area.nav-closed
     {
         padding-top: 125px;
+    }
+}
+@media screen and (max-width: 575px)
+{
+    .main-area
+    {
+        padding-right: 1em;
+        padding-left: 1.5em;
     }
 }
 .section
@@ -4101,4 +4152,107 @@ a:hover
 .list li:hover
 {
     padding: 0 .95em;
+}
+.btn
+{
+    font-size: 14px;
+
+    width: 180px;
+    max-width: initial;
+    margin-top: 1.75em;
+    padding: 12px 0;
+
+    -webkit-transition: background .85s;
+            transition: background .85s;
+
+    color: #2c3e50;
+    border-color: #2c3e50;
+    -webkit-border-radius: 7px;
+       -moz-border-radius: 7px;
+            border-radius: 7px;
+    background: 0;
+}
+.btn:hover
+{
+    background: #2c3e50;
+}
+.home-btn
+{
+    display: inline-block;
+}
+.home-btn:last-child
+{
+    display: block;
+}
+/**   HOME STYLES
+  *   for all the homepage stuffs
+  */
+.home-section
+{
+    width: 85%;
+    margin: 0 auto;
+
+    text-align: center;
+}
+.home-section .home-lead
+{
+    width: 68%;
+    min-width: 485px;
+    margin-right: auto;
+    margin-left: auto;
+
+    text-align: center;
+}
+@media screen and (max-width: 800px)
+{
+    .home-section .home-lead
+    {
+        min-width: 300px;
+    }
+}
+.home-section .home-logo
+{
+    display: inline-block;
+
+    width: 200px;
+    height: 200px;
+
+    vertical-align: middle;
+
+    background: url(../img/logo.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    -webkit-background-size: cover;
+            background-size: cover;
+}
+.home-section .home-info
+{
+    display: inline-block;
+
+    vertical-align: middle;
+}
+.home-section .home-info .home-title
+{
+    font-family: 'Playfair Display', serif;
+    font-size: 78px;
+    line-height: 1;
+
+    margin: 0;
+    padding: 0;
+
+    color: #2c3e50;
+}
+.home-section .home-info .home-desc
+{
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    line-height: 1;
+
+    margin: 0;
+    margin-top: 12px;
+    padding: 0;
+    padding-left: 1px;
+
+    letter-spacing: .025em;
 }

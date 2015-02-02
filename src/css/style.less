@@ -99,7 +99,7 @@ a:hover{
   border-right: 1px dotted @color1;
   height: 100%;
   padding-top: @logoSize + 25px;
-  padding-left: 2em;
+  padding-left: 1.35em;
   padding-right: 1em;
   overflow: hidden;
   z-index: 800;
@@ -210,7 +210,7 @@ a:hover{
 .nav-list-sub {
   padding: 0;
   margin: 0.5em 0 0.5em;
-  padding-left: 1em;
+  padding-left: 0.5em;
   .nav-list-sub-item {
     color: #333;
     font-size: 13px;
@@ -247,12 +247,18 @@ a:hover{
   z-index: 700;
   @media @MQmd{
     .trans( padding 0.85s ease-in-out );
+    padding-left: 3em;
+    padding-right: 1.85em;
     &.nav-open{
       padding-top: 625px;
     }
     &.nav-closed{
       padding-top: 125px;
     }
+  }
+  @media @MQsm{
+    padding-left: 1.5em;
+    padding-right: 1em;
   }
 }
 
@@ -356,4 +362,83 @@ a:hover{
       padding: 0 0.95em;
     }
   }
+}
+
+.btn {
+  background: 0;
+  border-radius: 7px;
+  max-width: initial;
+  margin-top: 1.75em;
+  padding: 12px 0;
+  font-size: 14px;
+  width: 180px;
+
+  border-color: @color1;
+  color: @color1;
+  .trans( background 0.85s );
+
+  &:hover{
+    background: @color1;
+  }
+
+
+}
+.home-btn{
+  display: inline-block;
+  &:last-child{
+    display: block;
+  }
+}
+
+/**   HOME STYLES
+  *   for all the homepage stuffs
+  */
+
+.home-section{
+  margin: 0 auto;
+  width: 85%;
+  text-align: center;
+  
+  .home-lead{
+    .center;
+    .mauto;
+    width: 68%;
+    min-width: 485px;
+    @media @MQmd {
+      min-width: 300px;
+    }
+  }
+
+  .home-logo{
+    .ib;
+    background: url(../img/logo.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    height: @logoSize * 2;
+    width: @logoSize * 2;
+  }
+  .home-info{
+    .ib;
+
+    .home-title{
+      color: @color1;
+      font-family: @serif;
+      font-size: 39px * 2;
+      margin:0; padding: 0;
+      line-height: 1;
+    }
+    .home-desc{
+      font-family:  @sans;
+      font-size: 13px * 2;
+      font-weight: 100;
+      margin:0; padding: 0;
+      .mt2;
+      padding-left: 1px;
+      letter-spacing: 0.025em;
+      line-height: 1;
+    }
+
+  }
+
 }

@@ -20,11 +20,16 @@
 </head>
 <body data-ng-controller="Controller">
 
-	<header data-ng-include="'partials/header.html'" class="header container-fluid"></header>
+	<header data-ng-include="'partials/header.html'" class="header container-fluid" data-ng-if="!isHome"></header>
 
 	<div class="container-fluid fullheight">
 		<div class="row fullheight">
-			<nav id="nav" class="nav nav-trans col-xs-12 col-sm-3" data-ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }">
+			<nav 	id="nav"
+						class="nav nav-trans col-xs-12 col-sm-4 col-md-3 col-lg-2"
+						data-ng-class="{
+							'nav-open': menuState,
+							'nav-closed': !menuState }"
+						data-ng-if="!isHome">
 				<ul class="nav-list">
 					<li data-ng-repeat="item in navlist" class="nav-list-item">
 						<span class="nav-list-item-inner" data-ng-click="getOuttaHere(item.link)">{{item.name}}</span>
@@ -36,7 +41,16 @@
 					</li>
 				</ul>
 			</nav>
-			<main class="main-area col-xs-12 col-sm-9" data-ng-class="{ 'nav-open': menuState, 'nav-closed': !menuState }" ui-view>
+			<main 	class="main-area col-xs-12"
+							data-ng-class="{
+								'nav-open': menuState,
+								'nav-closed': !menuState,
+								'col-sm-8': !isHome,
+								'col-md-9': !isHome,
+								'col-lg-10': !isHome,
+								'col-sm-12': isHome
+							}"
+							ui-view>
 			</main>
 		</div>
 	</div>
