@@ -1,9 +1,14 @@
-##Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
+## Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
 
 ![logo](http://i.imgur.com/OHr16iK.png)
-####*Dumb name, great generator.*
 
-[Main Page](http://himynameisdave.github.io/eggs-genny/#/)
+##### *Dumb name, great generator.*
+
+---
+
+#### [Main Page](http://himynameisdave.github.io/eggs-genny/#/)
+
+---
 
 eggs-genny is a robust webapp-building [Yeoman](http://yeoman.io/) generator. The terriblly [punny](http://en.wikipedia.org/wiki/Pun) name comes from this line that I wrote when I initialized the repo:
 
@@ -17,7 +22,7 @@ In case you don't know what [Yeoman](http://yeoman.io/) is, it essentially like 
 To learn all about Yeoman and how to get up and running with eggs-genny, take a look at [the (hilarious and thorough) wiki](https://github.com/himynameisdave/eggs-genny/wiki).
 
 ---
-##Quick Install
+## Quick Install
 
 This presumes you've installed a Yeoman generator before. If not, check out the [wiki](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup). eggs-genny is on [npm](https://www.npmjs.com/package/generator-eggs-genny), so installing it is a breeze:
 
@@ -39,13 +44,13 @@ If it did work, then this is where shit gets real...
 
 ---
 
-##Usage
+## Usage
 
 If you want to know about the automated Gulp [build process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Build) or [development process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Development), or the [directory structure](https://github.com/himynameisdave/eggs-genny/wiki/Basic-Directory-Structure) that eggs-genny produces, then head over to [the wiki](https://github.com/himynameisdave/eggs-genny/wiki) which should make you laugh while answering all of your questions.
 
 ---
 
-##Contribute
+## Contribute
 
 Wanna [help a brother out?](https://github.com/himynameisdave/eggs-genny/wiki/Help-a-brother-out%3F) Feel free to make suggestions here or [on Twitter](https://twitter.com/dave_lunny), or better yet create a pull request and help build eggs-genny!
 
