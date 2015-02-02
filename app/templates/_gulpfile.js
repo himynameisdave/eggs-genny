@@ -112,7 +112,7 @@ gulp.task( 'compile-me', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-me'], function(){
 
-  return  gulp.src( [ <% if (deps.bootstrap) { %>'app/lib/bootstrap.css',<% } %> 'app/css/*.css' ] )
+  return  gulp.src( [ <% if (deps.bootstrap) { %>'app/lib/css/bootstrap.css',<% } %> 'app/css/*.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
