@@ -130,6 +130,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     checked: false
                   }
                 ]
+            },{
+                //  Webapp touch icons?
+                name:    "touchIcons",
+                type:    "confirm",
+                message: "Should I include some default mobile web app touch icons?",
+                default: true
             }
         ];
 
@@ -143,7 +149,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               obj[dep] = true;
             });
             this.deps = obj;
-
+            this.icons = props.touchIcons;
             //  create the gsap object if they said yes to GSAP
             if( props.gsap ){
               this.deps.gsap = {};
@@ -334,7 +340,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/css");
         this.mkdir("app/js");
         this.mkdir("app/img");
-        this.mkdir("app/img/icons");
+        if( this.icons ){
+          this.mkdir("app/img/icons");
+        }
         this.mkdir("app/lib");
         this.mkdir("app/lib/css");
         this.mkdir("app/lib/js");
@@ -355,6 +363,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 appName: this.appName,
                 appDesc: this.desc,
                 greeting: this.greeting,
+                icons: this.icons,
                 deps: this.deps
             };
 
@@ -377,12 +386,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over favicon & apple icons
         this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
-        this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
-        this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
-        this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
-        this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
-        this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
-        this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
+        if(this.icons){
+          this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
+          this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
+          this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
+          this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
+          this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
+          this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
+        }
 
 
         //  Angular has it's own particular package.json file & app.js file

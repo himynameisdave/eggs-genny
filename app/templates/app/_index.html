@@ -14,7 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-	<!-- Apple icons (for iOS web apps: http://bit.ly/18X1vXA) -->
+	<% if (icons) { %><!-- Apple icons (for iOS web apps: http://bit.ly/18X1vXA) -->
 	<link rel="apple-touch-icon" href="img/icons/apple-touch-icon-76x76.png" /><!-- iOS <= 4 don't accept 'sizes' -->
   <link rel="apple-touch-icon" sizes="76x76" href="img/icons/apple-touch-icon-76x76.png" /><!-- 1x non-Retina Displays -->
   <link rel="apple-touch-icon" sizes="120x120" href="img/icons/apple-touch-icon-120x120.png" /><!-- 2x Retina Displays-->
@@ -24,7 +24,7 @@
 
 	<!-- Windows Tile icons: http://bit.ly/1AknLat -->
 	<meta name="msapplication-TileColor" content="#f1f1f1"/>
-	<meta name="msapplication-TileImage" content="img/icons/tile-icon.png">
+	<meta name="msapplication-TileImage" content="img/icons/tile-icon.png"><% } %>
 
 	<!-- iOS Safari Status Bar-->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -44,8 +44,8 @@
 	<script type="text/javascript" src="lib/js/TimelineLite.js"></script>
 	<% } if (deps.gsap.minMax === 'TweenMax') { %>
 	<script type="text/javascript" src="lib/js/TweenMax.js"></script>
-  <% } deps.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script>
-  <%	}) } %><script type="text/javascript" src="js/app.js"></script>
+  <% } deps.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script><%	}) } %>
+  <script type="text/javascript" src="js/app.js"></script>
 <!-- endbuild -->
 
 </head>
