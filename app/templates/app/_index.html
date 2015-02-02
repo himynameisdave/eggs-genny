@@ -1,16 +1,37 @@
 <!DOCTYPE HTML>
-<% if (deps.angular) { %><html ng-app="app"><% }else { %><html><% } %>
+<% if (deps.angular) { %><html ng-app="app" lang=""><% }else { %><html lang=""><% } %>
 <head>
 
-	<title><%=appName%></title>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+	<title><%=appName%></title>
+	<meta name="application-name" content="<%=appName%>" />
 	<meta name="description" content="<%=appDesc%>">
 	<meta name="keywords" content="">
 	<meta name="author" content="">
 
-	<!--Mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+	<% if (icons) { %><!-- Apple icons (for iOS web apps: http://bit.ly/18X1vXA) -->
+	<link rel="apple-touch-icon" href="img/icons/apple-touch-icon-76x76.png" /><!-- iOS <= 4 don't accept 'sizes' -->
+  <link rel="apple-touch-icon" sizes="76x76" href="img/icons/apple-touch-icon-76x76.png" /><!-- 1x non-Retina Displays -->
+  <link rel="apple-touch-icon" sizes="120x120" href="img/icons/apple-touch-icon-120x120.png" /><!-- 2x Retina Displays-->
+  <link rel="apple-touch-icon" sizes="152x152" href="img/icons/apple-touch-icon-152x152.png" /><!-- iPads with 2x Retina Display-->
+  <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon-180x180.png" /><!-- iPhone 6 Plus with 3x Retina Display-->
+	<link rel="icon" sizes="192x192" href="img/icons/touch-icon-192x192.png"><!-- For Chrome for Android -->
+
+	<!-- Windows Tile icons: http://bit.ly/1AknLat -->
+	<meta name="msapplication-TileColor" content="#f1f1f1"/>
+	<meta name="msapplication-TileImage" content="img/icons/tile-icon.png"><% } %>
+
+	<!-- iOS Safari Status Bar-->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--Fullscreen mobile apps --><!--
+	<meta name="apple-mobile-web-app-capable" content="yes"><!-- iOS: Mobile Safari--><!--
+	<meta name="mobile-web-app-capable" content="yes"><!-- Android: Chrome -->
 
 <!-- build:css -->
 	<% if (deps.bootstrap) { %><link href="lib/css/bootstrap.css" rel="stylesheet" />
@@ -23,8 +44,8 @@
 	<script type="text/javascript" src="lib/js/TimelineLite.js"></script>
 	<% } if (deps.gsap.minMax === 'TweenMax') { %>
 	<script type="text/javascript" src="lib/js/TweenMax.js"></script>
-  <% } deps.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script>
-  <%	}) } %><script type="text/javascript" src="js/app.js"></script>
+  <% } deps.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script><%	}) } %>
+  <script type="text/javascript" src="js/app.js"></script>
 <!-- endbuild -->
 
 </head>
