@@ -318,7 +318,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( deps.jquery ){ testString += '\n\t- jQuery'; }
         if( deps.angular ){ testString += '\n\t- Angular'; }
         if( deps.bootstrap ){ testString += '\n\t- Bootstrap'; }
-        if( deps.Skeleton ){ testString += '\n\t- Skeleton'; }
+        if( deps.skeleton ){ testString += '\n\t- Skeleton'; }
         if( deps.gsap ){
           testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
           this.deps.gsap.plugs.forEach(function(p){
