@@ -76,6 +76,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "desc",
                 message: "Care to describe this application of yours?",
                 default: "Totally awesome rad app!"
+            },{ //  See if they use Sublime Text?
+                name:    "sublime",
+                type:    "confirm",
+                message: "Do you use Sublime Text?",
+                default: true
             }
         ];
 
@@ -83,8 +88,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
             //  App's name, description & greeting get it's own var for faster referencing
             this.greeting = props.greeting;
-            this.appName = props.name.replace(/ /g, "-");
-            this.desc = props.desc;
+            this.appName  = props.name.replace(/ /g, "-");
+            this.desc     = props.desc;
+            this.sublime  = props.sublime;
 
             //  Call the async done function
             done();
@@ -365,6 +371,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  adding the app name and description to the bower.json
         this.copy( '_.bowerrc', '.bowerrc' );
         this.template( '_bower.json', 'bower.json', ctxt );
+
+        //  If they are using sublime, give them a workspace
+        if(this.sublime){
+          this.copy( '_project.sublime-project', this.appName+'.sublime-project' );
+        }
 
         //  Copy over the main css files
         this.copy( 'app/css/_style.less', 'app/css/style.less' );
