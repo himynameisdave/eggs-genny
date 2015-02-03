@@ -24,7 +24,7 @@
 	<!-- Windows Tile icons: http://bit.ly/1AknLat -->
 	<meta name="msapplication-TileColor" content="#f1f1f1"/>
 	<meta name="msapplication-TileImage" content="img/icons/tile-icon.png"><% } %>
-	
+
 	<!-- iOS Safari Status Bar-->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
@@ -34,6 +34,7 @@
 
 <!-- build:css -->
 	<% if (deps.bootstrap) { %><link href="lib/css/bootstrap.css" rel="stylesheet" />
+	<% } if(deps.skeleton) { %><link href="lib/css/skeleton.css" rel="stylesheet" />
 	<% } %><link rel="stylesheet" type="text/css" href="css/style.css"	/>
 <!-- endbuild -->
 <!-- build:js --><% if (deps.angular) { %>
