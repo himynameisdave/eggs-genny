@@ -1,16 +1,11 @@
-## Welcome to eggs-genny [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
-
-![logo](http://i.imgur.com/OHr16iK.png)
-
+# ![logo](http://i.imgur.com/OHr16iK.png) Welcome to [eggs-genny](http://himynameisdave.github.io/eggs-genny/#/) [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
 ##### *Dumb name, great generator.*
 
 ---
 
-#### [Main Page](http://himynameisdave.github.io/eggs-genny/#/)
 
----
-
-eggs-genny is a robust webapp-building [Yeoman](http://yeoman.io/) generator. The terriblly [punny](http://en.wikipedia.org/wiki/Pun) name comes from this line that I wrote when I initialized the repo:
+[eggs-genny](http://himynameisdave.github.io/eggs-genny/#/
+) is a robust webapp-building [Yeoman](http://yeoman.io/) generator. The terriblly [punny](http://en.wikipedia.org/wiki/Pun) name comes from this line that I wrote when I initialized the repo:
 
 >*An EGGS-ellent Yeoman GENNY-erator for building modern web apps.*
 
@@ -44,15 +39,18 @@ If it did work, then this is where shit gets real...
 
 ---
 
-## Usage
+## Documentation
 
-If you want to know about the automated Gulp [build process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Build) or [development process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Development), or the [directory structure](https://github.com/himynameisdave/eggs-genny/wiki/Basic-Directory-Structure) that eggs-genny produces, then head over to [the wiki](https://github.com/himynameisdave/eggs-genny/wiki) which should make you laugh while answering all of your questions.
+If you want to know about the automated Gulp [build process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Build) or [development process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Development), or the [directory structure](https://github.com/himynameisdave/eggs-genny/wiki/Basic-Directory-Structure) that eggs-genny produces, the best source are [the docs](http://himynameisdave.github.io/eggs-genny/#/).
+
+
+You could also head over to [the wiki](https://github.com/himynameisdave/eggs-genny/wiki) which should make you laugh while answering all of your questions, although it's essentially the same as the docs.
 
 ---
 
 ## Contribute
 
-Wanna [help a brother out?](https://github.com/himynameisdave/eggs-genny/wiki/Help-a-brother-out%3F) Feel free to make suggestions here or [on Twitter](https://twitter.com/dave_lunny), or better yet create a pull request and help build eggs-genny!
+Wanna [help a brother out?](http://himynameisdave.github.io/eggs-genny/#/help-a-brother-out) Feel free to make suggestions here or [on Twitter](https://twitter.com/dave_lunny), or better yet create a pull request and help build eggs-genny!
 
 ---
 
