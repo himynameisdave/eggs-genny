@@ -123,6 +123,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     name:    "Bootstrap",
                     checked: false
                   },{
+                    name:    "Skeleton",
+                    checked: false
+                  },{
                     name:    "GSAP",
                     checked: false
                   }
@@ -315,6 +318,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( deps.jquery ){ testString += '\n\t- jQuery'; }
         if( deps.angular ){ testString += '\n\t- Angular'; }
         if( deps.bootstrap ){ testString += '\n\t- Bootstrap'; }
+        if( deps.Skeleton ){ testString += '\n\t- Skeleton'; }
         if( deps.gsap ){
           testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
           this.deps.gsap.plugs.forEach(function(p){
@@ -323,7 +327,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  If they aren't using anything, write a hilarious message...
-        if( !deps.jquery && !deps.angular && !deps.gsap && !deps.bootstrap ){
+        if( !deps.jquery && !deps.angular && !deps.gsap && !deps.skeleton && !deps.bootstrap ){
             testString += '\n\t<no dependencies>';
             loggit( testString, 'yellow','~' );
             loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
@@ -421,8 +425,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Add needed deps to the list
         if( deps.jquery ){ dependencies.push('jquery'); }
         if( deps.angular ){ dependencies.push('angular'); }
-        if( deps.gsap ){ dependencies.push('gsap'); }
         if( deps.bootstrap ){ dependencies.push('bootstrap'); }
+        if( deps.skeleton ){ dependencies.push('skeleton'); }
+        if( deps.gsap ){ dependencies.push('gsap'); }
 
         //  Actually do our bower install
         //  Note that the .bowerrc file installs everything to app/lib_tmp/
@@ -432,9 +437,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             //  Callback function that takes care of the /lib/ cleanup
             function(){
             //  Lib cleanup takes everything from the app/lib_tmp/ dir, moves it to app/lib/ dir, then deletes the app/lib_tmp dir
-
-                //  Let the user know that everything has been installed
-                loggit( "Bower dependencies installed, "+greeting+"!",'magenta', '-=' );
 
                 //  Copy over Lesslie
                 copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
@@ -446,6 +448,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Copy Angular if need be
                 if( deps.angular ){
                   copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
+                }
+                //  Copy Bootstrap if need be
+                if( deps.bootstrap ){
+                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                }
+                //  Copy Skeleton if need be
+                if( deps.skeleton ){
+                  copIt( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
                 }
                 //  Copy GSAP if need be
                 if( deps.gsap ){
@@ -467,15 +477,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   });
 
                 }
-                //  Copy Bootstrap if need be
-                if( deps.bootstrap ){
-                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
-                }
 
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
                 del(['app/lib_tmp/'], function (err, deletedFiles) {});
 
                 changeBowerInstallLocation('.bowerrc');
+
+                //  Let the user know that everything has been installed
+                loggit( "Bower dependencies installed, "+greeting+"!",'magenta', '-=' );
 
             }
         );
