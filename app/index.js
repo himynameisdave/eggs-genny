@@ -20,7 +20,6 @@
 var util   = require('util'),
     path   = require('path'),
     yeoman = require('yeoman-generator'),
-    chalk  = require('chalk'),
     loggit = require('loggit'),     //  For logging things to the console in a more visible way
     del    = require('del'),        //  Using del but should be using fs.unlink
     fs     = require('fs'),         //  To do some filesystem stuff easier

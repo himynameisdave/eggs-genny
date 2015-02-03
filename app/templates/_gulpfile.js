@@ -13,9 +13,9 @@
 ************************************************/
 var gulp    = require('gulp'),
     connect = require('connect'),
-    chalk   = require('chalk'),
     del     = require('del'),
     dirlist = require('dirlist'),
+    loggit  = require('loggit'),
     glob    = require('glob'),
     plug    = require('gulp-load-plugins')({
               scope: ['devDependencies'],
@@ -44,7 +44,7 @@ gulp.task( 'reload-me', function(){
 
   plug.livereload.listen();
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz());
+    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz(), 'yellow', '+' );
   })
   .on('change', plug.livereload.changed);
 });
@@ -63,7 +63,7 @@ gulp.task( 'serve-me', function(){
   connect(  connect.favicon(),
           dirlist(base),
           connect.static(base) ).listen(port, host);
-  loggit('Server running at http://'+host+':'+port+'/');
+  loggit('Server running at http://'+host+':'+port+'/', 'red', '@' );
 
 });
 
@@ -211,7 +211,7 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
     deletedFiles.forEach( function( val, index ){
         dels +=  '  - '+val+'\n';
     });
-    loggit(dels);
+    loggit(dels, 'cyan');
   });
 
 });
@@ -222,13 +222,7 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
 **          Utility/Logging Functions         **
 **   Nothing (gulp) to see here, move along   **
 ************************************************/
-var loggit = function (l){
-  var log = "*****************************************\n"+
-            l+"\n"+
-            "*****************************************\n";
-  console.log( chalk.cyan(log) );
-},
-errorLog = function (er){
+var errorLog = function (er){
   var log = "*****************************************\n"+
             "**          CATASTROPHIC ERROR!        **\n"+
             "**                                     **\n"+
@@ -241,7 +235,9 @@ errorLog = function (er){
             er+"\n"+
             "*****************************************\n";
 
-  console.log( chalk.red( log )  );
+
+  loggit( log, 'red', '  ' );
+
 },
 timePlz = function(){
 
@@ -292,13 +288,13 @@ CSSReport = function(file) {
     }
 
     if(result.error.line !== undefined){
-      ers += chalk.underline[col]('LINE '+result.error.line+':') + ' ' +result.error.message + "\n";
+      ers += 'LINE '+result.error.line+': ' + result.error.message + "\n";
     }else{
-      ers += chalk.underline.green('GENERAL:') + ' ' + result.error.message + "\n";
+      ers += 'GENERAL:' + ' ' + result.error.message + "\n";
     }
 
   });
 
-  loggit(ers);
+  loggit(ers, 'white', '=');
 
 };
