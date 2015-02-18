@@ -121,7 +121,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   checked: false
                 },{
                   name:    "Lesslie",
-                  checked: false
+                  checked: true
                 }
               ]
             }
@@ -160,7 +160,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   checked: false
                 },{
                   name:    "Angular",
-                  checked: false
+                  checked: true
                 },{
                   name:    "GSAP",
                   checked: false
