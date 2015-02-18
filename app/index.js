@@ -101,41 +101,29 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     //    PHASE TWO: DEPENDENCIES         //
     ////////////////////////////////////////
-    dependencies: function() {
+    dependenciesCSS: function() {
         var done = this.async();
 
-        loggit('Choose your dependencies:', 'green','+=');
+        loggit('Choose your CSS dependencies:', 'green','+=');
 
         //  The list of prompts
         var prompts = [
-            {   //  What gsap plugs do ya want?
-                name:    "plugs",
-                type:    "checkbox",
-                message: "Which dependencies do you need?",
-                choices: [
-                  {
-                    name:    "jQuery",
-                    checked: false
-                  },{
-                    name:    "Angular",
-                    checked: false
-                  },{
-                    name:    "Bootstrap",
-                    checked: false
-                  },{
-                    name:    "Skeleton",
-                    checked: false
-                  },{
-                    name:    "GSAP",
-                    checked: false
-                  }
-                ]
-            },{
-                //  Webapp touch icons?
-                name:    "touchIcons",
-                type:    "confirm",
-                message: "Should I include some default mobile web app touch icons?",
-                default: true
+            { //  What gsap plugs do ya want?
+              name:    "plugs",
+              type:    "checkbox",
+              message: "Which CSS framework(s) would you like to use?",
+              choices: [
+                {
+                  name:    "Bootstrap",
+                  checked: false
+                },{
+                  name:    "Skeleton",
+                  checked: false
+                },{
+                  name:    "Lesslie",
+                  checked: false
+                }
+              ]
             }
         ];
 
@@ -148,12 +136,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               dep = dep.toLowerCase();
               obj[dep] = true;
             });
-            this.deps = obj;
-            this.icons = props.touchIcons;
-            //  create the gsap object if they said yes to GSAP
-            if( props.gsap ){
-              this.deps.gsap = {};
-            }
+            this.depsCSS = obj;
 
             //  Call the async done function
             done();
@@ -161,12 +144,64 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }.bind(this));
 
     },
+    dependenciesJS: function() {
+      var done = this.async();
+
+      loggit('Choose your JS dependencies:', 'green','+=');
+
+      var prompts = [
+          {   //  What gsap plugs do ya want?
+              name:    "plugs",
+              type:    "checkbox",
+              message: "Which dependencies do you need?",
+              choices: [
+                {
+                  name:    "jQuery",
+                  checked: false
+                },{
+                  name:    "Angular",
+                  checked: false
+                },{
+                  name:    "GSAP",
+                  checked: false
+                }
+              ]
+          },{
+              //  Webapp touch icons?
+              name:    "touchIcons",
+              type:    "confirm",
+              message: "Should I include some default mobile web app touch icons?",
+              default: true
+          }
+      ];
+
+      //  What actually prompts the users
+      this.prompt(prompts, function (props) {
+
+      //  this will be the new var that stores the deps values
+          var obj = {};
+          props.plugs.forEach(function(dep){
+            dep = dep.toLowerCase();
+            obj[dep] = true;
+          });
+          this.depsJS = obj;
+          this.icons = props.touchIcons;
+          //  create the gsap object if they said yes to GSAP
+          if( props.gsap ){
+            this.depsJS.gsap = {};
+          }
+
+          //  Call the async done function
+          done();
+      }.bind(this));
+
+    },
     ////////////////////////////////////////
     //    PHASE THREE-A: GSAP MinMax      //
     ////////////////////////////////////////
     gsapMinMax: function(){
       //  Only executes if they asked for GSAP
-      if(this.deps.gsap){
+      if(this.depsJS.gsap){
         var done = this.async();
 
         loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
@@ -184,7 +219,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
 
           //  becasue currently it's only a boolean and he need it to store properties
-          this.deps.gsap = {
+          this.depsJS.gsap = {
             minMax: props.minMax
           };
 
@@ -200,13 +235,13 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     gsapPlugs: function(){
 
       //  Only executes if they asked for GSAP
-      if(this.deps.gsap){
+      if(this.depsJS.gsap){
         //  asyncer
         var done = this.async();
         //  Wat wat gsap plugs
         loggit('Choose your GSAP Plugins:', 'green', '=+');
 
-        if( this.deps.gsap.minMax === 'TweenLite' ){
+        if( this.depsJS.gsap.minMax === 'TweenLite' ){
 
           var prompts = [
             {   //  What gsap plugs do ya want?
@@ -296,7 +331,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           });
 
           //  store the plugins
-          this.deps.gsap.plugs = plugs;
+          this.depsJS.gsap.plugs = plugs;
           done();plugs = null;
 
         }.bind(this));
@@ -310,24 +345,29 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     scaffold: function(){
 
         //  for easier/local referencing
-        var deps       = this.deps,
+        var depsCSS    = this.depsCSS,
+            depsJS     = this.depsJS,
             greeting   = this.greeting,
-            testString = 'Building your app with the following deps, '+greeting+':';
+            testString = 'Yo '+greeting+'! I\'m building your app with the following deps :';
 
+            testString += '\n\n===CSS Dependencies===';
         //  Build a string that lets the user know what they've ordered
-        if( deps.jquery ){ testString += '\n\t- jQuery'; }
-        if( deps.angular ){ testString += '\n\t- Angular'; }
-        if( deps.bootstrap ){ testString += '\n\t- Bootstrap'; }
-        if( deps.skeleton ){ testString += '\n\t- Skeleton'; }
-        if( deps.gsap ){
-          testString += '\n\t- GSAP w/'+deps.gsap.minMax+' & the following plugins:';
-          this.deps.gsap.plugs.forEach(function(p){
+        if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap'; }
+        if( depsCSS.skeleton ){ testString += '\n\t- SkeletonCSS'; }
+        if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
+
+            testString += '\n\n===JS Dependencies===';
+        if( depsJS.jquery ){ testString += '\n\t- jQuery'; }
+        if( depsJS.angular ){ testString += '\n\t- Angular'; }
+        if( depsJS.gsap ){
+          testString += '\n\t- GSAP w/'+depsJS.gsap.minMax+' & the following plugins:';
+          this.depsJS.gsap.plugs.forEach(function(p){
             testString += '\n\t |-- '+p;
           });
         }
 
         //  If they aren't using anything, write a hilarious message...
-        if( !deps.jquery && !deps.angular && !deps.gsap && !deps.skeleton && !deps.bootstrap ){
+        if( !depsJS.jquery && !depsJS.angular && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
             testString += '\n\t<no dependencies>';
             loggit( testString, 'yellow','~' );
             loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
@@ -349,7 +389,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/lib/js");
         this.mkdir("build");
         //  If they're using Angular they'll need a partials folder
-        if( deps.angular ){
+        if( depsJS.angular ){
             this.mkdir("app/partials");
         }
 
@@ -361,11 +401,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Some context for things that need templating
         var ctxt = {
-                appName: this.appName,
-                appDesc: this.desc,
+                appName:  this.appName,
+                appDesc:  this.desc,
                 greeting: this.greeting,
-                icons: this.icons,
-                deps: this.deps
+                icons:    this.icons,
+                depsCSS:  this.depsCSS,
+                depsJS:   this.depsJS
             };
 
         //  we want these items to get removed before trying to install anything
@@ -382,7 +423,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  Copy over the main css files
-        this.copy( 'app/css/_style.less', 'app/css/style.less' );
+        this.template( 'app/css/_style.less', 'app/css/style.less', ctxt );
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
         //  Copy over gulpfile.js
@@ -402,7 +443,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  Angular has it's own particular package.json file & app.js file
-        if( this.deps.angular ){
+        if( this.depsJS.angular ){
             this.template('_package.ang.json', "package.json", ctxt);
             this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
         }else{
@@ -417,17 +458,19 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     bower: function(){
 
         //  depenencies for bower to install
-        var dependencies = [ 'lesslie' ], // Lesslie is always a dep by default
+        var dependencies = [  ],
           //  local variables for easier access
             greeting     = this.greeting,
-            deps         = this.deps;
+            depsCSS      = this.depsCSS,
+            depsJS       = this.depsJS;
 
         //  Add needed deps to the list
-        if( deps.jquery ){ dependencies.push('jquery'); }
-        if( deps.angular ){ dependencies.push('angular'); }
-        if( deps.bootstrap ){ dependencies.push('bootstrap'); }
-        if( deps.skeleton ){ dependencies.push('skeleton'); }
-        if( deps.gsap ){ dependencies.push('gsap'); }
+        if( depsCSS.bootstrap ){ dependencies.push('bootstrap'); }
+        if( depsCSS.skeleton ){ dependencies.push('skeleton'); }
+        if( depsCSS.lesslie ){ dependencies.push('lesslie'); }
+        if( depsJS.jquery ){ dependencies.push('jquery'); }
+        if( depsJS.angular ){ dependencies.push('angular'); }
+        if( depsJS.gsap ){ dependencies.push('gsap'); }
 
         //  Actually do our bower install
         //  Note that the .bowerrc file installs everything to app/lib_tmp/
@@ -438,37 +481,26 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             function(){
             //  Lib cleanup takes everything from the app/lib_tmp/ dir, moves it to app/lib/ dir, then deletes the app/lib_tmp dir
 
-                //  Copy over Lesslie
-                copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
-
                 //  Copy jQuery if need be
-                if( deps.jquery ){
+                if( depsJS.jquery ){
                   copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
-                if( deps.angular ){
+                if( depsJS.angular ){
                   copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
-                //  Copy Bootstrap if need be
-                if( deps.bootstrap ){
-                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
-                }
-                //  Copy Skeleton if need be
-                if( deps.skeleton ){
-                  copIt( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
-                }
                 //  Copy GSAP if need be
-                if( deps.gsap ){
+                if( depsJS.gsap ){
 
                   //  adding the minMax
-                  if( deps.gsap.minMax === 'TweenLite' ){
+                  if( depsJS.gsap.minMax === 'TweenLite' ){
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenLite.js', 'app/lib/js/TweenLite.js' );
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
                   }else {
                     copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
                   }
                   //  loop through and add each plugin specified
-                  deps.gsap.plugs.forEach(function(plug){
+                  depsJS.gsap.plugs.forEach(function(plug){
                     if( plug === 'EasePack' ){
                       copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
                     }else{
@@ -476,6 +508,19 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     }
                   });
 
+                }
+                //  Copy Bootstrap if need be
+                if( depsCSS.bootstrap ){
+                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                }
+                //  Copy Skeleton if need be
+                if( depsCSS.skeleton ){
+                  copIt( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
+                }
+                //  Copy over Lesslie
+                if( depsCSS.lesslie ){
+                  copIt( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
+                  copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
                 }
 
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff

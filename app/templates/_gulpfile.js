@@ -43,7 +43,7 @@ gulp.task( 'reload-me', function(){
   gulp.watch( 'app/js/*.js', ['validate-js'] );
 
   plug.livereload.listen();
-  gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(deps.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
+  gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(depsJS.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
     loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz(), 'yellow', '+' );
   })
   .on('change', plug.livereload.changed);
@@ -97,7 +97,7 @@ gulp.task( 'validate-css', function(){
 ************************************************/
 
 
-gulp.task( 'build', [ 'compile-me', 'css-me', <% if (deps.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
+gulp.task( 'build', [ 'compile-me', 'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
 
 
 //  LESS compile
@@ -112,7 +112,7 @@ gulp.task( 'compile-me', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-me'], function(){
 
-  return  gulp.src( [ <% if (deps.bootstrap) { %>'app/lib/css/bootstrap.css',<% } %> 'app/css/*.css' ] )
+  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } %> 'app/css/*.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -123,18 +123,18 @@ gulp.task( 'css-me', ['compile-me'], function(){
             .pipe( gulp.dest( 'build/css/' ) );
 
 });
-gulp.task( 'uncss-me', ['css-me',<% if (deps.angular) { %> 'partials-me',<% } %> 'html-me'], function(){
+gulp.task( 'uncss-me', ['css-me',<% if (depsJS.angular) { %> 'partials-me',<% } %> 'html-me'], function(){
 
   return gulp.src('build/css/styles.css')
           .pipe(plug.uncss({
-            html: <% if (deps.angular) { %>glob.sync('build/**/*.html')<% }else { %>['build/index.html']<% } %>
+            html: <% if (depsJS.angular) { %>glob.sync('build/**/*.html')<% }else { %>['build/index.html']<% } %>
           }))
           .pipe( plug.minifyCss() )
           .pipe(gulp.dest('build/css/'));
 });
 
 //  JSTASKS
-<% if (deps.angular) { %>
+<% if (depsJS.angular) { %>
 gulp.task( 'annotate-me',  function(){
 
   return  gulp.src( 'app/js/app.js' )
@@ -143,15 +143,15 @@ gulp.task( 'annotate-me',  function(){
           .pipe(gulp.dest('app/js/'));
 
 });
-<% } %>gulp.task( 'js-me',<% if (deps.angular) { %> ['annotate-me'],<% } %> function(){
+<% } %>gulp.task( 'js-me',<% if (depsJS.angular) { %> ['annotate-me'],<% } %> function(){
 
-  return  gulp.src([<% if (deps.jquery) { %>
-                  'app/lib/js/jquery.js',<% } if(deps.angular){ %>
-                  'app/lib/js/angular.js',<% } if(deps.gsap){ if(deps.gsap.minMax === 'TweenLite'){ %>
+  return  gulp.src([<% if (depsJS.jquery) { %>
+                  'app/lib/js/jquery.js',<% } if(depsJS.angular){ %>
+                  'app/lib/js/angular.js',<% } if(depsJS.gsap){ if(depsJS.gsap.minMax === 'TweenLite'){ %>
                   'app/lib/js/TweenLite.js',
                   'app/lib/js/TimelineLite.js',<% }else { %>
                   'app/lib/js/TweenMax.js',
-                  'app/lib/js/TimelineMax.js',<% } deps.gsap.plugs.forEach(function(plug){ %>
+                  'app/lib/js/TimelineMax.js',<% } depsJS.gsap.plugs.forEach(function(plug){ %>
                   'app/lib/js/<%= plug %>.js',<% }) } %>
                   'app/js/*.js' ])
           .pipe( plug.concat('scripts.js') )
@@ -176,7 +176,7 @@ gulp.task( 'assets-me', function(){
   gulp.src( 'app/favicon.ico' )
     .pipe( gulp.dest('build/favicon.ico') );
 
-});<%  if(deps.angular){ %>
+});<%  if(depsJS.angular){ %>
 
 gulp.task( 'partials-me', function(){
 
@@ -189,7 +189,7 @@ gulp.task( 'partials-me', function(){
 //HTMLMOVE/REPLACE
 gulp.task( 'html-me', function(){
 
-  return gulp.src( 'app/index.html' )<%  if(deps.angular){ %>
+  return gulp.src( 'app/index.html' )<%  if(depsJS.angular){ %>
           .pipe(plug.angularHtmlify())
           <% } %>.pipe(plug.htmlReplace({
               css: {
