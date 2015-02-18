@@ -39,7 +39,9 @@
 <!-- endbuild -->
 <!-- build:js --><% if (depsJS.angular) { %>
 	<script type="text/javascript" src="lib/js/angular.js"></script><% } if (depsJS.jquery) { %>
-	<script type="text/javascript" src="lib/js/jquery.js"></script><% } if(depsJS.gsap){ if (depsJS.gsap.minMax === 'TweenLite') { %>
+	<script type="text/javascript" src="lib/js/jquery.js"></script><% } if (depsJS.react) { %>
+	<script type="text/javascript" src="lib/js/react.js"></script>
+	<script type="text/javascript" src="lib/js/JSXTransformer.js"></script><% } if(depsJS.gsap){ if (depsJS.gsap.minMax === 'TweenLite') { %>
 	<script type="text/javascript" src="lib/js/TweenLite.js"></script>
 	<script type="text/javascript" src="lib/js/TimelineLite.js"></script>
 	<% } if (depsJS.gsap.minMax === 'TweenMax') { %>
