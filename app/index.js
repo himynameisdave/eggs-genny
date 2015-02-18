@@ -284,7 +284,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     checked: false
                   },{
                     name:    "ScrollToPlugin",
-                    checked: false
+                    checked: true
                   },{
                     name:    "TextPlugin",
                     checked: false
@@ -312,7 +312,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     checked: false
                   },{
                     name:    "ScrollToPlugin",
-                    checked: false
+                    checked: true
                   },{
                     name:    "TextPlugin",
                     checked: false
@@ -436,11 +436,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over gulpfile.js
         this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
+
         //  Copy over index.html
         this.template('app/_index.html', "app/index.html", ctxt);
 
         //  Copy over favicon & apple icons
         this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
+
+        //  Copy over the touch icons
         if(this.icons){
           this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
           this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
