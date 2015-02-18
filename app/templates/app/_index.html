@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<% if (deps.angular) { %><html ng-app="app" lang=""><% }else { %><html lang=""><% } %>
+<% if (depsJS.angular) { %><html ng-app="app" lang=""><% }else { %><html lang=""><% } %>
 <head>
 
 	<meta charset="utf-8">
@@ -33,23 +33,23 @@
 	<meta name="mobile-web-app-capable" content="yes"><!-- Android: Chrome -->
 
 <!-- build:css -->
-	<% if (deps.bootstrap) { %><link href="lib/css/bootstrap.css" rel="stylesheet" />
-	<% } if(deps.skeleton) { %><link href="lib/css/skeleton.css" rel="stylesheet" />
+	<% if (depsCSS.bootstrap) { %><link href="lib/css/bootstrap.css" rel="stylesheet" />
+	<% } if(depsCSS.skeleton) { %><link href="lib/css/skeleton.css" rel="stylesheet" />
 	<% } %><link rel="stylesheet" type="text/css" href="css/style.css"	/>
 <!-- endbuild -->
-<!-- build:js --><% if (deps.angular) { %>
-	<script type="text/javascript" src="lib/js/angular.js"></script><% } if (deps.jquery) { %>
-	<script type="text/javascript" src="lib/js/jquery.js"></script><% } if(deps.gsap){ if (deps.gsap.minMax === 'TweenLite') { %>
+<!-- build:js --><% if (depsJS.angular) { %>
+	<script type="text/javascript" src="lib/js/angular.js"></script><% } if (depsJS.jquery) { %>
+	<script type="text/javascript" src="lib/js/jquery.js"></script><% } if(depsJS.gsap){ if (depsJS.gsap.minMax === 'TweenLite') { %>
 	<script type="text/javascript" src="lib/js/TweenLite.js"></script>
 	<script type="text/javascript" src="lib/js/TimelineLite.js"></script>
-	<% } if (deps.gsap.minMax === 'TweenMax') { %>
+	<% } if (depsJS.gsap.minMax === 'TweenMax') { %>
 	<script type="text/javascript" src="lib/js/TweenMax.js"></script>
-  <% } deps.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script><%	}) } %>
+  <% } depsJS.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script><%	}) } %>
   <script type="text/javascript" src="js/app.js"></script>
 <!-- endbuild -->
 
 </head>
-<% if(deps.angular){ %><body ng-controller="Controller"><% }else { %><body><% } %>
+<% if(depsJS.angular){ %><body ng-controller="Controller"><% }else { %><body><% } %>
 
 
 
