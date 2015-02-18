@@ -439,7 +439,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             //  Lib cleanup takes everything from the app/lib_tmp/ dir, moves it to app/lib/ dir, then deletes the app/lib_tmp dir
 
                 //  Copy over Lesslie
-                copIt( 'app/lib_tmp/lesslie/lesslie.less', 'app/lib/css/lesslie.less' );
+                copIt( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
+                copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
 
                 //  Copy jQuery if need be
                 if( deps.jquery ){
