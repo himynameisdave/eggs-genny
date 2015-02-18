@@ -31,12 +31,16 @@
     "GSAP",
     "Greensock",
     "jQuery",
+    "React",
+    "Facebook React",
+    "React JS",
     "Bootstrap",
     "Gulp",
     "GulpJS",
     "Bower",
     "TweenLite",
-    "TweenMax"
+    "TweenMax",
+    "Frameworks"
   ],
   "dependencies": {
     "del": "^1.1.1",

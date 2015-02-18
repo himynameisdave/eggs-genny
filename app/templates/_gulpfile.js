@@ -147,7 +147,9 @@ gulp.task( 'annotate-me',  function(){
 
   return  gulp.src([<% if (depsJS.jquery) { %>
                   'app/lib/js/jquery.js',<% } if(depsJS.angular){ %>
-                  'app/lib/js/angular.js',<% } if(depsJS.gsap){ if(depsJS.gsap.minMax === 'TweenLite'){ %>
+                  'app/lib/js/angular.js',<% } if(depsJS.react){ %>
+                  'app/lib/js/react.js',
+                  'app/lib/js/JSXTransformer.js',<% } if(depsJS.gsap){ if(depsJS.gsap.minMax === 'TweenLite'){ %>
                   'app/lib/js/TweenLite.js',
                   'app/lib/js/TimelineLite.js',<% }else { %>
                   'app/lib/js/TweenMax.js',

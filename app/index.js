@@ -162,6 +162,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   name:    "Angular",
                   checked: false
                 },{
+                  name:    "React",
+                  checked: false
+                },{
                   name:    "GSAP",
                   checked: false
                 }
@@ -350,15 +353,20 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             greeting   = this.greeting,
             testString = 'Yo '+greeting+'! I\'m building your app with the following deps :';
 
-            testString += '\n\n===CSS Dependencies===';
         //  Build a string that lets the user know what they've ordered
-        if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap'; }
-        if( depsCSS.skeleton ){ testString += '\n\t- SkeletonCSS'; }
+        if( depsJS.bootstrap || depsJS.skeleton || depsJS.lesslie ){
+            testString += '\n\n ~ CSS Dependencies ~ ';
+        }
+        if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap CSS'; }
+        if( depsCSS.skeleton ){ testString += '\n\t- Skeleton CSS'; }
         if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
 
-            testString += '\n\n===JS Dependencies===';
+        if( depsJS.jquery || depsJS.angular || depsJS.react || depsJS.gsap ){
+          testString += '\n\n ~ JS Dependencies ~ ';
+        }
         if( depsJS.jquery ){ testString += '\n\t- jQuery'; }
         if( depsJS.angular ){ testString += '\n\t- Angular'; }
+        if( depsJS.react ){ testString += '\n\t- ReactJS'; }
         if( depsJS.gsap ){
           testString += '\n\t- GSAP w/'+depsJS.gsap.minMax+' & the following plugins:';
           this.depsJS.gsap.plugs.forEach(function(p){
@@ -367,7 +375,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  If they aren't using anything, write a hilarious message...
-        if( !depsJS.jquery && !depsJS.angular && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
+        if( !depsJS.jquery && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
             testString += '\n\t<no dependencies>';
             loggit( testString, 'yellow','~' );
             loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
@@ -470,6 +478,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( depsCSS.lesslie ){ dependencies.push('lesslie'); }
         if( depsJS.jquery ){ dependencies.push('jquery'); }
         if( depsJS.angular ){ dependencies.push('angular'); }
+        if( depsJS.react ){ dependencies.push('react'); }
         if( depsJS.gsap ){ dependencies.push('gsap'); }
 
         //  Actually do our bower install
@@ -481,6 +490,23 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             function(){
             //  Lib cleanup takes everything from the app/lib_tmp/ dir, moves it to app/lib/ dir, then deletes the app/lib_tmp dir
 
+                //  Copy Bootstrap if need be
+                if( depsCSS.bootstrap ){
+                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                }
+                //  Copy Skeleton if need be
+                if( depsCSS.skeleton ){
+                  copIt( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
+                }
+                //  Copy over Lesslie
+                if( depsCSS.lesslie ){
+                  copIt( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
+                  copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
+                }
+                if( depsJS.react ){
+                  copIt( 'app/lib_tmp/react/react.js', 'app/lib/js/react.js' );
+                  copIt( 'app/lib_tmp/react/JSXTransformer.js', 'app/lib/js/JSXTransformer.js' );
+                }
                 //  Copy jQuery if need be
                 if( depsJS.jquery ){
                   copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
@@ -508,19 +534,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     }
                   });
 
-                }
-                //  Copy Bootstrap if need be
-                if( depsCSS.bootstrap ){
-                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
-                }
-                //  Copy Skeleton if need be
-                if( depsCSS.skeleton ){
-                  copIt( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
-                }
-                //  Copy over Lesslie
-                if( depsCSS.lesslie ){
-                  copIt( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
-                  copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
                 }
 
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
