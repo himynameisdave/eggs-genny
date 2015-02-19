@@ -98,6 +98,34 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }.bind(this));
 
     },
+    preprocessor: function() {
+      var done = this.async();
+
+      loggit('Which CSS pre-processor would you like to use:', 'green','+=');
+
+      //  The list of prompts
+      var prompts = [
+          { //  What gsap plugs do ya want?
+            name:    "preprocessor",
+            type:    "list",
+            message: "Which CSS pre-processor would you like to use?",
+            choices: [ "Less", "Sass" ],
+            default: "Less"
+          }
+      ];
+
+      //  What actually prompts the users
+      this.prompt(prompts, function (props) {
+
+        //  store their preprocessor choice, lowercase'd
+        this.preprocessor = props.preprocessor.toLowerCase();
+
+        done();
+      }.bind(this));
+
+
+
+    },
     ////////////////////////////////////////
     //    PHASE TWO: DEPENDENCIES         //
     ////////////////////////////////////////
@@ -348,13 +376,13 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     scaffold: function(){
 
         //  for easier/local referencing
-        var depsCSS    = this.depsCSS,
-            depsJS     = this.depsJS,
-            greeting   = this.greeting,
-            testString = 'Yo '+greeting+'! I\'m building your app with the following deps :';
+        var depsCSS      = this.depsCSS,
+            depsJS       = this.depsJS,
+            greeting     = this.greeting,
+            testString   = 'Yo '+greeting+'! I\'m building your app with the following deps :';
 
         //  Build a string that lets the user know what they've ordered
-        if( depsJS.bootstrap || depsJS.skeleton || depsJS.lesslie ){
+        if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.lesslie ){
             testString += '\n\n ~ CSS Dependencies ~ ';
         }
         if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap CSS'; }
@@ -362,7 +390,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
 
         if( depsJS.jquery || depsJS.angular || depsJS.react || depsJS.gsap ){
-          testString += '\n\n ~ JS Dependencies ~ ';
+          testString += '\n ~ JS Dependencies ~ ';
         }
         if( depsJS.jquery ){ testString += '\n\t- jQuery'; }
         if( depsJS.angular ){ testString += '\n\t- Angular'; }
@@ -376,11 +404,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  If they aren't using anything, write a hilarious message...
         if( !depsJS.jquery && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
-            testString += '\n\t<no dependencies>';
-            loggit( testString, 'yellow','~' );
-            loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
-        }else{
-        //  ...otherwise just log the built string
+          testString += '\n\t<no dependencies>';
+          loggit( testString, 'yellow','~' );
+          loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
+        }else{//  ...otherwise just log the built string
           loggit( testString, 'yellow', '~' );
         }
 
@@ -409,12 +436,13 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Some context for things that need templating
         var ctxt = {
-                appName:  this.appName,
-                appDesc:  this.desc,
-                greeting: this.greeting,
-                icons:    this.icons,
-                depsCSS:  this.depsCSS,
-                depsJS:   this.depsJS
+                appName:      this.appName,
+                appDesc:      this.desc,
+                greeting:     this.greeting,
+                icons:        this.icons,
+                depsCSS:      this.depsCSS,
+                preprocessor: this.preprocessor,
+                depsJS:       this.depsJS
             };
 
         //  we want these items to get removed before trying to install anything
@@ -431,7 +459,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  Copy over the main css files
-        this.template( 'app/css/_style.less', 'app/css/style.less', ctxt );
+        if(this.preprocessor === 'less'){
+          this.template( 'app/css/_style.less', 'app/css/style.less', ctxt );
+        }else{
+          this.copy( 'app/css/_style.sass', 'app/css/style.sass' );
+        }
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
         //  Copy over gulpfile.js
@@ -453,14 +485,43 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
         }
 
-        //  Angular has it's own particular package.json file & app.js file
+
+        //  Build the package.json
+        var pkg = {
+              "name": ctxt.appName,
+              "version": "0.0.1",
+              "description": ctxt.appName,
+              "main": "gulpfile.js",
+              "private": "true",
+              "devDependencies": {
+                "connect": "2.9.0",
+                "del": "~1.1.0",
+                "dirlist": "~1.0.2",
+                "loggit": "~0.1.1",
+                "glob": "~4.3.5",
+                "gulp": "~3.8.10",
+                "gulp-autoprefixer": "~2.0.0",
+                "gulp-concat": "~2.4.2",
+                "gulp-csscomb": "~3.0.3",
+                "gulp-csslint": "~0.1.5",
+                "gulp-html-replace": "~1.4.1",
+                "gulp-imagemin": "~2.1.0",
+                "gulp-jshint": "~1.9.0",
+                "gulp-less": "~2.0.1",
+                "gulp-livereload": "~3.0.2",
+                "gulp-load-plugins": "~0.8.0",
+                "gulp-minify-css": "~0.3.11",
+                "gulp-uglify": "~1.0.2",
+                "gulp-uncss": "~0.5.2"
+              }
+            };
+
         if( this.depsJS.angular ){
-            this.template('_package.ang.json', "package.json", ctxt);
-            this.copy( 'app/js/_app.ang.js', 'app/js/app.js' );
-        }else{
-            this.template('_package.json', "package.json", ctxt);
-            this.copy( 'app/js/_app.js', 'app/js/app.js' );
+          pkg.devDependencies["gulp-ng-annotate"] = "~0.3.4";
+          pkg.devDependencies["gulp-angular-htmlify"] = "~1.1.0";
         }
+
+        this.write('package.json',JSON.stringify(pkg, null, 2));
 
     },
     ////////////////////////////////////////
