@@ -3,7 +3,6 @@
 
 ---
 
-
 [eggs-genny](http://himynameisdave.github.io/eggs-genny/#/
 ) is a robust webapp-building [Yeoman](http://yeoman.io/) generator. The terriblly [punny](http://en.wikipedia.org/wiki/Pun) name comes from this line that I wrote when I initialized the repo:
 
@@ -38,7 +37,29 @@ If it did work, then this is where shit gets real...
 ...answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
 
 ---
+## Options Overview
 
+eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some proceedurial stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
+
+#####Preprocessors
+
+- [Less](http://lesscss.org/)
+- [Sass](http://sass-lang.com/)
+
+#####CSS Frameworks/Tools
+
+- [Bootstrap CSS](http://getbootstrap.com/css/)
+- [Skeleton](http://getskeleton.com/)
+- [Lesslie](https://github.com/himynameisdave/Lesslie)
+
+#####JS Frameworks/Tools
+
+- [jQuery](http://jquery.com)
+- [Angular](https://angularjs.org/)
+- [React](http://facebook.github.io/react/)
+- [GSAP](https://greensock.com/gsap)
+
+---
 ## Documentation
 
 If you want to know about the automated Gulp [build process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Build) or [development process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Development), or the [directory structure](https://github.com/himynameisdave/eggs-genny/wiki/Basic-Directory-Structure) that eggs-genny produces, the best source are [the docs](http://himynameisdave.github.io/eggs-genny/#/).
@@ -47,7 +68,6 @@ If you want to know about the automated Gulp [build process](https://github.com/
 You could also head over to [the wiki](https://github.com/himynameisdave/eggs-genny/wiki) which should make you laugh while answering all of your questions, although it's essentially the same as the docs.
 
 ---
-
 ## Contribute
 
 Wanna [help a brother out?](http://himynameisdave.github.io/eggs-genny/#/help-a-brother-out) Feel free to make suggestions here or [on Twitter](https://twitter.com/dave_lunny), or better yet create a pull request and help build eggs-genny!
