@@ -147,13 +147,18 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 },{
                   name:    "Skeleton",
                   checked: false
-                },{
-                  name:    "Lesslie",
-                  checked: true
                 }
               ]
             }
         ];
+
+        //  if they aren't using Less then don't ask them if they need Lesslie
+        if(this.preprocessor === 'less') {
+          prompts[0].choices.push({
+                                name:    "Lesslie",
+                                checked: true
+                              });
+        }
 
         //  What actually prompts the users
         this.prompt(prompts, function (props) {
@@ -456,6 +461,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  If they are using sublime, give them a workspace
         if(this.sublime){
           this.copy( '_project.sublime-project', this.appName+'.sublime-project' );
+          // TODO: this could be a this.write instead (v small file), which would make the 'created' date the same as the rest of the created files
         }
 
         //  Copy over the main css files
@@ -485,7 +491,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
         }
 
-
         //  Build the package.json
         var pkg = {
               "name": ctxt.appName,
@@ -507,7 +512,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 "gulp-html-replace": "~1.4.1",
                 "gulp-imagemin": "~2.1.0",
                 "gulp-jshint": "~1.9.0",
-                "gulp-less": "~2.0.1",
                 "gulp-livereload": "~3.0.2",
                 "gulp-load-plugins": "~0.8.0",
                 "gulp-minify-css": "~0.3.11",
@@ -519,6 +523,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( this.depsJS.angular ){
           pkg.devDependencies["gulp-ng-annotate"] = "~0.3.4";
           pkg.devDependencies["gulp-angular-htmlify"] = "~1.1.0";
+        }
+
+        if( this.preprocessor === 'less' ){
+          pkg.devDependencies["gulp-less"] = "~2.0.1";
+        }else{
+          pkg.devDependencies["gulp-sass"] = "~1.3.3";
         }
 
         this.write('package.json',JSON.stringify(pkg, null, 2));

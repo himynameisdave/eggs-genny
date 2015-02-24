@@ -18,9 +18,9 @@ var gulp    = require('gulp'),
     loggit  = require('loggit'),
     glob    = require('glob'),
     plug    = require('gulp-load-plugins')({
-              scope: ['devDependencies'],
-              replaceString: 'gulp-',
-            }),
+                scope: ['devDependencies'],
+                replaceString: 'gulp-',
+              }),
 //  Here's where you can specify which browsers Autoprefixer tests against
 //  The default you see here goes back really far, in reality something like 'last 2 versions' gets you > 90% coverage
     supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', 'ff 3', 'Firefox ESR', 'Android 2.1' ];
@@ -39,7 +39,7 @@ gulp.task( 'default', [ 'serve-me', 'reload-me' ]);
 ************************************************/
 gulp.task( 'reload-me', function(){
 
-  gulp.watch( 'app/css/*.less', ['compile-me'] );
+  <% if(preprocessor === 'less') { %>gulp.watch( 'app/css/*.less', ['compile-me'] );<% }else { %>gulp.watch( 'app/css/*.sass', ['compile-me'] );<% } %>
   gulp.watch( 'app/js/*.js', ['validate-js'] );
 
   plug.livereload.listen();
@@ -100,11 +100,12 @@ gulp.task( 'validate-css', function(){
 gulp.task( 'build', [ 'compile-me', 'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
 
 
-//  LESS compile
+//  CSS compile preprocessor
 gulp.task( 'compile-me', function(){
 
-  return gulp.src('app/css/*.less')
-          .pipe( plug.less() )
+<% if(preprocessor === 'less') { %>return gulp.src('app/css/*.less')
+          .pipe( plug.less() )<% }else{ %>return gulp.src('app/css/*.sass')
+          .pipe( plug.sass() )<% } %>
           .on('error', errorLog)
           .pipe( gulp.dest('app/css/') );
 
