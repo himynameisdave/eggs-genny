@@ -1,6 +1,6 @@
 {
   "name": "generator-eggs-genny",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Dumb name, great yeoman-generator.",
   "license": "MIT",
   "homepage": "http://himynameisdave.github.io/eggs-genny/#/",
@@ -47,7 +47,8 @@
   "dependencies": {
     "del": "^1.1.1",
     "loggit": "^0.1.1",
-    "yeoman-generator": "^0.17.0"
+    "yeoman-generator": "^0.17.0",
+    "chalk": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "*"
