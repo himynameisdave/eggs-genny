@@ -476,6 +476,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
+
+        //  copy over app.js
+        if( this.depsJS.angular ){
+          this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
+        }else{
+          this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
+        }
+
         //  Copy over gulpfile.js
         this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
 
