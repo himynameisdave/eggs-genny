@@ -41,18 +41,18 @@ If it did work, then this is where shit gets real...
 
 eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some proceedurial stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
 
-#####Preprocessors
+**Preprocessors**
 
 - [Less](http://lesscss.org/)
 - [Sass](http://sass-lang.com/)
 
-#####CSS Frameworks/Tools
+**CSS Frameworks/Tools**
 
 - [Bootstrap CSS](http://getbootstrap.com/css/)
 - [Skeleton](http://getskeleton.com/)
 - [Lesslie](https://github.com/himynameisdave/Lesslie)
 
-#####JS Frameworks/Tools
+**JS Frameworks/Tools**
 
 - [jQuery](http://jquery.com)
 - [Angular](https://angularjs.org/)

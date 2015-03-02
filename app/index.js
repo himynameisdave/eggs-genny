@@ -478,6 +478,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Copy over index.html
         this.template('app/_index.html', "app/index.html", ctxt);
 
+        //  Copy over readme
+        this.template('_README.md', "README.md", ctxt);
+
         //  Copy over favicon & apple icons
         this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
 
