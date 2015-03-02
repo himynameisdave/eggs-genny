@@ -51,11 +51,15 @@ var util   = require('util'),
 /////////////Actual eggs-genny Module/////////////
 EggsGennyGenerator = yeoman.generators.Base.extend({
 
+    // constructor: function(){
+    //   // yeoman.generators.Base.apply(this, arguments);
+    // },
     ////////////////////////////////////////
     //    PHASE ONE: PERSONALIZE          //
     ////////////////////////////////////////
     personalize: function(){
         var done = this.async();
+
 
         // have our banner greet the user
         console.log( banner );
@@ -183,7 +187,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       loggit('Choose your JS dependencies:', 'green','+=');
 
       var prompts = [
-          {   //  What gsap plugs do ya want?
+          {   //  What js deps do ya want?
               name:    "plugs",
               type:    "checkbox",
               message: "Which dependencies do you need?",
@@ -542,6 +546,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     bower: function(){
 
+      if( !this.options['skip-install'] ){
+
         //  depenencies for bower to install
         var dependencies = [  ],
           //  local variables for easier access
@@ -624,6 +630,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             }
         );
 
+      }//end check if skip install
+
     },
     ////////////////////////////////////////
     //    PHASE SEVEN: NPM INSTALLS       //
@@ -631,15 +639,36 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     npm: function(){
 
         //  So the greeting is localized
-        var greeting = this.greeting;
+        var greeting   = this.greeting,
+            installMsg = '';
 
-        //  Run an NPM install
-        //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
-        this.npmInstall( '', function(){
+        if( !this.options['skip-install'] ){
 
-          //  Let the user know that everything has been installed
-          loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
+          //  Run an NPM install
+          //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
+          this.npmInstall( '', function(){
+            //  Let the user know that everything has been installed
+            loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
 
+              //  TODO: DRY so hard here:
+              //  Conclusion: Your eggs are ready, sir!
+              console.log("\n");
+              var ready = "   ___                     \n"+
+                          "  /   \\    Your            \n"+
+                          " |     |___  eggs          \n"+
+                          " |     /   \\   are         \n"+
+                          "  \\___|     |    ready,    \n"+
+                          "      |     |        "+greeting+"\n"+
+                          "       \\___/ ";
+
+
+              loggit( ready,'green', '#' );
+              console.log("\n");
+
+          });
+
+        }else{
+          installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
           //  Conclusion: Your eggs are ready, sir!
           console.log("\n");
           var ready = "   ___                     \n"+
@@ -653,7 +682,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
           loggit( ready,'green', '#' );
           console.log("\n");
-        });
+          if( installMsg.length > 1 ){
+            loggit( installMsg, 'yellow', '&%' );
+          };
+        }
+
 
     }
 
