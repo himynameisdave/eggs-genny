@@ -226,6 +226,7 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
 **   Nothing (gulp) to see here, move along   **
 ************************************************/
 var errorLog = function (er){
+
   var log = "*****************************************\n"+
             "**          CATASTROPHIC ERROR!        **\n"+
             "**                                     **\n"+
@@ -234,8 +235,8 @@ var errorLog = function (er){
             "**          intended to be used!       **\n"+
             "**                                     **\n"+
             "**            ERROR MESSAGE:           **\n"+
+            "** "+er.message+" **\n"+
             "**                                     **\n"+
-            er+"\n"+
             "*****************************************\n";
 
 
@@ -292,6 +293,7 @@ CSSReport = function(file) {
 
     if(result.error.line !== undefined){
       ers += 'LINE '+result.error.line+': ' + result.error.message + "\n";
+      ers += '  ' + result.error.evidence + '\n';
     }else{
       ers += 'GENERAL:' + ' ' + result.error.message + "\n";
     }
