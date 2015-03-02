@@ -32,9 +32,13 @@ yo eggs-genny
 
 If that didn't work try running it with [`sudo`](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup#what-the-s-h-i-t-is-this) in front of the command.
 
-If it did work, then this is where shit gets real...
+If it did work, then this is where shit gets real. Answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
 
-...answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
+You can also optionally skip the bower and npm installs by adding `--skip-install` to the end of the command, like so:
+
+```bash
+yo eggs-genny --skip-install
+```
 
 ---
 ## Options Overview
