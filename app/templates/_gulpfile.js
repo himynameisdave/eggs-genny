@@ -169,7 +169,7 @@ gulp.task( 'annotate-me',  function(){
 gulp.task( 'assets-me', function(){
 
   //  IMAGES
-  gulp.src( 'app/img/*' )
+  gulp.src( 'app/img/**/*' )
     .pipe(plug.imagemin({
       progressive: true,
       optimizationLevel: 5
@@ -177,7 +177,7 @@ gulp.task( 'assets-me', function(){
     .pipe( gulp.dest('build/img/') );
   //  Favicon move
   gulp.src( 'app/favicon.ico' )
-    .pipe( gulp.dest('build/favicon.ico') );
+    .pipe( gulp.dest('build/') );
 
 });<%  if(depsJS.angular){ %>
 
