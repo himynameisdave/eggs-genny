@@ -450,7 +450,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
-
         //  copy over app.js
         if( this.depsJS.angular ){
           this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
@@ -469,6 +468,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over favicon & apple icons
         this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
+
+        //  Copy over our timestamp
+        this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
 
         //  Copy over the touch icons
         if(this.icons){
@@ -629,6 +631,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           //  Run an NPM install
           //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
           this.npmInstall( '', function(){
+
             //  Let the user know that everything has been installed
             loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
 

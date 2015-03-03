@@ -16,6 +16,7 @@ var gulp    = require('gulp'),
     del     = require('del'),
     dirlist = require('dirlist'),
     loggit  = require('loggit'),
+    time    = require('./node_modules/timestamp/timestamp.js'),
     glob    = require('glob'),
     plug    = require('gulp-load-plugins')({
                 scope: ['devDependencies'],
@@ -44,7 +45,7 @@ gulp.task( 'reload-me', function(){
 
   plug.livereload.listen();
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(depsJS.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+timePlz(), 'yellow', '+' );
+    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+time.timePlz(), 'yellow', '+' );
   })
   .on('change', plug.livereload.changed);
 });
@@ -241,43 +242,6 @@ var errorLog = function (er){
 
 
   loggit( log, 'red', '  ' );
-
-},
-timePlz = function(){
-
-  var D  = new Date(),
-      h  = D.getHours(),
-      m  = D.getMinutes(),
-      s  = D.getSeconds(),
-      dt = D.getDate(),
-      yr = D.getFullYear(),
-      months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
-      mt = months[D.getMonth()];
-
-      //  convert to 12 hour time
-      if(h > 12){ h = h - 12; }
-      if(h === 0){ h = 12; }
-
-      //  in case mins is lower than 10
-      if( m < 10 ){ m = '0' + m; }
-
-      //  in case seconds is lower than 10
-      if( s < 10 ){ s = '0' + s; }
-
-      return mt + ' ' + dt + ', ' + yr + ' at ' + h + ':' + m + ':' + s;
 
 },
 CSSReport = function(file) {
