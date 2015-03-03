@@ -444,11 +444,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         var ctxt = {
                 appName:      this.appName,
                 appDesc:      this.desc,
-                greeting:     this.greeting,
                 icons:        this.icons,
+                greeting:     this.greeting,
                 depsCSS:      this.depsCSS,
+                depsJS:       this.depsJS,
                 preprocessor: this.preprocessor,
-                depsJS:       this.depsJS
+                coffee:       this.coffee
             };
 
         //  we want these items to get removed before trying to install anything
@@ -473,12 +474,21 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
-
         //  copy over app.js
         if( this.depsJS.angular ){
-          this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
+          if( this.coffee ){
+            this.template( 'app/js/_app.ang.coffee', 'app/js/app.coffee', ctxt );
+            this.write('app/js/app.js', '');
+          }else{
+            this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
+          }
         }else{
-          this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
+          if( this.coffee ){
+            this.template( 'app/js/_app.coffee', 'app/js/app.coffee', ctxt );
+            this.write('app/js/app.js', '');
+          }else{
+            this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
+          }
         }
 
         //  Copy over gulpfile.js
@@ -536,7 +546,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           pkg.devDependencies["gulp-ng-annotate"] = "~0.3.4";
           pkg.devDependencies["gulp-angular-htmlify"] = "~1.1.0";
         }
-
+        if( this.coffee ){
+          pkg.devDependencies["gulp-coffee"] = "~2.3.1";
+        }
         if( this.preprocessor === 'less' ){
           pkg.devDependencies["gulp-less"] = "~2.0.1";
         }else{

@@ -39,8 +39,10 @@ gulp.task( 'default', [ 'serve-me', 'reload-me' ]);
 ************************************************/
 gulp.task( 'reload-me', function(){
 
-  <% if(preprocessor === 'less') { %>gulp.watch( 'app/css/*.less', ['compile-me'] );<% }else { %>gulp.watch( 'app/css/*.sass', ['compile-me'] );<% } %>
-  gulp.watch( 'app/js/*.js', ['validate-js'] );
+  <% if(preprocessor === 'less') { %>gulp.watch( 'app/css/*.less', ['compile-css'] );<% }else { %>gulp.watch( 'app/css/*.sass', ['compile-css'] );<% } %>
+  <% if(coffee){ %>
+  gulp.watch( 'app/js/*.coffee', ['compile-coffee', 'validate-js'] );
+  <% }else { %>gulp.watch( 'app/js/*.js', ['validate-js'] );<% } %>
 
   plug.livereload.listen();
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(depsJS.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
@@ -71,11 +73,11 @@ gulp.task( 'serve-me', function(){
 /***********************************************
 **              Validation Task               **
 ************************************************/
-gulp.task( 'validate-me', [ 'validate-js', 'validate-css' ]);
+gulp.task( 'validate-me', [<% if (coffee) { %>'compile-coffee', <% } %>'validate-js', 'validate-css' ]);
 
 
 //  VALIDATION JS
-gulp.task( 'validate-js', function(){
+gulp.task( 'validate-js',<% if (coffee) { %> ['compile-coffee'],<% } %> function(){
 
   return gulp.src('app/js/*.js')
           .pipe(plug.jshint())
@@ -97,11 +99,11 @@ gulp.task( 'validate-css', function(){
 ************************************************/
 
 
-gulp.task( 'build', [ 'compile-me', 'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
+gulp.task( 'build', [ 'compile-css', <% if (coffee) { %>'compile-coffee', <% } %>'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
 
 
 //  CSS compile preprocessor
-gulp.task( 'compile-me', function(){
+gulp.task( 'compile-css', function(){
 
 <% if(preprocessor === 'less') { %>return gulp.src('app/css/*.less')
           .pipe( plug.less() )<% }else{ %>return gulp.src('app/css/*.sass')
@@ -110,8 +112,21 @@ gulp.task( 'compile-me', function(){
           .pipe( gulp.dest('app/css/') );
 
 });
+<% if(coffee){ %>
+//  CoffeeScript compile
+gulp.task( 'compile-coffee', function(){
+
+  return gulp.src( 'app/js/*.coffee' )
+          .pipe( plug.coffee() )
+          .on('error', function(e){
+            loggit('Error compiling ','red', '*');
+          })
+          .pipe( gulp.dest( 'app/js/' ) );
+
+})<% } %>
+
 //  CSSTASKS
-gulp.task( 'css-me', ['compile-me'], function(){
+gulp.task( 'css-me', ['compile-css'], function(){
 
   return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } %> 'app/css/*.css' ] )
             .pipe( plug.concat('styles.css') )
