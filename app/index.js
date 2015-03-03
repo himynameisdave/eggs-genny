@@ -438,8 +438,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  If they are using sublime, give them a workspace
         if(this.sublime){
-          this.copy( '_project.sublime-project', this.appName+'.sublime-project' );
-          // TODO: this could be a this.write instead (v small file), which would make the 'created' date the same as the rest of the created files
+          var sublime = "{\n\t\"folders\":\n\t[\n\t\t{\n\t\t\t\"follow_symlinks\": true,\n\t\t\t\"path\": \"./\"\n\t\t}\n\t]\n}";
+          this.write( this.appName+'.sublime-project', sublime );
         }
 
         //  Copy over the main css files
