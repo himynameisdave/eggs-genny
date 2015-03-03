@@ -622,56 +622,49 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     npm: function(){
 
-        //  So the greeting is localized
-        var greeting   = this.greeting,
-            installMsg = '';
+      //  So the greeting is localized
+      var greeting   = this.greeting,
+          installMsg = '';
 
-        if( !this.options['skip-install'] ){
+      if( !this.options['skip-install'] ){
 
-          //  Run an NPM install
-          //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
-          this.npmInstall( '', function(){
+        //  Run an NPM install
+        //  Note there is nothing being passed as the 1st param, so that it will install everything in the package.json
+        this.npmInstall( '', function(){
 
-            //  Let the user know that everything has been installed
-            loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
-
-              //  TODO: DRY so hard here:
-              //  Conclusion: Your eggs are ready, sir!
-              console.log("\n");
-              var ready = "   ___                     \n"+
-                          "  /   \\    Your            \n"+
-                          " |     |___  eggs          \n"+
-                          " |     /   \\   are         \n"+
-                          "  \\___|     |    ready,    \n"+
-                          "      |     |        "+greeting+"\n"+
-                          "       \\___/ ";
-
-
-              loggit( ready,'green', '#' );
-              console.log("\n");
-
-          });
-
-        }else{
-          installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
+          //  Let the user know that everything has been installed
+          loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
           //  Conclusion: Your eggs are ready, sir!
-          console.log("\n");
-          var ready = "   ___                     \n"+
-                      "  /   \\    Your            \n"+
-                      " |     |___  eggs          \n"+
-                      " |     /   \\   are         \n"+
-                      "  \\___|     |    ready,    \n"+
-                      "      |     |        "+greeting+"\n"+
-                      "       \\___/ ";
+          finalMsg();
+
+        });
+
+      }else{
+        installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
+
+        //  Conclusion: Your eggs are ready, sir!
+        finalMsg();
+
+        if( installMsg.length > 1 ){
+          loggit( installMsg, 'yellow', '&%' );
+        };
+      }
+
+      var finalMsg = function(){
+        console.log("\n");
+        var ready = "   ___                     \n"+
+                    "  /   \\    Your            \n"+
+                    " |     |___  eggs          \n"+
+                    " |     /   \\   are         \n"+
+                    "  \\___|     |    ready,    \n"+
+                    "      |     |        "+greeting+"\n"+
+                    "       \\___/ ";
 
 
-          loggit( ready,'green', '#' );
-          console.log("\n");
-          if( installMsg.length > 1 ){
-            loggit( installMsg, 'yellow', '&%' );
-          };
-        }
-
+        loggit( ready,'green', '#' );
+        console.log("\n");
+        return;
+      };
 
     }
 
