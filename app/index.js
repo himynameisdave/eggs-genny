@@ -17,43 +17,17 @@
 
 
 //  require stuffs
-var util   = require('util'),
-    path   = require('path'),
-    yeoman = require('yeoman-generator'),
+var yeoman = require('yeoman-generator'),
     loggit = require('loggit'),     //  For logging things to the console in a more visible way
     del    = require('del'),        //  Using del but should be using fs.unlink
     fs     = require('fs'),         //  To do some filesystem stuff easier
     banner = require('./banner.js'),//  Our own personal little banner for when they start eggs-genny
+    utils  = require('./eggs-utils.js'),
 
-    //  A simple copy function utilizing streams
-    copIt  = function( oldFile, newFile ){
-      fs.createReadStream( oldFile ).pipe( fs.createWriteStream( newFile ) );
-    },
-
-    //  Simple function that alters the install location after shit gets moved
-    changeBowerInstallLocation = function(file){
-      fs.readFile(file, 'utf8', function(err,data){
-        if(err){
-          loggit(err,'red','!');
-          return;
-        }
-        var result = data.replace( /lib_tmp/g, 'lib' );
-
-        fs.writeFile(file, result, 'utf8', function(err){
-          if(err){
-            loggit(err,'red','!');
-            return;
-          }
-        });
-      });
-    },
 
 /////////////Actual eggs-genny Module/////////////
 EggsGennyGenerator = yeoman.generators.Base.extend({
 
-    // constructor: function(){
-    //   // yeoman.generators.Base.apply(this, arguments);
-    // },
     ////////////////////////////////////////
     //    PHASE ONE: PERSONALIZE          //
     ////////////////////////////////////////
@@ -583,45 +557,45 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
                 //  Copy Bootstrap if need be
                 if( depsCSS.bootstrap ){
-                  copIt( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                  utils.copyThis( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
                 }
                 //  Copy Skeleton if need be
                 if( depsCSS.skeleton ){
-                  copIt( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
+                  utils.copyThis( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
                 }
                 //  Copy over Lesslie
                 if( depsCSS.lesslie ){
-                  copIt( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
-                  copIt( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
+                  utils.copyThis( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
+                  utils.copyThis( 'app/lib_tmp/lesslie/dist/lesslie.less', 'app/lib/css/lesslie.less' );
                 }
                 if( depsJS.react ){
-                  copIt( 'app/lib_tmp/react/react.js', 'app/lib/js/react.js' );
-                  copIt( 'app/lib_tmp/react/JSXTransformer.js', 'app/lib/js/JSXTransformer.js' );
+                  utils.copyThis( 'app/lib_tmp/react/react.js', 'app/lib/js/react.js' );
+                  utils.copyThis( 'app/lib_tmp/react/JSXTransformer.js', 'app/lib/js/JSXTransformer.js' );
                 }
                 //  Copy jQuery if need be
                 if( depsJS.jquery ){
-                  copIt( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
+                  utils.copyThis( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
                 }
                 //  Copy Angular if need be
                 if( depsJS.angular ){
-                  copIt( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
+                  utils.copyThis( 'app/lib_tmp/angular/angular.js', 'app/lib/js/angular.js' );
                 }
                 //  Copy GSAP if need be
                 if( depsJS.gsap ){
 
                   //  adding the minMax
                   if( depsJS.gsap.minMax === 'TweenLite' ){
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenLite.js', 'app/lib/js/TweenLite.js' );
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
+                    utils.copyThis( 'app/lib_tmp/gsap/src/uncompressed/TweenLite.js', 'app/lib/js/TweenLite.js' );
+                    utils.copyThis( 'app/lib_tmp/gsap/src/uncompressed/TimelineLite.js', 'app/lib/js/TimelineLite.js' );
                   }else {
-                    copIt( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
+                    utils.copyThis( 'app/lib_tmp/gsap/src/uncompressed/TweenMax.js', 'app/lib/js/TweenMax.js' );
                   }
                   //  loop through and add each plugin specified
                   depsJS.gsap.plugs.forEach(function(plug){
                     if( plug === 'EasePack' ){
-                      copIt( 'app/lib_tmp/gsap/src/uncompressed/easing/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
+                      utils.copyThis( 'app/lib_tmp/gsap/src/uncompressed/easing/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
                     }else{
-                      copIt( 'app/lib_tmp/gsap/src/uncompressed/plugins/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
+                      utils.copyThis( 'app/lib_tmp/gsap/src/uncompressed/plugins/'+plug+'.js', 'app/lib/js/'+plug+'.js' );
                     }
                   });
 
@@ -630,7 +604,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Deletes the app/lib_tmp with all the extra uneeded stuff
                 del(['app/lib_tmp/'], function (err, deletedFiles) {});
 
-                changeBowerInstallLocation('.bowerrc');
+                utils.changeBowerInstallLocation('.bowerrc');
 
                 //  Let the user know that everything has been installed
                 loggit( "Bower dependencies installed, "+greeting+"!",'magenta', '-=' );
