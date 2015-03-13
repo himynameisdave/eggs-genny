@@ -1,19 +1,10 @@
 'use strict';
 ///////////////////EGGS GENNY///////////////////
-
-//  eggs-genny is a multi-phase process, as follows:
-
-//    PHASE ONE:        Personalize
-//    PHASE TWO:        Dependency Prompts
-//    PHASE THREE-A:    GSAP MinMax (if applicable)
-//    PHASE THREE-B:    GSAP Plugins (if applicable)
-//    PHASE FOUR:       Scaffold
-//    PHASE FIVE:       File Creation
-//    PHASE SIX:        Bower Install & Lib Cleanup
-//    PHASE SEVEN:      NPM Install
-
-///////////////////////////////////////////////
-
+//                                            //
+//  Welcome to eggs-genny, the poorly named   //
+//       Yeoman generator for web apps.       //
+//                                            //
+////////////////////////////////////////////////
 
 
 //  require stuffs
@@ -83,7 +74,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
       //  The list of prompts
       var prompts = [
-          { //  What gsap plugs do ya want?
+          {
             name:    "preprocessor",
             type:    "list",
             message: "Which CSS pre-processor would you like to use?",
@@ -101,8 +92,27 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         done();
       }.bind(this));
 
+    },
+    coffee: function() {
+      var done = this.async();
 
+      loggit('Would you like to use CoffeeScript?', 'green','+=');
 
+      //  See if they would like to use CoffeeScript in their project
+      var prompts = [
+          {
+            name:    "coffee",
+            type:    "confirm",
+            message: "Want to use CoffeeScript in your project?",
+            default: false
+          }
+      ];
+
+      //  What actually prompts the users
+      this.prompt(prompts, function (props) {
+        this.coffee = props.coffee;
+        done();
+      }.bind(this));
     },
     ////////////////////////////////////////
     //    PHASE TWO: DEPENDENCIES         //
@@ -362,18 +372,20 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         var depsCSS      = this.depsCSS,
             depsJS       = this.depsJS,
             greeting     = this.greeting,
+            preprocessor = this.preprocessor,
+            coffee       = this.coffee,
             testString   = 'Yo '+greeting+'! I\'m building your app with the following deps :';
 
         //  Build a string that lets the user know what they've ordered
         if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.lesslie ){
-            testString += '\n\n ~ CSS Dependencies ~ ';
+            testString += '\n  ~ CSS Dependencies ~ ';
         }
         if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap CSS'; }
         if( depsCSS.skeleton ){ testString += '\n\t- Skeleton CSS'; }
         if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
 
         if( depsJS.jquery || depsJS.angular || depsJS.react || depsJS.gsap ){
-          testString += '\n ~ JS Dependencies ~ ';
+          testString += '\n  ~ JS Dependencies ~ ';
         }
         if( depsJS.jquery ){ testString += '\n\t- jQuery'; }
         if( depsJS.angular ){ testString += '\n\t- Angular'; }
@@ -384,6 +396,16 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             testString += '\n\t |-- '+p;
           });
         }
+        if(preprocessor === 'less'){
+          testString += '\n...with Less';
+        }else{
+          testString += '\n...with Sass';
+        }
+        if(coffee){
+          testString += ' and CoffeeScript.';
+        }else{
+          testString += ' as a preprocessor.';
+        }
 
         //  If they aren't using anything, write a hilarious message...
         if( !depsJS.jquery && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
@@ -393,6 +415,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }else{//  ...otherwise just log the built string
           loggit( testString, 'yellow', '~' );
         }
+
 
         //  Build out some directories
         this.mkdir("app");
@@ -421,11 +444,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         var ctxt = {
                 appName:      this.appName,
                 appDesc:      this.desc,
-                greeting:     this.greeting,
                 icons:        this.icons,
+                greeting:     this.greeting,
                 depsCSS:      this.depsCSS,
+                depsJS:       this.depsJS,
                 preprocessor: this.preprocessor,
-                depsJS:       this.depsJS
+                coffee:       this.coffee
             };
 
         //  we want these items to get removed before trying to install anything
@@ -452,9 +476,19 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  copy over app.js
         if( this.depsJS.angular ){
-          this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
+          if( this.coffee ){
+            this.template( 'app/js/_app.ang.coffee', 'app/js/app.coffee', ctxt );
+            this.write('app/js/app.js', '');
+          }else{
+            this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
+          }
         }else{
-          this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
+          if( this.coffee ){
+            this.template( 'app/js/_app.coffee', 'app/js/app.coffee', ctxt );
+            this.write('app/js/app.js', '');
+          }else{
+            this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
+          }
         }
 
         //  Copy over gulpfile.js
@@ -515,7 +549,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           pkg.devDependencies["gulp-ng-annotate"] = "~0.3.4";
           pkg.devDependencies["gulp-angular-htmlify"] = "~1.1.0";
         }
-
+        if( this.coffee ){
+          pkg.devDependencies["gulp-coffee"] = "~2.3.1";
+        }
         if( this.preprocessor === 'less' ){
           pkg.devDependencies["gulp-less"] = "~2.0.1";
         }else{
