@@ -596,6 +596,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Copy Bootstrap if need be
                 if( depsCSS.bootstrap ){
                   utils.copyThis( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css', 'app/lib/css/bootstrap.css' );
+                  utils.copyThis( 'app/lib_tmp/bootstrap/dist/css/bootstrap.css.map', 'app/lib/css/bootstrap.css.map' );
                 }
                 //  Copy Skeleton if need be
                 if( depsCSS.skeleton ){
