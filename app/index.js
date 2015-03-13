@@ -469,8 +469,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Copy over the main css files
         if(this.preprocessor === 'less'){
           this.template( 'app/css/_style.less', 'app/css/style.less', ctxt );
+          if( !this.depsCSS.lesslie ){
+            this.template( 'app/css/_reset.less', 'app/css/reset.less', ctxt );
+          }
         }else{
           this.copy( 'app/css/_style.sass', 'app/css/style.sass' );
+          this.copy( 'app/css/_reset.sass', 'app/css/reset.sass' );
         }
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 

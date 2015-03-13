@@ -106,8 +106,8 @@ gulp.task( 'build', [ 'compile-css', <% if (coffee) { %>'compile-coffee', <% } %
 //  CSS compile preprocessor
 gulp.task( 'compile-css', function(){
 
-<% if(preprocessor === 'less') { %>return gulp.src('app/css/*.less')
-          .pipe( plug.less() )<% }else{ %>return gulp.src('app/css/*.sass')
+<% if(preprocessor === 'less') { %>return gulp.src('app/css/style.less')
+          .pipe( plug.less() )<% }else{ %>return gulp.src('app/css/style.sass')
           .pipe( plug.sass() )<% } %>
           .on('error', errorLog)
           .pipe( gulp.dest('app/css/') );
