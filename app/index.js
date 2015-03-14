@@ -35,7 +35,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "greeting",
                 type:    "list",
                 message: "First off, let's personalize things! Which do you prefer?",
-                choices: [ "sir", "ma'am", "cap'n", "homie", "hombre" ],
+                choices: [ "sir", "ma'am", "homie", "cap'n", "miss", "hombre", "boss" ],
                 default: "sir"
             },{ //  What are they calling their app?
                 name:    "name",
@@ -70,14 +70,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     preprocessor: function() {
       var done = this.async();
 
-      loggit('Which CSS pre-processor would you like to use:', 'green','+=');
+      loggit('Which CSS pre-processor would you like to use, '+this.greeting+'?', 'green','+=');
 
       //  The list of prompts
       var prompts = [
           {
             name:    "preprocessor",
             type:    "list",
-            message: "Which CSS pre-processor would you like to use?",
+            message: "Choose a CSS preprocessor:",
             choices: [ "Less", "Sass" ],
             default: "Less"
           }
@@ -96,14 +96,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     coffee: function() {
       var done = this.async();
 
-      loggit('Would you like to use CoffeeScript?', 'green','+=');
+      loggit('Would you like to use CoffeeScript, '+this.greeting+'?', 'green','+=');
 
       //  See if they would like to use CoffeeScript in their project
       var prompts = [
           {
             name:    "coffee",
             type:    "confirm",
-            message: "Want to use CoffeeScript in your project?",
+            message: "CoffeeScript, want it or not?",
             default: false
           }
       ];
@@ -120,7 +120,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     dependenciesCSS: function() {
         var done = this.async();
 
-        loggit('Choose your CSS dependencies:', 'green','+=');
+        loggit('Choose your CSS dependencies, '+this.greeting+':' , 'green','+=');
 
         //  The list of prompts
         var prompts = [
@@ -168,7 +168,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     dependenciesJS: function() {
       var done = this.async();
 
-      loggit('Choose your JS dependencies:', 'green','+=');
+      loggit('Choose your JS dependencies, '+this.greeting+':', 'green','+=');
 
       var prompts = [
           {   //  What js deps do ya want?
@@ -194,7 +194,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               //  Webapp touch icons?
               name:    "touchIcons",
               type:    "confirm",
-              message: "Should I include some default mobile web app touch icons?",
+              message: "Should I include some default mobile web app touch icons, "+this.greeting+"?",
               default: true
           }
       ];
@@ -228,7 +228,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       if(this.depsJS.gsap){
         var done = this.async();
 
-        loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
+        loggit('Do you need TweenLite or TweenMax, '+this.greeting+'?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
 
         var prompts = [
           {
@@ -263,7 +263,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  asyncer
         var done = this.async();
         //  Wat wat gsap plugs
-        loggit('Choose your GSAP Plugins:', 'green', '=+');
+        loggit('Choose your GSAP Plugins, '+this.greeting+':', 'green', '=+');
 
         if( this.depsJS.gsap.minMax === 'TweenLite' ){
 
@@ -320,7 +320,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             {   //  What gsap plugs do ya want?
                 name:    "plugs",
                 type:    "checkbox",
-                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones?",
+                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones, "+this.greeting+"?",
                 choices: [
                   {
                     name:    "CSSRulePlugin",
