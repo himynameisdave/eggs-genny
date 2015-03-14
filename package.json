@@ -42,6 +42,7 @@
     "Bower",
     "TweenLite",
     "TweenMax",
+    "CoffeeScript",
     "Frameworks"
   ],
   "dependencies": {
