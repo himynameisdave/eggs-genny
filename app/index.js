@@ -50,6 +50,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 type:    "confirm",
                 message: "Do you use Sublime Text?",
                 default: true
+            },{
+              //  Webapp touch icons?
+              name:    "icons",
+              type:    "confirm",
+              message: "Should I include some default mobile web app touch icons?",
+              default: false
             }
         ];
 
@@ -60,6 +66,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             this.appName  = props.name.replace(/ /g, "-");
             this.desc     = props.desc;
             this.sublime  = props.sublime;
+            this.icons    = props.icons;
 
             //  Call the async done function
             done();
@@ -190,12 +197,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   checked: false
                 }
               ]
-          },{
-              //  Webapp touch icons?
-              name:    "touchIcons",
-              type:    "confirm",
-              message: "Should I include some default mobile web app touch icons, "+this.greeting+"?",
-              default: true
           }
       ];
 
@@ -209,7 +210,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             obj[dep] = true;
           });
           this.depsJS = obj;
-          this.icons = props.touchIcons;
           //  create the gsap object if they said yes to GSAP
           if( props.gsap ){
             this.depsJS.gsap = {};
