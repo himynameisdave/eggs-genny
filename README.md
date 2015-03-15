@@ -10,7 +10,7 @@
 
 ![Simulated animation of using eggs-genny](http://i.imgur.com/UbHYhNa.gif)
 
-In case you don't know what [Yeoman](http://yeoman.io/) is, it essentially like builds you out a "template" project or project skeleton. It's fucking dope, saves you a shit load of time, and there are [literally](https://github.com/yeoman/generator-webapp) [a bunch](https://github.com/yeoman/generator-polymer) [of prebuilt ones](https://github.com/yeoman/generator-bootstrap). You can also write your own, obviously, which is how [eggs-genny](https://www.npmjs.com/package/generator-eggs-genny) was born.
+In case you don't know what [Yeoman](http://yeoman.io/) is, it essentially like builds you out a "template" project or project skeleton. It can also do other cool stuff like installing dependencies for you. It's fucking dope, saves you a shit load of time, and there are [literally](https://github.com/yeoman/generator-webapp) [a bunch](https://github.com/yeoman/generator-polymer) [of prebuilt ones](https://github.com/yeoman/generator-bootstrap). You can also write your own, obviously, which is how [eggs-genny](https://www.npmjs.com/package/generator-eggs-genny) was born.
 
 
 To learn all about Yeoman and how to get up and running with eggs-genny, take a look at [the (hilarious and thorough) wiki](https://github.com/himynameisdave/eggs-genny/wiki).
@@ -24,15 +24,15 @@ This presumes you've installed a Yeoman generator before. If not, check out the 
 npm install -g generator-eggs-genny
 ```
 
+If that didn't work try running it with [`sudo`](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup#what-the-s-h-i-t-is-this) in front of the command.
+
 Now just `cd` into your little rag-tag project and run:
 
 ```bash
 yo eggs-genny
 ```
 
-If that didn't work try running it with [`sudo`](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup#what-the-s-h-i-t-is-this) in front of the command.
-
-If it did work, then this is where shit gets real. Answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
+This is where shit gets real. Answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
 
 You can also optionally skip the bower and npm installs by adding `--skip-install` to the end of the command, like so:
 
