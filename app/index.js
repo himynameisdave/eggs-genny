@@ -553,9 +553,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Build the package.json
         var pkg = {
-              "name": ctxt.appName,
+              "name": ctxt.appNameSanitized,
               "version": "0.0.1",
-              "description": ctxt.appName,
+              "description": ctxt.appDesc,
               "main": "gulpfile.js",
               "private": "true",
               "devDependencies": {
