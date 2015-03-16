@@ -68,6 +68,19 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             this.sublime  = props.sublime;
             this.icons    = props.icons;
 
+
+            var infoConfig = {
+              greeting:         props.greeting,
+              appName:          props.name,
+              appNameSanitized: props.name.replace(/ /g, "-"),
+              desc:             props.desc,
+              sublime:          props.sublime,
+              icons:            props.icons
+            };
+
+            this.config.set('info', infoConfig);
+            this.config.save();
+
             //  Call the async done function
             done();
 
@@ -96,6 +109,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  store their preprocessor choice, lowercase'd
         this.preprocessor = props.preprocessor.toLowerCase();
 
+        this.config.set('preprocessor', props.preprocessor.toLowerCase());
+        this.config.save();
+
         done();
       }.bind(this));
 
@@ -118,6 +134,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       //  What actually prompts the users
       this.prompt(prompts, function (props) {
         this.coffee = props.coffee;
+
+        this.config.set('coffee', props.coffee);
+        this.config.save();
+
         done();
       }.bind(this));
     },
@@ -166,6 +186,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             });
             this.depsCSS = obj;
 
+            this.config.set('depsCSS', obj);
+            this.config.save();
+
             //  Call the async done function
             done();
 
@@ -210,10 +233,19 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             obj[dep] = true;
           });
           this.depsJS = obj;
+
+
           //  create the gsap object if they said yes to GSAP
           if( props.gsap ){
             this.depsJS.gsap = {};
           }
+          //  not needed as depsJS.gsap will be false in the config.
+          // if( !props.gsap ){
+          //   this.config.set('gsap', false);
+          // }
+
+          this.config.set('depsJS', obj);
+          this.config.save();
 
           //  Call the async done function
           done();
@@ -225,7 +257,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     gsapMinMax: function(){
       //  Only executes if they asked for GSAP
+      var depsJSObj = this.config.get('depsJS');
+
       if(this.depsJS.gsap){
+      // if( depsJSObj.gsap ){
         var done = this.async();
 
         loggit('Do you need TweenLite or TweenMax, '+this.greeting+'?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
@@ -247,6 +282,13 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             minMax: props.minMax
           };
 
+
+          var depsJSObj      = this.config.get('depsJS');//TODO: can we omit this as it is defined above?
+              depsJSObj.gsap = { minMax: props.minMax };
+
+          this.config.set('depsJS', depsJSObj);
+          this.config.save();
+
           //  Call the async done guy
           done();
         }.bind(this));
@@ -258,14 +300,20 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     gsapPlugs: function(){
 
+      var depsJSObj = this.config.get('depsJS');
+
       //  Only executes if they asked for GSAP
       if(this.depsJS.gsap){
+      // if( depsJSObj.gsap ){
         //  asyncer
         var done = this.async();
         //  Wat wat gsap plugs
         loggit('Choose your GSAP Plugins, '+this.greeting+':', 'green', '=+');
 
         if( this.depsJS.gsap.minMax === 'TweenLite' ){
+        // if( depsJSObj.gsap.minMax === 'TweenLite' ){
+          ////TODO: better to check for TweenMax then else off to TweenLite
+          ////      that way in the off chance that its neither, more plugin options are available
 
           var prompts = [
             {   //  What gsap plugs do ya want?
@@ -344,7 +392,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         }
 
-        this.prompt(prompts, function (props) {
+        this.prompt(prompts, function (props) {///TODO: prompts used out of context... i mean it works but like not ideal
 
           //  set a local plugs variable we can use in our loop function
           var plugs = [];
@@ -356,6 +404,13 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
           //  store the plugins
           this.depsJS.gsap.plugs = plugs;
+
+          var depsJSObj            = this.config.get('depsJS');
+              depsJSObj.gsap.plugs = plugs;
+
+          this.config.set('depsJS', depsJSObj);
+          this.config.save();
+
           done();plugs = null;
 
         }.bind(this));
@@ -451,6 +506,24 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 preprocessor: this.preprocessor,
                 coffee:       this.coffee
             };
+
+
+
+        //  SAVE ourselves a .yo-rc file via this.config API
+        //  TODO: ultimately this could be the actual saved-to object at point of creation
+        //  and get rid of all dat this.desc... and shit
+        //  http://yeoman.github.io/generator/Storage.html
+        // this.config.save();
+
+
+
+
+        ///////////
+        // var poop = this.config.getAll();
+        // loggit( poop.greeting + ' is boss!' );
+        ////////////
+
+
 
         //  we want these items to get removed before trying to install anything
         del(['.bowerrc', 'bower.json'], function (err, deletedFiles) {});
@@ -579,6 +652,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             depsCSS      = this.depsCSS,
             depsJS       = this.depsJS;
 
+
+
+///////////
+// var poop = this.config.getAll();
+// loggit( poop.greeting + ' is boss!' );
+////////////
+
+
         //  Add needed deps to the list
         if( depsCSS.bootstrap ){ dependencies.push('bootstrap'); }
         if( depsCSS.skeleton ){ dependencies.push('skeleton'); }
@@ -665,7 +746,21 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
       //  So the greeting is localized
       var greeting   = this.greeting,
-          installMsg = '';
+          installMsg = '',
+          finalMsg = function(){
+            var ready = "   ___                     \n"+
+                        "  /   \\    Your            \n"+
+                        " |     |___  eggs          \n"+
+                        " |     /   \\   are         \n"+
+                        "  \\___|     |    ready,    \n"+
+                        "      |     |        "+greeting+"\n"+
+                        "       \\___/ ";
+
+            console.log("\n");
+            loggit( ready,'green', '#' );
+            console.log("\n");
+            return;
+          };
 
       if( !this.options['skip-install'] ){
 
@@ -683,6 +778,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       }else{
         installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
 
+        console.log();
         //  Conclusion: Your eggs are ready, sir!
         finalMsg();
 
@@ -690,22 +786,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           loggit( installMsg, 'yellow', '&%' );
         };
       }
-
-      var finalMsg = function(){
-        console.log("\n");
-        var ready = "   ___                     \n"+
-                    "  /   \\    Your            \n"+
-                    " |     |___  eggs          \n"+
-                    " |     /   \\   are         \n"+
-                    "  \\___|     |    ready,    \n"+
-                    "      |     |        "+greeting+"\n"+
-                    "       \\___/ ";
-
-
-        loggit( ready,'green', '#' );
-        console.log("\n");
-        return;
-      };
 
     }
 
