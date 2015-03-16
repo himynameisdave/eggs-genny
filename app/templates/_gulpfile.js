@@ -47,7 +47,9 @@ gulp.task( 'reload-me', function(){
 
   plug.livereload.listen();
   gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(depsJS.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
-    loggit("I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } %>\n    "+time.timePlz(), 'yellow', '+' );
+    loggit( "I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } if(greeting === 'miss'){ %>miss!<% } if(greeting === 'boss'){ %>boss!<% } %>\n    "+time.timePlz(),
+            "yellow",
+            "+" );
   })
   .on('change', plug.livereload.changed);
 });
