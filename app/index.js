@@ -479,9 +479,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  we want these items to get removed before trying to install anything
         del(['.bowerrc', 'bower.json'], function (err, deletedFiles) {});
 
-
-
-
         //  Copy over some bower-related stuff,
         //  adding the app name and description to the bower.json
         this.copy( '_.bowerrc', '.bowerrc' );
@@ -557,7 +554,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 "connect": "2.9.0",
                 "del": "~1.1.0",
                 "dirlist": "~1.0.2",
-                "loggit": "~0.1.1",
+                "loggit": "~0.2.0",
                 "glob": "~4.3.5",
                 "gulp": "~3.8.10",
                 "gulp-autoprefixer": "~2.0.0",
