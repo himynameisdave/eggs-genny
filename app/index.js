@@ -732,7 +732,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       }else{
         installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
 
-        console.log();
         //  Conclusion: Your eggs are ready, sir!
         finalMsg();
 
