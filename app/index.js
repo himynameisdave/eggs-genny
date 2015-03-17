@@ -151,6 +151,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 },{
                   name:    "Skeleton",
                   checked: false
+                },{
+                  name:    "Animate.css",
+                  checked: false
                 }
               ]
             }
