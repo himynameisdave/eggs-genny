@@ -131,7 +131,7 @@ gulp.task( 'compile-coffee', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-css'], function(){
 
-  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } %> 'app/css/*.css' ] )
+  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/css/*.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
