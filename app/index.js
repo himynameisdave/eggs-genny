@@ -491,6 +491,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( '_.bowerrc', '.bowerrc' );
         this.template( '_bower.json', 'bower.json', ctxt );
 
+        //  write 'em a .gitignore
+        var gi = "node_modules/\n*.DS_Store\n"+ctxt.appNameSanitized+".sublime-project\n";
+        this.write( '.gitignore', gi);
+
         //  If they are using sublime, give them a workspace
         if(this.config.get('info').sublime){
           var sublime = "{\n\t\"folders\":\n\t[\n\t\t{\n\t\t\t\"follow_symlinks\": true,\n\t\t\t\"path\": \"./\"\n\t\t}\n\t]\n}";
