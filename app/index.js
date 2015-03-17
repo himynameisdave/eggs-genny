@@ -9,10 +9,10 @@
 
 //  require stuffs
 var yeoman = require('yeoman-generator'),
-    loggit = require('loggit'),     //  For logging things to the console in a more visible way
-    del    = require('del'),        //  Using del but should be using fs.unlink
-    fs     = require('fs'),         //  To do some filesystem stuff easier
-    banner = require('./banner.js'),//  Our own personal little banner for when they start eggs-genny
+    loggit = require('loggit'),       //  For logging things to the console in a more visible way
+    del    = require('del'),          //  Using del but should be using fs.unlink
+    fs     = require('fs'),           //  To do some filesystem stuff easier
+    banner = require('./banner.js'),  //  Our own personal little banner for when they start eggs-genny
     utils  = require('./eggs-utils.js'),
 
 
@@ -25,7 +25,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     personalize: function(){
         var done = this.async();
 
-
         // have our banner greet the user
         console.log( banner );
 
@@ -35,7 +34,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 name:    "greeting",
                 type:    "list",
                 message: "First off, let's personalize things! Which do you prefer?",
-                choices: [ "sir", "ma'am", "cap'n", "homie", "hombre" ],
+                choices: [ "sir", "ma'am", "homie", "cap'n", "miss", "hombre", "boss" ],
                 default: "sir"
             },{ //  What are they calling their app?
                 name:    "name",
@@ -50,16 +49,29 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 type:    "confirm",
                 message: "Do you use Sublime Text?",
                 default: true
+            },{
+              //  Webapp touch icons?
+              name:    "icons",
+              type:    "confirm",
+              message: "Should I include some default mobile web app touch icons?",
+              default: false
             }
         ];
 
         this.prompt(prompts, function (props) {
 
             //  App's name, description & greeting get it's own var for faster referencing
-            this.greeting = props.greeting;
-            this.appName  = props.name.replace(/ /g, "-");
-            this.desc     = props.desc;
-            this.sublime  = props.sublime;
+            var infoConfig = {
+              greeting:         props.greeting,
+              appName:          props.name,
+              appNameSanitized: props.name.replace(/ /g, "-"),
+              desc:             props.desc,
+              sublime:          props.sublime,
+              icons:            props.icons
+            };
+
+            this.config.set('info', infoConfig);
+            this.config.save();
 
             //  Call the async done function
             done();
@@ -70,14 +82,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     preprocessor: function() {
       var done = this.async();
 
-      loggit('Which CSS pre-processor would you like to use:', 'green','+=');
+      loggit('Which CSS pre-processor would you like to use, '+this.config.get('info').greeting+'?', 'green','+=');
 
       //  The list of prompts
       var prompts = [
           {
             name:    "preprocessor",
             type:    "list",
-            message: "Which CSS pre-processor would you like to use?",
+            message: "Choose a CSS preprocessor:",
             choices: [ "Less", "Sass" ],
             default: "Less"
           }
@@ -87,7 +99,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       this.prompt(prompts, function (props) {
 
         //  store their preprocessor choice, lowercase'd
-        this.preprocessor = props.preprocessor.toLowerCase();
+        this.config.set('preprocessor', props.preprocessor.toLowerCase());
+        this.config.save();
 
         done();
       }.bind(this));
@@ -96,21 +109,24 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     coffee: function() {
       var done = this.async();
 
-      loggit('Would you like to use CoffeeScript?', 'green','+=');
+      loggit('Would you like to use CoffeeScript, '+this.config.get('info').greeting+'?', 'green','+=');
 
       //  See if they would like to use CoffeeScript in their project
       var prompts = [
           {
             name:    "coffee",
             type:    "confirm",
-            message: "Want to use CoffeeScript in your project?",
+            message: "CoffeeScript, want it or not?",
             default: false
           }
       ];
 
       //  What actually prompts the users
       this.prompt(prompts, function (props) {
-        this.coffee = props.coffee;
+
+        this.config.set('coffee', props.coffee);
+        this.config.save();
+
         done();
       }.bind(this));
     },
@@ -120,7 +136,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     dependenciesCSS: function() {
         var done = this.async();
 
-        loggit('Choose your CSS dependencies:', 'green','+=');
+        loggit('Choose your CSS dependencies, '+this.config.get('info').greeting+':' , 'green','+=');
 
         //  The list of prompts
         var prompts = [
@@ -141,7 +157,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         ];
 
         //  if they aren't using Less then don't ask them if they need Lesslie
-        if(this.preprocessor === 'less') {
+        if(this.config.get('preprocessor') === 'less') {
           prompts[0].choices.push({
                                 name:    "Lesslie",
                                 checked: true
@@ -157,7 +173,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               dep = dep.toLowerCase();
               obj[dep] = true;
             });
-            this.depsCSS = obj;
+
+            this.config.set('depsCSS', obj);
+            this.config.save();
 
             //  Call the async done function
             done();
@@ -168,7 +186,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     dependenciesJS: function() {
       var done = this.async();
 
-      loggit('Choose your JS dependencies:', 'green','+=');
+      loggit('Choose your JS dependencies, '+this.config.get('info').greeting+':', 'green','+=');
 
       var prompts = [
           {   //  What js deps do ya want?
@@ -190,12 +208,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   checked: false
                 }
               ]
-          },{
-              //  Webapp touch icons?
-              name:    "touchIcons",
-              type:    "confirm",
-              message: "Should I include some default mobile web app touch icons?",
-              default: true
           }
       ];
 
@@ -208,12 +220,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             dep = dep.toLowerCase();
             obj[dep] = true;
           });
-          this.depsJS = obj;
-          this.icons = props.touchIcons;
-          //  create the gsap object if they said yes to GSAP
-          if( props.gsap ){
-            this.depsJS.gsap = {};
-          }
+
+          this.config.set('depsJS', obj);
+          this.config.save();
 
           //  Call the async done function
           done();
@@ -225,10 +234,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     gsapMinMax: function(){
       //  Only executes if they asked for GSAP
-      if(this.depsJS.gsap){
+
+      if( this.config.get('depsJS').gsap ){
         var done = this.async();
 
-        loggit('Do you need TweenLite or TweenMax?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
+        loggit('Do you need TweenLite or TweenMax, '+this.config.get('info').greeting+'?\n'+'TweenMax includes a bunch of plugins & TimelineLite by default', 'green','=+');
 
         var prompts = [
           {
@@ -242,10 +252,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         this.prompt(prompts, function (props) {
 
-          //  becasue currently it's only a boolean and he need it to store properties
-          this.depsJS.gsap = {
-            minMax: props.minMax
-          };
+          var depsJSObj      = this.config.get('depsJS');
+              depsJSObj.gsap = { minMax: props.minMax };
+
+          this.config.set('depsJS', depsJSObj);
+          this.config.save();
 
           //  Call the async done guy
           done();
@@ -258,16 +269,47 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     ////////////////////////////////////////
     gsapPlugs: function(){
 
+      var depsJSObj = this.config.get('depsJS'),
+          prompts   = [];
+
       //  Only executes if they asked for GSAP
-      if(this.depsJS.gsap){
+      if( depsJSObj.gsap ){
         //  asyncer
         var done = this.async();
         //  Wat wat gsap plugs
-        loggit('Choose your GSAP Plugins:', 'green', '=+');
+        loggit('Choose your GSAP Plugins, '+this.config.get('info').greeting+':', 'green', '=+');
 
-        if( this.depsJS.gsap.minMax === 'TweenLite' ){
+        if( depsJSObj.gsap.minMax === 'TweenMax' ){
 
-          var prompts = [
+          prompts = [
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones, "+this.config.get('info').greeting+"?",
+                choices: [
+                  {
+                    name:    "CSSRulePlugin",
+                    checked: false
+                  },{
+                    name:    "EaselPlugin",
+                    checked: false
+                  },{
+                    name:    "RaphaelPlugin",
+                    checked: false
+                  },{
+                    name:    "ScrollToPlugin",
+                    checked: true
+                  },{
+                    name:    "TextPlugin",
+                    checked: false
+                  }
+                ]
+            }
+          ];
+
+        }else{
+
+          prompts = [
             {   //  What gsap plugs do ya want?
                 name:    "plugs",
                 type:    "checkbox",
@@ -314,34 +356,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             }
           ];
 
-        }else{
-
-          var prompts = [
-            {   //  What gsap plugs do ya want?
-                name:    "plugs",
-                type:    "checkbox",
-                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones?",
-                choices: [
-                  {
-                    name:    "CSSRulePlugin",
-                    checked: false
-                  },{
-                    name:    "EaselPlugin",
-                    checked: false
-                  },{
-                    name:    "RaphaelPlugin",
-                    checked: false
-                  },{
-                    name:    "ScrollToPlugin",
-                    checked: true
-                  },{
-                    name:    "TextPlugin",
-                    checked: false
-                  }
-                ]
-            }
-          ];
-
         }
 
         this.prompt(prompts, function (props) {
@@ -355,7 +369,12 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           });
 
           //  store the plugins
-          this.depsJS.gsap.plugs = plugs;
+          var depsJSObj            = this.config.get('depsJS');
+              depsJSObj.gsap.plugs = plugs;
+
+          this.config.set('depsJS', depsJSObj);
+          this.config.save();
+
           done();plugs = null;
 
         }.bind(this));
@@ -369,12 +388,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     scaffold: function(){
 
         //  for easier/local referencing
-        var depsCSS      = this.depsCSS,
-            depsJS       = this.depsJS,
-            greeting     = this.greeting,
-            preprocessor = this.preprocessor,
-            coffee       = this.coffee,
+        var info         = this.config.get('info'),
+            greeting     = info.greeting,
+            preprocessor = this.config.get('preprocessor'),
+            coffee       = this.config.get('coffee'),
+            depsCSS      = this.config.get('depsCSS'),
+            depsJS       = this.config.get('depsJS'),
             testString   = 'Yo '+greeting+'! I\'m building your app with the following deps :';
+
 
         //  Build a string that lets the user know what they've ordered
         if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.lesslie ){
@@ -392,7 +413,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( depsJS.react ){ testString += '\n\t- ReactJS'; }
         if( depsJS.gsap ){
           testString += '\n\t- GSAP w/'+depsJS.gsap.minMax+' & the following plugins:';
-          this.depsJS.gsap.plugs.forEach(function(p){
+          this.config.get('depsJS').gsap.plugs.forEach(function(p){
             testString += '\n\t |-- '+p;
           });
         }
@@ -422,7 +443,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.mkdir("app/css");
         this.mkdir("app/js");
         this.mkdir("app/img");
-        if( this.icons ){
+        if( this.config.get('info').icons ){
           this.mkdir("app/img/icons");
         }
         this.mkdir("app/lib");
@@ -441,15 +462,18 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     buildFiles: function(){
 
         //  Some context for things that need templating
+        //  TODO: you could use a this.config.getAll() call here to clean this a bit... will require changing the templated files
+        var info = this.config.get('info');
         var ctxt = {
-                appName:      this.appName,
-                appDesc:      this.desc,
-                icons:        this.icons,
-                greeting:     this.greeting,
-                depsCSS:      this.depsCSS,
-                depsJS:       this.depsJS,
-                preprocessor: this.preprocessor,
-                coffee:       this.coffee
+                appName:      info.appName,
+                appNameSanitized: info.appNameSanitized,
+                appDesc:      info.desc,
+                icons:        info.icons,
+                greeting:     info.greeting,
+                preprocessor: this.config.get('preprocessor'),
+                coffee:       this.config.get('coffee'),
+                depsCSS:      this.config.get('depsCSS'),
+                depsJS:       this.config.get('depsJS')
             };
 
         //  we want these items to get removed before trying to install anything
@@ -460,16 +484,40 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( '_.bowerrc', '.bowerrc' );
         this.template( '_bower.json', 'bower.json', ctxt );
 
+        //  Copy over favicon & apple icons
+        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
+        //  Copy over our timestamp
+        this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
+        //  Copy over the touch icons
+        if(ctxt.icons){
+          this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
+          this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
+          this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
+          this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
+          this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
+          this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
+        }
+        //  Copy over gulpfile.js
+        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
+        //  Copy over index.html
+        this.template('app/_index.html', "app/index.html", ctxt);
+        //  Copy over readme
+        this.template('_README.md', "README.md", ctxt);
+
+        //  write 'em a .gitignore
+        var gi = "node_modules/\n*.DS_Store\n"+ctxt.appNameSanitized+".sublime-project\n";
+        this.write( '.gitignore', gi);
+
         //  If they are using sublime, give them a workspace
-        if(this.sublime){
+        if(this.config.get('info').sublime){
           var sublime = "{\n\t\"folders\":\n\t[\n\t\t{\n\t\t\t\"follow_symlinks\": true,\n\t\t\t\"path\": \"./\"\n\t\t}\n\t]\n}";
-          this.write( this.appName+'.sublime-project', sublime );
+          this.write( ctxt.appNameSanitized+'.sublime-project', sublime );
         }
 
         //  Copy over the main css files
-        if(this.preprocessor === 'less'){
+        if(ctxt.preprocessor === 'less'){
           this.template( 'app/css/_style.less', 'app/css/style.less', ctxt );
-          if( !this.depsCSS.lesslie ){
+          if( !ctxt.depsCSS.lesslie ){
             this.template( 'app/css/_reset.less', 'app/css/reset.less', ctxt );
           }
         }else{
@@ -479,59 +527,34 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         this.copy( 'app/css/_style.css', 'app/css/style.css' );
 
         //  copy over app.js
-        if( this.depsJS.angular ){
-          if( this.coffee ){
+        if( ctxt.depsJS.angular ){
+          if( ctxt.coffee ){
             this.template( 'app/js/_app.ang.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', '');
+            this.write('app/js/app.js', '// This file will be overwritten when app.coffee is compiled');
           }else{
             this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
           }
         }else{
-          if( this.coffee ){
+          if( ctxt.coffee ){
             this.template( 'app/js/_app.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', '');
+            this.write('app/js/app.js', '// This file will be overwritten when app.coffee is compiled');
           }else{
             this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
           }
         }
 
-        //  Copy over gulpfile.js
-        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
-
-        //  Copy over index.html
-        this.template('app/_index.html', "app/index.html", ctxt);
-
-        //  Copy over readme
-        this.template('_README.md', "README.md", ctxt);
-
-        //  Copy over favicon & apple icons
-        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
-
-        //  Copy over our timestamp
-        this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
-
-        //  Copy over the touch icons
-        if(this.icons){
-          this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
-          this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
-          this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
-          this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
-          this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
-          this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
-        }
-
         //  Build the package.json
         var pkg = {
-              "name": ctxt.appName,
+              "name": ctxt.appNameSanitized,
               "version": "0.0.1",
-              "description": ctxt.appName,
+              "description": ctxt.appDesc,
               "main": "gulpfile.js",
               "private": "true",
               "devDependencies": {
                 "connect": "2.9.0",
                 "del": "~1.1.0",
                 "dirlist": "~1.0.2",
-                "loggit": "~0.1.1",
+                "loggit": "~0.2.0",
                 "glob": "~4.3.5",
                 "gulp": "~3.8.10",
                 "gulp-autoprefixer": "~2.0.0",
@@ -549,14 +572,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               }
             };
 
-        if( this.depsJS.angular ){
+        if( this.config.get('depsJS').angular ){
           pkg.devDependencies["gulp-ng-annotate"] = "~0.3.4";
           pkg.devDependencies["gulp-angular-htmlify"] = "~1.1.0";
         }
-        if( this.coffee ){
+        if( this.config.get('coffee') ){
           pkg.devDependencies["gulp-coffee"] = "~2.3.1";
         }
-        if( this.preprocessor === 'less' ){
+        if( this.config.get('preprocessor') === 'less' ){
           pkg.devDependencies["gulp-less"] = "~2.0.1";
         }else{
           pkg.devDependencies["gulp-sass"] = "~1.3.3";
@@ -574,10 +597,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  depenencies for bower to install
         var dependencies = [  ],
-          //  local variables for easier access
-            greeting     = this.greeting,
-            depsCSS      = this.depsCSS,
-            depsJS       = this.depsJS;
+          //  local variables for easier accesss
+            greeting     = this.config.get('info').greeting,
+            depsCSS      = this.config.get('depsCSS'),
+            depsJS       = this.config.get('depsJS');
 
         //  Add needed deps to the list
         if( depsCSS.bootstrap ){ dependencies.push('bootstrap'); }
@@ -664,8 +687,22 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     npm: function(){
 
       //  So the greeting is localized
-      var greeting   = this.greeting,
-          installMsg = '';
+      var greeting   = this.config.get('info').greeting,
+          installMsg = '',
+          finalMsg = function(){
+            var ready = "   ___                     \n"+
+                        "  /   \\    Your            \n"+
+                        " |     |___  eggs          \n"+
+                        " |     /   \\   are         \n"+
+                        "  \\___|     |    ready,    \n"+
+                        "      |     |        "+greeting+"\n"+
+                        "       \\___/ ";
+
+            console.log("\n");
+            loggit( ready,'green', '#' );
+            console.log("\n");
+            return;
+          };
 
       if( !this.options['skip-install'] ){
 
@@ -690,22 +727,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           loggit( installMsg, 'yellow', '&%' );
         };
       }
-
-      var finalMsg = function(){
-        console.log("\n");
-        var ready = "   ___                     \n"+
-                    "  /   \\    Your            \n"+
-                    " |     |___  eggs          \n"+
-                    " |     /   \\   are         \n"+
-                    "  \\___|     |    ready,    \n"+
-                    "      |     |        "+greeting+"\n"+
-                    "       \\___/ ";
-
-
-        loggit( ready,'green', '#' );
-        console.log("\n");
-        return;
-      };
 
     }
 
