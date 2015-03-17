@@ -32,7 +32,7 @@ Now just `cd` into your little rag-tag project and run:
 yo eggs-genny
 ```
 
-This is where shit gets real. Answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
+This is where shit gets real. Answer some questions and in no time you'll have a web app with your name on it, customized to exactly how you like it.
 
 You can also optionally skip the bower and npm installs by adding `--skip-install` to the end of the command, like so:
 
@@ -40,10 +40,16 @@ You can also optionally skip the bower and npm installs by adding `--skip-instal
 yo eggs-genny --skip-install
 ```
 
+I just read about [this command](https://docs.npmjs.com/cli/star) so for lol's you could try it out:
+```bash
+npm star generator-eggs-genny
+```
+
+
 ---
 ## Options Overview
 
-eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some proceedurial stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
+eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some procedural stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
 
 **Preprocessors**
 
@@ -54,6 +60,7 @@ eggs-genny gives you a lot of options to customize your project's setup. It star
 
 - [Bootstrap CSS](http://getbootstrap.com/css/)
 - [Skeleton](http://getskeleton.com/)
+- [Animate.CSS](http://daneden.github.io/animate.css/)
 - [Lesslie](https://github.com/himynameisdave/Lesslie)
 
 **JS Frameworks/Tools**

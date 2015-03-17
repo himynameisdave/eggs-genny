@@ -151,6 +151,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 },{
                   name:    "Skeleton",
                   checked: false
+                },{
+                  name:    "Animate.css",
+                  checked: false
                 }
               ]
             }
@@ -171,7 +174,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             var obj = {};
             props.plugs.forEach(function(dep){
               dep = dep.toLowerCase();
-              obj[dep] = true;
+              if(dep === 'animate.css'){
+                obj.animate = true;
+              }else{
+                obj[dep] = true;
+              }
             });
 
             this.config.set('depsCSS', obj);
@@ -403,6 +410,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
         if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap CSS'; }
         if( depsCSS.skeleton ){ testString += '\n\t- Skeleton CSS'; }
+        if( depsCSS.animate ){ testString += '\n\t- Animate.css'; }
         if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
 
         if( depsJS.jquery || depsJS.angular || depsJS.react || depsJS.gsap ){
@@ -530,14 +538,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( ctxt.depsJS.angular ){
           if( ctxt.coffee ){
             this.template( 'app/js/_app.ang.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', '// This file will be overwritten when app.coffee is compiled');
+            this.write('app/js/app.js', "(function() {var app;app = angular.module('app', []);app.controller('Controller', function($scope) {});}).call(this);");
           }else{
             this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
           }
         }else{
           if( ctxt.coffee ){
             this.template( 'app/js/_app.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', '// This file will be overwritten when app.coffee is compiled');
+            this.write('app/js/app.js', "(function(){document.addEventListener('DOMContentLoaded', function() {});}).call(this);");
           }else{
             this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
           }
@@ -605,6 +613,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Add needed deps to the list
         if( depsCSS.bootstrap ){ dependencies.push('bootstrap'); }
         if( depsCSS.skeleton ){ dependencies.push('skeleton'); }
+        if( depsCSS.animate ){ dependencies.push('animate.css'); }
         if( depsCSS.lesslie ){ dependencies.push('lesslie'); }
         if( depsJS.jquery ){ dependencies.push('jquery'); }
         if( depsJS.angular ){ dependencies.push('angular'); }
@@ -628,6 +637,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Copy Skeleton if need be
                 if( depsCSS.skeleton ){
                   utils.copyThis( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
+                }
+                //  Copy Animate.css if need be
+                if( depsCSS.animate ){
+                  utils.copyThis( 'app/lib_tmp/animate.css/animate.css', 'app/lib/css/animate.css' );
                 }
                 //  Copy over Lesslie
                 if( depsCSS.lesslie ){
