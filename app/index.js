@@ -64,7 +64,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             var infoConfig = {
               greeting:         props.greeting,
               appName:          props.name,
-              appNameSanitized: props.name.replace(/ /g, "-"),// TODO: actually use this?
+              appNameSanitized: props.name.replace(/ /g, "-"),
               desc:             props.desc,
               sublime:          props.sublime,
               icons:            props.icons
@@ -252,7 +252,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         this.prompt(prompts, function (props) {
 
-          var depsJSObj      = this.config.get('depsJS');//TODO: can we omit this as it is defined above?
+          var depsJSObj      = this.config.get('depsJS');
               depsJSObj.gsap = { minMax: props.minMax };
 
           this.config.set('depsJS', depsJSObj);
@@ -279,10 +279,35 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Wat wat gsap plugs
         loggit('Choose your GSAP Plugins, '+this.config.get('info').greeting+':', 'green', '=+');
 
-        if( depsJSObj.gsap.minMax === 'TweenLite' ){
-        // if( depsJSObj.gsap.minMax === 'TweenLite' ){
-          ////TODO: better to check for TweenMax then else off to TweenLite
-          ////      that way in the off chance that its neither, more plugin options are available
+        if( depsJSObj.gsap.minMax === 'TweenMax' ){
+
+          prompts = [
+            {   //  What gsap plugs do ya want?
+                name:    "plugs",
+                type:    "checkbox",
+                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones, "+this.config.get('info').greeting+"?",
+                choices: [
+                  {
+                    name:    "CSSRulePlugin",
+                    checked: false
+                  },{
+                    name:    "EaselPlugin",
+                    checked: false
+                  },{
+                    name:    "RaphaelPlugin",
+                    checked: false
+                  },{
+                    name:    "ScrollToPlugin",
+                    checked: true
+                  },{
+                    name:    "TextPlugin",
+                    checked: false
+                  }
+                ]
+            }
+          ];
+
+        }else{
 
           prompts = [
             {   //  What gsap plugs do ya want?
@@ -319,34 +344,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                     checked: false
                   },{
                     name:    "RoundPropsPlugin",
-                    checked: false
-                  },{
-                    name:    "ScrollToPlugin",
-                    checked: true
-                  },{
-                    name:    "TextPlugin",
-                    checked: false
-                  }
-                ]
-            }
-          ];
-
-        }else{
-
-          prompts = [
-            {   //  What gsap plugs do ya want?
-                name:    "plugs",
-                type:    "checkbox",
-                message: "Lots of GSAP Plugins are already included in TweenMax. Would you like these additional ones, "+this.config.get('info').greeting+"?",
-                choices: [
-                  {
-                    name:    "CSSRulePlugin",
-                    checked: false
-                  },{
-                    name:    "EaselPlugin",
-                    checked: false
-                  },{
-                    name:    "RaphaelPlugin",
                     checked: false
                   },{
                     name:    "ScrollToPlugin",
@@ -483,13 +480,32 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         del(['.bowerrc', 'bower.json'], function (err, deletedFiles) {});
 
 
-        ///// TODO //
-        /////     0D0T //  reorg this whole section. into 'copy' and 'template' things
+
 
         //  Copy over some bower-related stuff,
         //  adding the app name and description to the bower.json
         this.copy( '_.bowerrc', '.bowerrc' );
         this.template( '_bower.json', 'bower.json', ctxt );
+
+        //  Copy over favicon & apple icons
+        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
+        //  Copy over our timestamp
+        this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
+        //  Copy over the touch icons
+        if(ctxt.icons){
+          this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
+          this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
+          this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
+          this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
+          this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
+          this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
+        }
+        //  Copy over gulpfile.js
+        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
+        //  Copy over index.html
+        this.template('app/_index.html', "app/index.html", ctxt);
+        //  Copy over readme
+        this.template('_README.md', "README.md", ctxt);
 
         //  write 'em a .gitignore
         var gi = "node_modules/\n*.DS_Store\n"+ctxt.appNameSanitized+".sublime-project\n";
@@ -528,31 +544,6 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           }else{
             this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
           }
-        }
-
-        //  Copy over gulpfile.js
-        this.template( '_gulpfile.js', 'gulpfile.js', ctxt );
-
-        //  Copy over index.html
-        this.template('app/_index.html', "app/index.html", ctxt);
-
-        //  Copy over readme
-        this.template('_README.md', "README.md", ctxt);
-
-        //  Copy over favicon & apple icons
-        this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
-
-        //  Copy over our timestamp
-        this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
-
-        //  Copy over the touch icons
-        if(ctxt.icons){
-          this.copy( 'app/img/_apple-touch-icon-76x76.png', 'app/img/icons/apple-touch-icon-76x76.png' );
-          this.copy( 'app/img/_apple-touch-icon-120x120.png', 'app/img/icons/apple-touch-icon-120x120.png' );
-          this.copy( 'app/img/_apple-touch-icon-152x152.png', 'app/img/icons/apple-touch-icon-152x152.png' );
-          this.copy( 'app/img/_apple-touch-icon-180x180.png', 'app/img/icons/apple-touch-icon-180x180.png' );
-          this.copy( 'app/img/_touch-icon-192x192.png', 'app/img/icons/touch-icon-192x192.png' );
-          this.copy( 'app/img/_metro-tile-icon.png', 'app/img/icons/metro-tile-icon.png' );
         }
 
         //  Build the package.json
