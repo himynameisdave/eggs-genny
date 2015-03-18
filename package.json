@@ -11,6 +11,13 @@
     "email": "sir.dave@me.com",
     "url": "https://github.com/himynameisdave"
   },
+  "maintainers": [
+    {
+      "name": "Dave Lunny",
+      "email": "sir.dave@me.com",
+      "web": "https://twitter.com/dave_lunny"
+    }
+  ],
   "engines": {
     "node": ">=0.10.0"
   },
