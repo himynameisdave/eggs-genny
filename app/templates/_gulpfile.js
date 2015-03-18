@@ -148,7 +148,7 @@ gulp.task( 'uncss-me', ['css-me',<% if (depsJS.angular) { %> 'partials-me',<% } 
           .pipe(plug.uncss({
             html: <% if (depsJS.angular) { %>glob.sync('build/**/*.html')<% }else { %>['build/index.html']<% } %>
           }))
-          .pipe( plug.minifyCss() )
+          .pipe( plug.crass({pretty: false}) )
           .pipe(gulp.dest('build/css/'));
 });
 
