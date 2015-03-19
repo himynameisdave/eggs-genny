@@ -8,12 +8,13 @@
 
 
 //  require stuffs
-var yeoman = require('yeoman-generator'),
-    loggit = require('loggit'),       //  For logging things to the console in a more visible way
-    del    = require('del'),          //  Using del but should be using fs.unlink
-    fs     = require('fs'),           //  To do some filesystem stuff easier
-    banner = require('./banner.js'),  //  Our own personal little banner for when they start eggs-genny
-    utils  = require('./eggs-utils.js'),
+var yeoman   = require('yeoman-generator'),
+    loggit   = require('loggit'),       //  For logging things to the console in a more visible way
+    del      = require('del'),          //  Using del but should be using fs.unlink
+    fs       = require('fs'),           //  To do some filesystem stuff easier
+    banner   = require('./banner.js'),  //  Our own personal little banner for when they start eggs-genny
+    finalMsg = require('./eggsAreReady.js'),  //  Our own personal final message
+    utils    = require('./eggs-utils.js'),
 
 
 /////////////Actual eggs-genny Module/////////////
@@ -700,22 +701,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     npm: function(){
 
       //  So the greeting is localized
-      var greeting   = this.config.get('info').greeting,
-          installMsg = '',
-          finalMsg = function(){
-            var ready = "   ___                     \n"+
-                        "  /   \\    Your            \n"+
-                        " |     |___  eggs          \n"+
-                        " |     /   \\   are         \n"+
-                        "  \\___|     |    ready,    \n"+
-                        "      |     |        "+greeting+"\n"+
-                        "       \\___/ ";
-
-            console.log("\n");
-            loggit( ready,'green', '#' );
-            console.log("\n");
-            return;
-          };
+      var greeting   = this.config.get('info').greeting;
 
       if( !this.options['skip-install'] ){
 
@@ -726,15 +712,15 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           //  Let the user know that everything has been installed
           loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
           //  Conclusion: Your eggs are ready, sir!
-          finalMsg();
+          loggit( finalMsg(greeting) );
 
         });
 
       }else{
-        installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
+        var installMsg = "Run `bower install & npm install`\nto install dependencies when you're ready!";
 
         //  Conclusion: Your eggs are ready, sir!
-        finalMsg();
+        loggit( finalMsg(greeting) );
 
         if( installMsg.length > 1 ){
           loggit( installMsg, 'yellow', '&%' );

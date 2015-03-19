@@ -1,5 +1,8 @@
 "use strict"
 
+
+///   Very simple module for our initial display banner
+
 var chalk = require( "chalk" ),
     cols  = [ 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'gray' ],
     color1 = cols[Math.floor( Math.random() * cols.length )],
