@@ -43,8 +43,8 @@
 	<script type="text/javascript" src="lib/js/TimelineLite.js"></script>
 	<% } if (depsJS.gsap.minMax === 'TweenMax') { %>
 	<script type="text/javascript" src="lib/js/TweenMax.js"></script>
-  <% } depsJS.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script><%	}) } %>
-  <script type="text/javascript" src="js/app.js"></script>
+  <% } depsJS.gsap.plugs.forEach(function(plug){ %><script type="text/javascript" src="lib/js/<%= plug %>.js"></script>
+  <%	}) } %><script type="text/javascript" src="js/app.js"></script>
 <!-- endbuild -->
 
 </head>

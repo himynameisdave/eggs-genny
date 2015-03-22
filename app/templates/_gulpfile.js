@@ -1,11 +1,7 @@
-/***********************************************
-||          WELCOME TO EGGS GENNNY's          ||
-||                gulpfile.js                 ||
-||                                            ||
-||     Alter to suit your needs, this is      ||
-||          just a starting place =)          ||
-||                                            ||
-************************************************/
+/***
+  *   Generated gulpfile for:
+  *   <%=appName%>
+  **/
 
 
 /***********************************************
@@ -39,8 +35,7 @@ gulp.task( 'default', [ 'serve-me', 'reload-me' ]);
 gulp.task( 'reload-me', function(){
 
   <% if(preprocessor === 'less') { %>gulp.watch( 'app/css/*.less', ['compile-css'] );<% }else { %>gulp.watch( 'app/css/*.sass', ['compile-css'] );<% } %>
-  <% if(coffee){ %>
-  gulp.watch( 'app/js/*.coffee', ['compile-coffee', 'validate-js'] );
+  <% if(coffee){ %>gulp.watch( 'app/js/*.coffee', ['compile-coffee', 'validate-js'] );
   <% }else { %>gulp.watch( 'app/js/*.js', ['validate-js'] );<% } %>
 
   plug.livereload.listen();
