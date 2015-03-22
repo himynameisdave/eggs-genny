@@ -131,7 +131,7 @@ gulp.task( 'compile-coffee', function(){
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-css'], function(){
 
-  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } %> 'app/css/*.css' ] )
+  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/css/*.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -148,7 +148,7 @@ gulp.task( 'uncss-me', ['css-me',<% if (depsJS.angular) { %> 'partials-me',<% } 
           .pipe(plug.uncss({
             html: <% if (depsJS.angular) { %>glob.sync('build/**/*.html')<% }else { %>['build/index.html']<% } %>
           }))
-          .pipe( plug.minifyCss() )
+          .pipe( plug.crass({pretty: false}) )
           .pipe(gulp.dest('build/css/'));
 });
 
@@ -164,9 +164,10 @@ gulp.task( 'annotate-me',  function(){
 });
 <% } %>gulp.task( 'js-me',<% if (depsJS.angular) { %> ['annotate-me'],<% } %> function(){
 
-  return  gulp.src([<% if (depsJS.jquery) { %>
-                  'app/lib/js/jquery.js',<% } if(depsJS.angular){ %>
-                  'app/lib/js/angular.js',<% } if(depsJS.react){ %>
+  return  gulp.src([<% if(depsJS.angular){ %>
+                  'app/lib/js/angular.js',<% } if (depsJS.jquery) { %>
+                  'app/lib/js/jquery.js',<% } if (depsJS.underscore) { %>
+                  'app/lib/js/underscore.js',<% } if(depsJS.react){ %>
                   'app/lib/js/react.js',
                   'app/lib/js/JSXTransformer.js',<% } if(depsJS.gsap){ if(depsJS.gsap.minMax === 'TweenLite'){ %>
                   'app/lib/js/TweenLite.js',

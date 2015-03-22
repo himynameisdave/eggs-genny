@@ -32,7 +32,7 @@ Now just `cd` into your little rag-tag project and run:
 yo eggs-genny
 ```
 
-This is where shit gets real. Answer some questions and in no time you'll have a web app with you name on it, customized to exactly how you like it.
+This is where shit gets real. Answer some questions and in no time you'll have a web app with your name on it, customized to exactly how you like it.
 
 You can also optionally skip the bower and npm installs by adding `--skip-install` to the end of the command, like so:
 
@@ -40,10 +40,16 @@ You can also optionally skip the bower and npm installs by adding `--skip-instal
 yo eggs-genny --skip-install
 ```
 
+That's it. You're done! Although if you'd like, I just read about [this command](https://docs.npmjs.com/cli/star) so for lol's you could try it out:
+```bash
+npm star generator-eggs-genny
+```
+
+
 ---
 ## Options Overview
 
-eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some proceedurial stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
+eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some procedural stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
 
 **Preprocessors**
 
@@ -54,6 +60,7 @@ eggs-genny gives you a lot of options to customize your project's setup. It star
 
 - [Bootstrap CSS](http://getbootstrap.com/css/)
 - [Skeleton](http://getskeleton.com/)
+- [Animate.CSS](http://daneden.github.io/animate.css/)
 - [Lesslie](https://github.com/himynameisdave/Lesslie)
 
 **JS Frameworks/Tools**
@@ -69,15 +76,54 @@ You will also be asked if you use Sublime Text, because if you do eggs-genny is 
 
 Another prompt you will be met with is whether or not you would like eggs-genny to add & link up some default [Apple touch icons](http://taylor.fausak.me/2015/01/27/ios-8-web-apps/) for you to use, as well as [Windows 10 tile icons](http://bit.ly/1AknLat).
 
-
-
-
 <!-- ## Documentation
 
 If you want to know about the automated Gulp [build process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Build) or [development process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Development), or the [directory structure](https://github.com/himynameisdave/eggs-genny/wiki/Basic-Directory-Structure) that eggs-genny produces, the best source are [the docs](http://himynameisdave.github.io/eggs-genny/#/).
 
 
 You could also head over to [the wiki](https://github.com/himynameisdave/eggs-genny/wiki) which should make you laugh while answering all of your questions, although it's essentially the same as the docs. -->
+
+---
+
+## Running Tasks
+
+Currently, eggs-genny builds you a great task-running system based on [Gulp](gulpjs.com). It can do wonderful things such as provide you a local file server, compile your pre-processed stylesheets, and make your code production-ready.
+
+
+##### Default Task
+
+The default task in Gulp is run simply by running `gulp` after eggs-genny is done building your project. This sets up a server at the address [`localhost:6969`](http://localhost:6969) so that you can locally test your app. It also tells gulp to watch all of your main style, script and HTML files for any changes, and to [LiveReload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en) the page should any changes occur.
+
+
+##### Compile Tasks
+
+Compilation of CoffeeScript, Less or Sass files happens automatically as part of the default task. However if you would like to run these tasks independently, they can be done as follows:
+```bash
+gulp compile-css
+
+
+gulp compile-coffee
+```
+
+##### Build Task
+
+To produce a production-ready version of your code (which is generated into the `/build` directory of the project by default), simply run the following command:
+```bash
+gulp build
+```
+
+This task has a lot of moving parts, but as a quick overview this task will:
+
+- compile CSS and CoffeeScript
+- concatenate all CSS files (all the ones in the `app/lib/` plus whichever ones you've created)
+- concatenate all scripts (again, all of the `app/lib` scripts plus whatever one's you've added)
+- minify all files
+- perform some optimizations (such as [uncss](https://www.npmjs.com/package/gulp-uncss) and [ng-annotate](https://www.npmjs.com/package/gulp-ng-annotate))
+- move all files to the `build/` directory, while doing things like [image minification](https://github.com/sindresorhus/gulp-imagemin) along the way
+
+ 
+
+Eventually, the plan is to offer a Grunt option, as well as a solution that [moves away from these build tools entirely](http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/) and instead relying purely on npm & it's modules directly.
 
 ---
 ## Contribute

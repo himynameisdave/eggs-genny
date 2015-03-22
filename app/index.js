@@ -8,12 +8,13 @@
 
 
 //  require stuffs
-var yeoman = require('yeoman-generator'),
-    loggit = require('loggit'),       //  For logging things to the console in a more visible way
-    del    = require('del'),          //  Using del but should be using fs.unlink
-    fs     = require('fs'),           //  To do some filesystem stuff easier
-    banner = require('./banner.js'),  //  Our own personal little banner for when they start eggs-genny
-    utils  = require('./eggs-utils.js'),
+var yeoman   = require('yeoman-generator'),
+    loggit   = require('loggit'),       //  For logging things to the console in a more visible way
+    del      = require('del'),          //  Using del but should be using fs.unlink
+    fs       = require('fs'),           //  To do some filesystem stuff easier
+    banner   = require('./banner.js'),  //  Our own personal little banner for when they start eggs-genny
+    finalMsg = require('./eggsAreReady.js'),  //  Our own personal final message
+    utils    = require('./eggs-utils.js'),
 
 
 /////////////Actual eggs-genny Module/////////////
@@ -151,6 +152,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 },{
                   name:    "Skeleton",
                   checked: false
+                },{
+                  name:    "Animate.css",
+                  checked: false
                 }
               ]
             }
@@ -171,7 +175,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
             var obj = {};
             props.plugs.forEach(function(dep){
               dep = dep.toLowerCase();
-              obj[dep] = true;
+              if(dep === 'animate.css'){
+                obj.animate = true;
+              }else{
+                obj[dep] = true;
+              }
             });
 
             this.config.set('depsCSS', obj);
@@ -196,6 +204,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               choices: [
                 {
                   name:    "jQuery",
+                  checked: false
+                },{
+                  name:    "Underscore",
                   checked: false
                 },{
                   name:    "Angular",
@@ -398,17 +409,19 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
 
         //  Build a string that lets the user know what they've ordered
-        if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.lesslie ){
+        if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.animate || depsCSS.lesslie ){
             testString += '\n  ~ CSS Dependencies ~ ';
         }
         if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap CSS'; }
         if( depsCSS.skeleton ){ testString += '\n\t- Skeleton CSS'; }
+        if( depsCSS.animate ){ testString += '\n\t- Animate.css'; }
         if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
 
-        if( depsJS.jquery || depsJS.angular || depsJS.react || depsJS.gsap ){
+        if( depsJS.jquery || depsJS.underscore || depsJS.angular || depsJS.react || depsJS.gsap ){
           testString += '\n  ~ JS Dependencies ~ ';
         }
         if( depsJS.jquery ){ testString += '\n\t- jQuery'; }
+        if( depsJS.underscore ){ testString += '\n\t- Underscore'; }
         if( depsJS.angular ){ testString += '\n\t- Angular'; }
         if( depsJS.react ){ testString += '\n\t- ReactJS'; }
         if( depsJS.gsap ){
@@ -429,7 +442,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  If they aren't using anything, write a hilarious message...
-        if( !depsJS.jquery && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
+        //  TODO: this is getting to large to maintain and should be removed
+        if( !depsJS.jquery && !depsJS.underscore && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.animate && !depsCSS.bootstrap && !depsCSS.lesslie ){
           testString += '\n\t<no dependencies>';
           loggit( testString, 'yellow','~' );
           loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
@@ -530,14 +544,14 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( ctxt.depsJS.angular ){
           if( ctxt.coffee ){
             this.template( 'app/js/_app.ang.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', '// This file will be overwritten when app.coffee is compiled');
+            this.write('app/js/app.js', "(function() {var app;app = angular.module('app', []);app.controller('Controller', function($scope) {});}).call(this);");
           }else{
             this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
           }
         }else{
           if( ctxt.coffee ){
             this.template( 'app/js/_app.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', '// This file will be overwritten when app.coffee is compiled');
+            this.write('app/js/app.js', "(function(){document.addEventListener('DOMContentLoaded', function() {});}).call(this);");
           }else{
             this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
           }
@@ -566,7 +580,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 "gulp-jshint": "~1.9.0",
                 "gulp-livereload": "~3.0.2",
                 "gulp-load-plugins": "~0.8.0",
-                "gulp-minify-css": "~0.3.11",
+                "gulp-crass": "~0.1.2",
                 "gulp-uglify": "~1.0.2",
                 "gulp-uncss": "~0.5.2"
               }
@@ -605,8 +619,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         //  Add needed deps to the list
         if( depsCSS.bootstrap ){ dependencies.push('bootstrap'); }
         if( depsCSS.skeleton ){ dependencies.push('skeleton'); }
+        if( depsCSS.animate ){ dependencies.push('animate.css'); }
         if( depsCSS.lesslie ){ dependencies.push('lesslie'); }
         if( depsJS.jquery ){ dependencies.push('jquery'); }
+        if( depsJS.underscore ){ dependencies.push('underscore'); }
         if( depsJS.angular ){ dependencies.push('angular'); }
         if( depsJS.react ){ dependencies.push('react'); }
         if( depsJS.gsap ){ dependencies.push('gsap'); }
@@ -629,6 +645,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 if( depsCSS.skeleton ){
                   utils.copyThis( 'app/lib_tmp/skeleton/css/skeleton.css', 'app/lib/css/skeleton.css' );
                 }
+                //  Copy Animate.css if need be
+                if( depsCSS.animate ){
+                  utils.copyThis( 'app/lib_tmp/animate.css/animate.css', 'app/lib/css/animate.css' );
+                }
                 //  Copy over Lesslie
                 if( depsCSS.lesslie ){
                   utils.copyThis( 'app/lib_tmp/lesslie/dist/reset.less', 'app/lib/css/reset.less' );
@@ -641,6 +661,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Copy jQuery if need be
                 if( depsJS.jquery ){
                   utils.copyThis( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
+                }
+                //  Copy Underscore if need be
+                if( depsJS.underscore ){
+                  utils.copyThis( 'app/lib_tmp/underscore/underscore.js', 'app/lib/js/underscore.js' );
                 }
                 //  Copy Angular if need be
                 if( depsJS.angular ){
@@ -687,22 +711,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     npm: function(){
 
       //  So the greeting is localized
-      var greeting   = this.config.get('info').greeting,
-          installMsg = '',
-          finalMsg = function(){
-            var ready = "   ___                     \n"+
-                        "  /   \\    Your            \n"+
-                        " |     |___  eggs          \n"+
-                        " |     /   \\   are         \n"+
-                        "  \\___|     |    ready,    \n"+
-                        "      |     |        "+greeting+"\n"+
-                        "       \\___/ ";
-
-            console.log("\n");
-            loggit( ready,'green', '#' );
-            console.log("\n");
-            return;
-          };
+      var greeting   = this.config.get('info').greeting;
 
       if( !this.options['skip-install'] ){
 
@@ -713,15 +722,15 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           //  Let the user know that everything has been installed
           loggit( "NPM modules installed, "+greeting+"!",'magenta', '-=' );
           //  Conclusion: Your eggs are ready, sir!
-          finalMsg();
+          loggit( finalMsg(greeting) );
 
         });
 
       }else{
-        installMsg += "Run `bower install & npm install`\nto install dependencies when you're ready!";
+        var installMsg = "Run `bower install & npm install`\nto install dependencies when you're ready!";
 
         //  Conclusion: Your eggs are ready, sir!
-        finalMsg();
+        loggit( finalMsg(greeting) );
 
         if( installMsg.length > 1 ){
           loggit( installMsg, 'yellow', '&%' );

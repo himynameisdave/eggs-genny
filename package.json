@@ -1,6 +1,6 @@
 {
   "name": "generator-eggs-genny",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Dumb name, great yeoman-generator.",
   "license": "MIT",
   "homepage": "http://himynameisdave.github.io/eggs-genny/#/",
@@ -11,6 +11,13 @@
     "email": "sir.dave@me.com",
     "url": "https://github.com/himynameisdave"
   },
+  "maintainers": [
+    {
+      "name": "Dave Lunny",
+      "email": "sir.dave@me.com",
+      "web": "https://twitter.com/dave_lunny"
+    }
+  ],
   "engines": {
     "node": ">=0.10.0"
   },
@@ -43,7 +50,7 @@
     "TweenLite",
     "TweenMax",
     "CoffeeScript",
-    "Frameworks"
+    "Underscore"
   ],
   "dependencies": {
     "del": "^1.1.1",
