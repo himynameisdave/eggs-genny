@@ -164,9 +164,10 @@ gulp.task( 'annotate-me',  function(){
 });
 <% } %>gulp.task( 'js-me',<% if (depsJS.angular) { %> ['annotate-me'],<% } %> function(){
 
-  return  gulp.src([<% if (depsJS.jquery) { %>
-                  'app/lib/js/jquery.js',<% } if(depsJS.angular){ %>
-                  'app/lib/js/angular.js',<% } if(depsJS.react){ %>
+  return  gulp.src([<% if(depsJS.angular){ %>
+                  'app/lib/js/angular.js',<% } if (depsJS.jquery) { %>
+                  'app/lib/js/jquery.js',<% } if (depsJS.underscore) { %>
+                  'app/lib/js/underscore.js',<% } if(depsJS.react){ %>
                   'app/lib/js/react.js',
                   'app/lib/js/JSXTransformer.js',<% } if(depsJS.gsap){ if(depsJS.gsap.minMax === 'TweenLite'){ %>
                   'app/lib/js/TweenLite.js',

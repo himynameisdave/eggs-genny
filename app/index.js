@@ -206,6 +206,9 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                   name:    "jQuery",
                   checked: false
                 },{
+                  name:    "Underscore",
+                  checked: false
+                },{
                   name:    "Angular",
                   checked: true
                 },{
@@ -406,7 +409,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
 
         //  Build a string that lets the user know what they've ordered
-        if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.lesslie ){
+        if( depsCSS.bootstrap || depsCSS.skeleton || depsCSS.animate || depsCSS.lesslie ){
             testString += '\n  ~ CSS Dependencies ~ ';
         }
         if( depsCSS.bootstrap ){ testString += '\n\t- Bootstrap CSS'; }
@@ -414,10 +417,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( depsCSS.animate ){ testString += '\n\t- Animate.css'; }
         if( depsCSS.lesslie ){ testString += '\n\t- Lesslie'; }
 
-        if( depsJS.jquery || depsJS.angular || depsJS.react || depsJS.gsap ){
+        if( depsJS.jquery || depsJS.underscore || depsJS.angular || depsJS.react || depsJS.gsap ){
           testString += '\n  ~ JS Dependencies ~ ';
         }
         if( depsJS.jquery ){ testString += '\n\t- jQuery'; }
+        if( depsJS.underscore ){ testString += '\n\t- Underscore'; }
         if( depsJS.angular ){ testString += '\n\t- Angular'; }
         if( depsJS.react ){ testString += '\n\t- ReactJS'; }
         if( depsJS.gsap ){
@@ -438,7 +442,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         }
 
         //  If they aren't using anything, write a hilarious message...
-        if( !depsJS.jquery && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.bootstrap && !depsCSS.lesslie ){
+        //  TODO: this is getting to large to maintain and should be removed
+        if( !depsJS.jquery && !depsJS.underscore && !depsJS.angular && !depsJS.react && !depsJS.gsap && !depsCSS.skeleton && !depsCSS.animate && !depsCSS.bootstrap && !depsCSS.lesslie ){
           testString += '\n\t<no dependencies>';
           loggit( testString, 'yellow','~' );
           loggit( 'Looks like someone\'s going bareback! Go get em, '+ greeting +'!', 'red', '~' );
@@ -617,6 +622,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if( depsCSS.animate ){ dependencies.push('animate.css'); }
         if( depsCSS.lesslie ){ dependencies.push('lesslie'); }
         if( depsJS.jquery ){ dependencies.push('jquery'); }
+        if( depsJS.underscore ){ dependencies.push('underscore'); }
         if( depsJS.angular ){ dependencies.push('angular'); }
         if( depsJS.react ){ dependencies.push('react'); }
         if( depsJS.gsap ){ dependencies.push('gsap'); }
@@ -655,6 +661,10 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 //  Copy jQuery if need be
                 if( depsJS.jquery ){
                   utils.copyThis( 'app/lib_tmp/jquery/dist/jquery.js', 'app/lib/js/jquery.js' );
+                }
+                //  Copy Underscore if need be
+                if( depsJS.underscore ){
+                  utils.copyThis( 'app/lib_tmp/underscore/underscore.js', 'app/lib/js/underscore.js' );
                 }
                 //  Copy Angular if need be
                 if( depsJS.angular ){
