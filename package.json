@@ -50,7 +50,7 @@
     "TweenLite",
     "TweenMax",
     "CoffeeScript",
-    "Frameworks"
+    "Underscore"
   ],
   "dependencies": {
     "del": "^1.1.1",
