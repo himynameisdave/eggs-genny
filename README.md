@@ -1,6 +1,14 @@
-# Welcome to [eggs-genny](http://himynameisdave.github.io/eggs-genny/#/) [![npm](https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square)](https://www.npmjs.com/package/generator-eggs-genny)
-##### *Dumb name, great generator.*
 
+<p align="center">
+ <img alt="eggs-genny icon" src="http://i.imgur.com/vlFAgsx.png" width="100">
+ <h2 align="center">Welcome to eggs-genny</h2>
+ <p align="center">
+  <b><i>Dumb name, great generator.</i></b>
+  <a href="https://www.npmjs.com/package/generator-eggs-genny">
+   <img alt="npm" src="https://img.shields.io/npm/v/generator-eggs-genny.svg?style=flat-square" />
+  </a>
+ </p>
+</p>
 ---
 
 [eggs-genny](http://himynameisdave.github.io/eggs-genny/#/
