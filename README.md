@@ -66,6 +66,7 @@ eggs-genny gives you a lot of options to customize your project's setup. It star
 **JS Frameworks/Tools**
 
 - [jQuery](http://jquery.com)
+- [Underscore](http://underscorejs.org/)
 - [Angular](https://angularjs.org/)
 - [React](http://facebook.github.io/react/)
 - [GSAP](https://greensock.com/gsap)
