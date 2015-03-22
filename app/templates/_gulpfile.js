@@ -12,9 +12,7 @@
 **               Require Stuff                **
 ************************************************/
 var gulp    = require('gulp'),
-    connect = require('connect'),
     del     = require('del'),
-    dirlist = require('dirlist'),
     loggit  = require('loggit'),
     time    = require('./node_modules/timestamp/timestamp.js'),
     glob    = require('glob'),
@@ -57,18 +55,24 @@ gulp.task( 'reload-me', function(){
 
 
 /***********************************************
-**               Server Task                  **
+**              Server Tasks                  **
 ************************************************/
 gulp.task( 'serve-me', function(){
 
-  var base = __dirname,
-      host = "localhost",
-      port = 6969;
+  plug.connect.server({
+          root: 'app/',
+          port: 6969
+        });
 
-  connect(  connect.favicon(),
-          dirlist(base),
-          connect.static(base) ).listen(port, host);
-  loggit('Server running at http://'+host+':'+port+'/', 'red', '@' );
+});
+
+gulp.task( 'build-server', [ 'uncss-me', 'js-me', 'css-me' ], function(){
+
+  loggit( 'Check out your build at:\nhttp://localhost:7070', 'blue', '<>' );
+  plug.connect.server({
+        root: 'build/',
+        port: 7070
+      });
 
 });
 
@@ -102,7 +106,7 @@ gulp.task( 'validate-css', function(){
 ************************************************/
 
 
-gulp.task( 'build', [ 'compile-css', <% if (coffee) { %>'compile-coffee', <% } %>'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me' ]);
+gulp.task( 'build', [ 'compile-css', <% if (coffee) { %>'compile-coffee', <% } %>'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me', 'build-server' ]);
 
 
 //  CSS compile preprocessor

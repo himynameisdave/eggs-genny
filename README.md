@@ -51,10 +51,11 @@ npm star generator-eggs-genny
 
 eggs-genny gives you a lot of options to customize your project's setup. It starts by asking some procedural stuff, such as the name and description of your application. eggs-genny is always growing, but as of writing this here are the options that eggs-genny provides to customize what your project will use:
 
-**Preprocessors**
+**Preprocessors** (CSS & JS)
 
 - [Less](http://lesscss.org/)
 - [Sass](http://sass-lang.com/)
+- [CoffeeScript](http://coffeescript.org/)
 
 **CSS Frameworks/Tools**
 
