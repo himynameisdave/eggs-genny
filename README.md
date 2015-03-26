@@ -29,7 +29,7 @@ To learn all about Yeoman and how to get up and running with eggs-genny, take a 
 This presumes you've installed a Yeoman generator before. If not, check out the [wiki](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup). eggs-genny is on [npm](https://www.npmjs.com/package/generator-eggs-genny), so installing it is a breeze:
 
 ```bash
-npm install -g generator-eggs-genny
+npm i -g generator-eggs-genny
 ```
 
 If that didn't work try running it with [`sudo`](https://github.com/himynameisdave/eggs-genny/wiki/Installation-Setup#what-the-s-h-i-t-is-this) in front of the command.
