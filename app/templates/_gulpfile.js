@@ -125,8 +125,16 @@ gulp.task( 'compile-coffee', function(){
           })
           .pipe( gulp.dest( 'app/js/' ) );
 
-})<% } %>
+})
+<% } if( es6 ){ %>
+gulp.task( 'compile-es6', function(){
 
+  return gulp.src( 'app/js/*.js' )
+            .pipe(plug.babel())
+            .pipe(gulp.dest());
+
+})
+<% } %>
 //  CSSTASKS
 gulp.task( 'css-me', ['compile-css'], function(){
 
@@ -253,10 +261,8 @@ var errorLog = function (er){
             "**          intended to be used!       **\n"+
             "**                                     **\n"+
             "**            ERROR MESSAGE:           **\n"+
-            "** "+er.message+" **\n"+
-            "**                                     **\n"+
+            "   "+er.message+"\n"+
             "*****************************************\n";
-
 
   loggit( log, 'red', '  ' );
 

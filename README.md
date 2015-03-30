@@ -86,12 +86,6 @@ You will also be asked if you use Sublime Text, because if you do eggs-genny is 
 
 Another prompt you will be met with is whether or not you would like eggs-genny to add & link up some default [Apple touch icons](http://taylor.fausak.me/2015/01/27/ios-8-web-apps/) for you to use, as well as [Windows 10 tile icons](http://bit.ly/1AknLat).
 
-<!-- ## Documentation
-
-If you want to know about the automated Gulp [build process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Build) or [development process](https://github.com/himynameisdave/eggs-genny/wiki/Gulp:-Development), or the [directory structure](https://github.com/himynameisdave/eggs-genny/wiki/Basic-Directory-Structure) that eggs-genny produces, the best source are [the docs](http://himynameisdave.github.io/eggs-genny/#/).
-
-
-You could also head over to [the wiki](https://github.com/himynameisdave/eggs-genny/wiki) which should make you laugh while answering all of your questions, although it's essentially the same as the docs. -->
 
 ---
 

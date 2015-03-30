@@ -126,10 +126,40 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
       this.prompt(prompts, function (props) {
 
         this.config.set('coffee', props.coffee);
+
+        if( props.coffee ){ // if we're using CoffeeScript then we can assume they don't want ES6
+          this.config.set('es6', false);
+        }
         this.config.save();
 
         done();
       }.bind(this));
+    },
+    es6: function(){
+
+      if( !this.config.get('coffee') ){//  only ask if they need ES6 if they already don't care about coffeescript
+        var done = this.async();
+
+        loggit('Would you like use ES6 in your scripts, '+this.config.get('info').greeting+'?', 'green', '+=');
+
+        var prompts = [
+          {
+            name:    "es6",
+            type:    "confirm",
+            message: "ES6, you gunna use it or not?",
+            default: false
+          }
+        ];
+
+        this.prompt(prompts, function(props){
+
+          this.config.set('es6', props.es6);
+          this.config.save();
+
+          done();
+        }.bind(this));
+
+      }
     },
     ////////////////////////////////////////
     //    PHASE TWO: DEPENDENCIES         //
@@ -476,7 +506,8 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
     buildFiles: function(){
 
         //  Some context for things that need templating
-        //  TODO: you could use a this.config.getAll() call here to clean this a bit... will require changing the templated files
+        //  TODO:  you could use a this.config.getAll() call here to clean this a bit... will require changing the templated files
+        //         or you could just pass this.config onto the actual templates
         var info = this.config.get('info');
         var ctxt = {
                 appName:      info.appName,
@@ -486,6 +517,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 greeting:     info.greeting,
                 preprocessor: this.config.get('preprocessor'),
                 coffee:       this.config.get('coffee'),
+                es6:          this.config.get('es6'),
                 depsCSS:      this.config.get('depsCSS'),
                 depsJS:       this.config.get('depsJS')
             };
@@ -500,7 +532,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over favicon & apple icons
         this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
-        //  Copy over our timestamp
+        //  es6 over our timestamp
         this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
         //  Copy over the touch icons
         if(ctxt.icons){
@@ -565,37 +597,39 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
               "main": "gulpfile.js",
               "private": "true",
               "devDependencies": {
-                "del": "~1.1.0",
-                "loggit": "~0.2.0",
-                "glob": "~4.3.5",
-                "gulp": "~3.8.10",
-                "gulp-autoprefixer": "~2.0.0",
-                "gulp-concat": "~2.4.2",
-                "gulp-connect": "~2.2.0",
-                "gulp-csscomb": "~3.0.3",
-                "gulp-csslint": "~0.1.5",
-                "gulp-html-replace": "~1.4.1",
-                "gulp-imagemin": "~2.1.0",
-                "gulp-jshint": "~1.9.0",
-                "gulp-livereload": "~3.0.2",
-                "gulp-load-plugins": "~0.8.0",
-                "gulp-crass": "~0.1.2",
-                "gulp-uglify": "~1.0.2",
-                "gulp-uncss": "~0.5.2"
+                "del": "^1.1.0",
+                "loggit": "^0.2.0",
+                "glob": "^4.3.5",
+                "gulp": "^3.8.10",
+                "gulp-autoprefixer": "^2.0.0",
+                "gulp-concat": "^2.4.2",
+                "gulp-connect": "^2.2.0",
+                "gulp-csscomb": "^3.0.3",
+                "gulp-csslint": "^0.1.5",
+                "gulp-html-replace": "^1.4.1",
+                "gulp-imagemin": "^2.1.0",
+                "gulp-jshint": "^1.9.0",
+                "gulp-livereload": "^3.0.2",
+                "gulp-load-plugins": "^0.8.0",
+                "gulp-crass": "^0.1.2",
+                "gulp-uglify": "^1.0.2",
+                "gulp-uncss": "^0.5.2"
               }
             };
 
         if( this.config.get('depsJS').angular ){
-          pkg.devDependencies["gulp-ng-annotate"] = "~0.3.4";
-          pkg.devDependencies["gulp-angular-htmlify"] = "~1.1.0";
+          pkg.devDependencies["gulp-ng-annotate"] = "^0.3.4";
+          pkg.devDependencies["gulp-angular-htmlify"] = "^1.1.0";
         }
         if( this.config.get('coffee') ){
-          pkg.devDependencies["gulp-coffee"] = "~2.3.1";
+          pkg.devDependencies["gulp-coffee"] = "^2.3.1";
+        }else if(this.config.get('es6')){
+          pkg.devDependencies["gulp-babel"] = "^4.0.0";
         }
         if( this.config.get('preprocessor') === 'less' ){
-          pkg.devDependencies["gulp-less"] = "~2.0.1";
+          pkg.devDependencies["gulp-less"] = "^2.0.1";
         }else{
-          pkg.devDependencies["gulp-sass"] = "~1.3.3";
+          pkg.devDependencies["gulp-sass"] = "^1.3.3";
         }
 
         this.write('package.json',JSON.stringify(pkg, null, 2));
