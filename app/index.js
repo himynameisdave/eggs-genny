@@ -564,11 +564,11 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
         if(ctxt.preprocessor === 'less'){
           this.template( 'app/css/_style.less', 'app/css/style.less', ctxt );
           if( !ctxt.depsCSS.lesslie ){
-            this.template( 'app/css/_reset.less', 'app/css/reset.less', ctxt );
+            this.template( 'app/css/_reset.css', 'app/css/reset.css', ctxt );
           }
         }else{
           this.copy( 'app/css/_style.sass', 'app/css/style.sass' );
-          this.copy( 'app/css/_reset.sass', 'app/css/reset.sass' );
+          this.copy( 'app/css/_reset.css', 'app/css/reset.css' );
         }
         this.copy( 'app/css/_style.css', 'app/lib/css/style.css' );
 

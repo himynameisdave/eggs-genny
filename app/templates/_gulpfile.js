@@ -37,7 +37,7 @@ gulp.task( 'reload-me', function(){
   <% }else { %>gulp.watch( 'app/js/*.js', ['move-js'] );<% } %>
 
   plug.livereload.listen();
-  gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(depsJS.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
+  gulp.watch( ['app/**/*.css', 'app/**/*.js', 'app/**/*.html'], function(){
     loggit( "I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } if(greeting === 'miss'){ %>miss!<% } if(greeting === 'boss'){ %>boss!<% } %>\n    "+time.timePlz(),
             "yellow",
             "+" );
@@ -141,7 +141,7 @@ gulp.task( 'compile-es6', function(){
 ************************************************/
 gulp.task( 'css-me', ['compile-css'], function(){
 
-  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/css/*.css' ] )
+  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/lib/style.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -169,7 +169,7 @@ gulp.task( 'uncss-me', ['css-me',<% if (depsJS.angular) { %> 'partials-me',<% } 
 <% if (depsJS.angular) { %>
 gulp.task( 'annotate-me',  function(){
 
-  return  gulp.src( 'app/js/app.js' )
+  return  gulp.src( 'app/lib/js/app.js' )
           .pipe( plug.ngAnnotate() )
           .on('error', errorLog)
           .pipe(gulp.dest('app/js/'));
@@ -188,7 +188,7 @@ gulp.task( 'annotate-me',  function(){
                   'app/lib/js/TweenMax.js',
                   'app/lib/js/TimelineMax.js',<% } depsJS.gsap.plugs.forEach(function(plug){ %>
                   'app/lib/js/<%= plug %>.js',<% }) } %>
-                  'app/js/*.js' ])
+                  'app/lib/js/app.js' ])
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
           .pipe( plug.uglify( {mangle: false} ) )
