@@ -21,12 +21,10 @@ var gulp    = require('gulp'),
     supportedBrowsers = [ 'last 4 versions', '> 0.5%', 'ie 7', 'ff 3', 'Firefox ESR', 'Android 2.1' ];
 
 
-
 /***********************************************
 **          Default Task (dev/watch)          **
 ************************************************/
 gulp.task( 'default', [ 'serve-me', 'reload-me' ]);
-
 
 
 /***********************************************
@@ -35,18 +33,17 @@ gulp.task( 'default', [ 'serve-me', 'reload-me' ]);
 gulp.task( 'reload-me', function(){
 
   <% if(preprocessor === 'less') { %>gulp.watch( 'app/css/*.less', ['compile-css'] );<% }else { %>gulp.watch( 'app/css/*.sass', ['compile-css'] );<% } %>
-  <% if(coffee){ %>gulp.watch( 'app/js/*.coffee', ['compile-coffee', 'validate-js'] );
-  <% }else { %>gulp.watch( 'app/js/*.js', ['validate-js'] );<% } %>
+  <% if(coffee){ %>gulp.watch( 'app/js/*.coffee', ['compile-coffee'] );<% } if(es6){ %>gulp.watch( 'app/js/*.js', ['compile-es6'] );
+  <% }else { %>gulp.watch( 'app/js/*.js', ['move-js'] );<% } %>
 
   plug.livereload.listen();
-  gulp.watch( ['app/css/*.css', 'app/js/*.js', 'app/index.html'<% if(depsJS.angular){ %>, 'app/partials/*.html'<% } %> ], function(){
+  gulp.watch( ['app/**/*.css', 'app/**/*.js', 'app/**/*.html'], function(){
     loggit( "I've reloaded your page, <% if(greeting === 'sir'){ %>sir!<% } if(greeting === 'ma\'am'){ %>ma'am!<% } if(greeting === 'cap\'n'){ %>cap'n!<% } if(greeting === 'homie'){ %>homie!<% } if(greeting === 'hombre'){ %>hombre!<% } if(greeting === 'miss'){ %>miss!<% } if(greeting === 'boss'){ %>boss!<% } %>\n    "+time.timePlz(),
             "yellow",
             "+" );
   })
   .on('change', plug.livereload.changed);
 });
-
 
 
 /***********************************************
@@ -99,23 +96,25 @@ gulp.task( 'validate-css', function(){
 /***********************************************
 **                   build                    **
 ************************************************/
-
-
 gulp.task( 'build', [ 'compile-css', <% if (coffee) { %>'compile-coffee', <% } %>'css-me', <% if (depsJS.angular) { %>'annotate-me', 'partials-me',<% } %>'js-me', 'assets-me', 'html-me', 'clean-me', 'uncss-me', 'build-server' ]);
 
 
-//  CSS compile preprocessor
+/**
+  *   CSS COMPILATION
+  */
 gulp.task( 'compile-css', function(){
 
 <% if(preprocessor === 'less') { %>return gulp.src('app/css/style.less')
           .pipe( plug.less() )<% }else{ %>return gulp.src('app/css/style.sass')
           .pipe( plug.sass() )<% } %>
           .on('error', errorLog)
-          .pipe( gulp.dest('app/css/') );
+          .pipe( gulp.dest('app/lib/css/') );
 
 });
 <% if(coffee){ %>
-//  CoffeeScript compile
+/**
+  *   COFFEESCRIPT COMPILATION
+  */
 gulp.task( 'compile-coffee', function(){
 
   return gulp.src( 'app/js/*.coffee' )
@@ -123,14 +122,26 @@ gulp.task( 'compile-coffee', function(){
           .on('error', function(e){
             loggit('Error compiling ','red', '*');
           })
-          .pipe( gulp.dest( 'app/js/' ) );
+          .pipe( gulp.dest( 'app/lib/js/' ) );
 
-})<% } %>
+})
+<% } if( es6 ){ %>
+gulp.task( 'compile-es6', function(){
 
-//  CSSTASKS
+  return gulp.src( 'app/js/*.js' )
+            .pipe(plug.babel())
+            .pipe(gulp.dest('app/lib/js/'));
+
+})
+<% } %>
+
+
+/***********************************************
+**                 CSS Tasks                  **
+************************************************/
 gulp.task( 'css-me', ['compile-css'], function(){
 
-  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/css/*.css' ] )
+  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/lib/style.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -151,11 +162,14 @@ gulp.task( 'uncss-me', ['css-me',<% if (depsJS.angular) { %> 'partials-me',<% } 
           .pipe(gulp.dest('build/css/'));
 });
 
-//  JSTASKS
+
+/***********************************************
+**                  JS Tasks                  **
+************************************************/
 <% if (depsJS.angular) { %>
 gulp.task( 'annotate-me',  function(){
 
-  return  gulp.src( 'app/js/app.js' )
+  return  gulp.src( 'app/lib/js/app.js' )
           .pipe( plug.ngAnnotate() )
           .on('error', errorLog)
           .pipe(gulp.dest('app/js/'));
@@ -174,7 +188,7 @@ gulp.task( 'annotate-me',  function(){
                   'app/lib/js/TweenMax.js',
                   'app/lib/js/TimelineMax.js',<% } depsJS.gsap.plugs.forEach(function(plug){ %>
                   'app/lib/js/<%= plug %>.js',<% }) } %>
-                  'app/js/*.js' ])
+                  'app/lib/js/app.js' ])
           .pipe( plug.concat('scripts.js') )
           .pipe( gulp.dest( 'tmp/js' ) )
           .pipe( plug.uglify( {mangle: false} ) )
@@ -183,7 +197,9 @@ gulp.task( 'annotate-me',  function(){
 });
 
 
-//MOVE ASSETS
+/***********************************************
+**                Move Tasks                  **
+************************************************/
 gulp.task( 'assets-me', function(){
 
   //  IMAGES
@@ -206,6 +222,15 @@ gulp.task( 'partials-me', function(){
           .pipe( gulp.dest('build/partials/') );
 
 });<% } %>
+
+<% if(!coffee && !es6){ %>
+gulp.task( 'move-js', function(){
+
+  return gulp.src( 'app/js/*.js' )
+          .pipe( gulp.dest('app/lib/js/') );
+
+});
+<% } %>
 
 //HTMLMOVE/REPLACE
 gulp.task( 'html-me', function(){
@@ -238,7 +263,6 @@ gulp.task( 'clean-me', [ 'css-me', 'js-me' ], function(){
 });
 
 
-
 /***********************************************
 **          Utility/Logging Functions         **
 **   Nothing (gulp) to see here, move along   **
@@ -253,10 +277,8 @@ var errorLog = function (er){
             "**          intended to be used!       **\n"+
             "**                                     **\n"+
             "**            ERROR MESSAGE:           **\n"+
-            "** "+er.message+" **\n"+
-            "**                                     **\n"+
+            "   "+er.message+"\n"+
             "*****************************************\n";
-
 
   loggit( log, 'red', '  ' );
 
