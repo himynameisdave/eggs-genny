@@ -611,7 +611,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
                 "gulp-jshint": "^1.9.0",
                 "gulp-livereload": "^3.0.2",
                 "gulp-load-plugins": "^0.8.0",
-                "gulp-crass": "^0.1.2",
+                "gulp-minify-css": "^1.0.0",
                 "gulp-uglify": "^1.0.2",
                 "gulp-uncss": "^0.5.2"
               }

@@ -148,7 +148,6 @@ gulp.task( 'css-me', ['compile-css'], function(){
                       browsers: supportedBrowsers,
                       cascade: false
                     }))
-            .pipe( plug.csscomb() )
             .pipe( gulp.dest( 'build/css/' ) );
 
 });
@@ -158,9 +157,11 @@ gulp.task( 'uncss-me', ['css-me',<% if (depsJS.angular) { %> 'partials-me',<% } 
           .pipe(plug.uncss({
             html: <% if (depsJS.angular) { %>glob.sync('build/**/*.html')<% }else { %>['build/index.html']<% } %>
           }))
-          .pipe( plug.crass({pretty: false}) )
+          .pipe( plug.csscomb() )
+          .pipe( plug.minifyCss({keepSpecialComments: 0}) )
           .pipe(gulp.dest('build/css/'));
 });
+
 
 
 /***********************************************
