@@ -532,7 +532,7 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
 
         //  Copy over favicon & apple icons
         this.copy( 'app/_favicon.ico', 'app/favicon.ico' );
-        //  es6 over our timestamp
+        //  Copy over our timestamp
         this.copy( '_timestamp.js', 'node_modules/timestamp/timestamp.js' );
         //  Copy over the touch icons
         if(ctxt.icons){
@@ -570,24 +570,24 @@ EggsGennyGenerator = yeoman.generators.Base.extend({
           this.copy( 'app/css/_style.sass', 'app/css/style.sass' );
           this.copy( 'app/css/_reset.sass', 'app/css/reset.sass' );
         }
-        this.copy( 'app/css/_style.css', 'app/css/style.css' );
+        this.copy( 'app/css/_style.css', 'app/lib/css/style.css' );
 
         //  copy over app.js
         if( ctxt.depsJS.angular ){
           if( ctxt.coffee ){
             this.template( 'app/js/_app.ang.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', "(function() {var app;app = angular.module('app', []);app.controller('Controller', function($scope) {});}).call(this);");
           }else{
             this.template( 'app/js/_app.ang.js', 'app/js/app.js', ctxt );
           }
         }else{
           if( ctxt.coffee ){
             this.template( 'app/js/_app.coffee', 'app/js/app.coffee', ctxt );
-            this.write('app/js/app.js', "(function(){document.addEventListener('DOMContentLoaded', function() {});}).call(this);");
           }else{
             this.template( 'app/js/_app.js', 'app/js/app.js', ctxt );
           }
         }
+        // write a blank script to the lib/js folder, this will be compiled to/modified later
+        this.write('app/lib/js/app.js', '// This file will be written to when you save js files in app/js/*.js');
 
         //  Build the package.json
         var pkg = {
