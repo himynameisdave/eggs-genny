@@ -137,11 +137,31 @@ gulp.task( 'compile-es6', function(){
 
 
 /***********************************************
+**                  deploy                    **
+************************************************/
+gulp.task( 'deploy', [ 'build', 'deploy-me' ] )
+
+
+gulp.task( 'deploy-me', [ 'build' ], function(){
+
+  return gulp.src( './build/**/*' )
+          .pipe(plug.ghPages());
+
+})
+
+gulp.task( 'deploy-message', ['deploy-me'], function(){
+
+  return loggit( 'Your build has been deployed to the gh-pages branch of this repo!', 'blue', '<>' );
+
+})
+
+
+/***********************************************
 **                 CSS Tasks                  **
 ************************************************/
 gulp.task( 'css-me', ['compile-css'], function(){
 
-  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/lib/style.css' ] )
+  return  gulp.src( [ <% if (depsCSS.bootstrap) { %>'app/lib/css/bootstrap.css',<% } if (depsCSS.skeleton) { %> 'app/lib/css/skeleton.css',<% } if (depsCSS.animate) { %> 'app/lib/css/animate.css',<% } %> 'app/lib/css/style.css' ] )
             .pipe( plug.concat('styles.css') )
             .pipe( gulp.dest( 'tmp/css' ) )
             .pipe( plug.autoprefixer({
@@ -173,7 +193,7 @@ gulp.task( 'annotate-me',  function(){
   return  gulp.src( 'app/lib/js/app.js' )
           .pipe( plug.ngAnnotate() )
           .on('error', errorLog)
-          .pipe(gulp.dest('app/js/'));
+          .pipe(gulp.dest('app/lib/js/'));
 
 });
 <% } %>gulp.task( 'js-me',<% if (depsJS.angular) { %> ['annotate-me'],<% } %> function(){

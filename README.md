@@ -64,6 +64,7 @@ eggs-genny gives you a lot of options to customize your project's setup. It star
 - [Less](http://lesscss.org/)
 - [Sass](http://sass-lang.com/)
 - [CoffeeScript](http://coffeescript.org/)
+- [ES6](https://github.com/lukehoban/es6features/blob/master/README.md) (I know it's not technically a pre-processor)
 
 **CSS Frameworks/Tools**
 
